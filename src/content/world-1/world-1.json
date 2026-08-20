@@ -85,7 +85,8 @@
             "explain": "G = goal, tempat BOT-1 harus berhenti."
           }
         ]
-      }
+      },
+      "parMs": 15000
     },
     {
       "id": "world-1-level-2",
@@ -167,7 +168,8 @@
             "explain": "Perintah dijalankan berurutan: putar dulu, lalu maju."
           }
         ]
-      }
+      },
+      "parMs": 20000
     },
     {
       "id": "world-1-level-3",
@@ -252,7 +254,8 @@
             "explain": "Loop = cara singkat untuk perintah berulang."
           }
         ]
-      }
+      },
+      "parMs": 30000
     },
     {
       "id": "world-1-level-4",
@@ -261,18 +264,18 @@
         "id": "Scrap Field",
         "en": "Scrap Field"
       },
-      "topic": "hazard & perencanaan",
-      "concept": "hindari spike (S)",
+      "topic": "kondisi & percabangan",
+      "concept": "if (blockedAhead())",
       "objective": {
-        "id": "Lewati ladang scrap tanpa menyentuh spike.",
-        "en": "Cross the scrap field without touching spikes."
+        "id": "Gunakan kondisi if untuk mendeteksi spike dan mengambil jalur aman.",
+        "en": "Use an if condition to detect the spike and take the safe path."
       },
       "grid": [
         "##############",
-        "#P....S......#",
-        "#.....S..S...#",
-        "#.....S......#",
-        "#..........G.#",
+        "#P.....S.....#",
+        "#...........G#",
+        "#............#",
+        "#............#",
         "##############"
       ],
       "goal": {
@@ -280,61 +283,62 @@
       },
       "hints": [
         [
-          "Spike S mematikan — BOT-1 akan reset."
+          "Gunakan if (blockedAhead()) untuk mengecek petak di depan BOT-1."
         ],
         [
-          "Rencanakan jalur di kolom yang aman."
+          "Saat terblokir: belok kanan, maju satu, belok kiri."
         ],
         [
-          "Maju 4, belok kanan, maju 3, belok kiri, maju 6."
+          "for (let i = 0; i < 12; i++) { if (blockedAhead()) { turnRight(); moveForward(); turnLeft(); } moveForward(); }"
         ]
       ],
-      "starterCode": "// Hindari S! Spikes mematikan\nmoveForward();\n",
-      "solution": "moveForward();moveForward();moveForward();moveForward();turnRight();moveForward();moveForward();moveForward();turnLeft();moveForward();moveForward();moveForward();moveForward();moveForward();moveForward();",
+      "starterCode": "for (let i = 0; i < 12; i++) {\n  moveForward();\n}\n",
+      "solution": "for (let i = 0; i < 12; i++) {\n  if (blockedAhead()) {\n    turnRight(); moveForward(); turnLeft();\n  }\n  moveForward();\n}\n",
       "xpReward": 80,
       "lesson": {
-        "title": "Hazard & Perencanaan",
+        "title": "Kondisi — if (blockedAhead())",
         "body": [
-          "Tidak semua petak aman. Petak S (spike) akan membuat BOT-1 crash jika diinjak.",
-          "Misi ini melatih perencanaan: amati peta dulu, tentukan jalur aman, baru tulis kode.",
-          "Berhenti di tepi peta juga menyebabkan crash — peta adalah arena tertutup.",
-          "Kebiasaan pemrogram yang baik: berpikir sebelum menulis. Gambar jalurnya di kepalamu, lalu terjemahkan menjadi perintah."
+          "Kode tidak harus selalu berjalan lurus. Dengan if, BOT-1 bisa membuat keputusan berdasarkan situasi di sekitarnya.",
+          "blockedAhead() mengembalikan true jika ada dinding atau spike tepat di depan BOT-1, dan false jika aman.",
+          "if (blockedAhead()) { ... } menjalankan isi kurung kurawal HANYA ketika kondisi benar. Jika kondisi salah, blok itu dilewati.",
+          "Polanya: cek dulu, baru bertindak. Ini dasar dari kecerdasan buatan pada robot sungguhan."
         ]
       },
       "quiz": {
         "questions": [
           {
-            "q": "Apa yang terjadi jika BOT-1 menginjak petak S?",
+            "q": "Kapan blok if (blockedAhead()) dijalankan?",
+            "options": [
+              "Selalu",
+              "Saat ada dinding/spike di depan",
+              "Tidak pernah"
+            ],
+            "answer": 1,
+            "explain": "Jika kondisi true, blok dijalankan."
+          },
+          {
+            "q": "blockedAhead() mengembalikan nilai...",
+            "options": [
+              "\"aman\"",
+              "true/false",
+              "Jumlah langkah"
+            ],
+            "answer": 1,
+            "explain": "Fungsi kondisi mengembalikan true atau false."
+          },
+          {
+            "q": "Apa yang terjadi jika moveForward() menuju spike?",
             "options": [
               "Bonus XP",
               "Crash",
-              "Dapat coin"
+              "Lompat"
             ],
             "answer": 1,
-            "explain": "S = spike, membuat BOT-1 crash."
-          },
-          {
-            "q": "Strategi terbaik sebelum menulis kode?",
-            "options": [
-              "Langsung tulis semua perintah",
-              "Amati peta lalu rencanakan jalur",
-              "Acak saja"
-            ],
-            "answer": 1,
-            "explain": "Rencana dulu = lebih sedikit percobaan gagal."
-          },
-          {
-            "q": "Apa yang terjadi jika BOT-1 keluar peta?",
-            "options": [
-              "Crash",
-              "Kembali ke awal",
-              "Langsung menang"
-            ],
-            "answer": 0,
-            "explain": "Tepi peta tidak bisa dilalui — crash."
+            "explain": "Spike membuat BOT-1 crash — cegah dengan if."
           }
         ]
-      }
+      },
+      "parMs": 30000
     },
     {
       "id": "world-1-level-5",
@@ -343,83 +347,83 @@
         "id": "Power Cells",
         "en": "Power Cells"
       },
-      "topic": "koleksi & path",
-      "concept": "loop + collect",
+      "topic": "fungsi & abstraksi",
+      "concept": "function zigzag()",
       "objective": {
-        "id": "Kumpulkan 4 power cell dan capai pintu keluar.",
-        "en": "Collect 4 power cells and reach the exit."
+        "id": "Buat fungsi zigzag() yang berisi pola berulang, lalu panggil 3 kali untuk mencapai tujuan.",
+        "en": "Create a zigzag() function holding a repeating pattern, then call it 3 times to reach the goal."
       },
       "grid": [
         "##############",
-        "#P.C....C....#",
+        "#P...........#",
         "#............#",
-        "#..........C.#",
-        "#.C........C.#",
+        "#.........G..#",
         "#............#",
-        "#..........G.#",
+        "#............#",
+        "#............#",
         "##############"
       ],
       "goal": {
-        "type": "collect",
-        "target": 4
+        "type": "reach"
       },
       "hints": [
         [
-          "Power cell C terkumpul otomatis saat dilalui."
+          "Fungsi didefinisikan dengan function nama() { ... }."
         ],
         [
-          "Semua cell ada di kolom kanan bawah."
+          "Pola zigzag: 3× moveForward, turnRight, moveForward, turnLeft."
         ],
         [
-          "Maju 10, belok kanan, maju 5 — semua cell terlalui."
+          "function zigzag() { moveForward(); moveForward(); moveForward(); turnRight(); moveForward(); turnLeft(); } lalu zigzag(); zigzag(); zigzag();"
         ]
       ],
-      "starterCode": "// Kumpulkan semua power cell!\nfor (let i = 0; i < 5; i++) {\n  moveForward();\n}\n",
-      "solution": "for (let i = 0; i < 10; i++) { moveForward(); } turnRight(); for (let i = 0; i < 5; i++) { moveForward(); }",
+      "starterCode": "// Definikan fungsi zigzag() di sini\n\n// Lalu panggil 3 kali:\n",
+      "solution": "function zigzag() {\n  moveForward(); moveForward(); moveForward();\n  turnRight(); moveForward(); turnLeft();\n}\nzigzag();\nzigzag();\nzigzag();\n",
       "xpReward": 90,
       "lesson": {
-        "title": "Koleksi & Path",
+        "title": "Fungsi — function zigzag()",
         "body": [
-          "Selain mencapai tujuan, beberapa level memintamu mengumpulkan power cell (C) sebanyak target tertentu.",
-          "Goal bertipe collect: BOT-1 harus menyentuh semua power cell dan berakhir di petak tujuan.",
-          "Gabungkan loop dengan turn agar rutenya efisien: misalnya maju, belok, maju lagi dalam satu pola berulang.",
-          "Power cell tidak menghalangi jalan — BOT-1 boleh lewat dan otomatis mengumpulkannya."
+          "Saat pola yang sama diulang berkali-kali, kita bisa membungkusnya dalam fungsi — sebuah blok kode bernama.",
+          "function zigzag() { ... } mendefinisikan fungsi. Isi kurung kurawal tidak langsung dijalankan — menunggu dipanggil.",
+          "Untuk menjalankannya, tulis nama fungsi diikuti tanda kurung: zigzag();",
+          "Fungsi membuat kode lebih pendek, mudah dibaca, dan mudah diubah: perbaiki sekali, berlaku untuk semua pemanggilan."
         ]
       },
       "quiz": {
         "questions": [
           {
-            "q": "Apa fungsi power cell (C)?",
+            "q": "Apa yang dilakukan function zigzag() { ... }?",
             "options": [
-              "Penghalang",
-              "Dikumpulkan untuk target collect",
-              "Hiasan"
+              "Langsung dijalankan saat ditulis",
+              "Menyimpan pola yang bisa dipanggil",
+              "Menghapus kode"
             ],
             "answer": 1,
-            "explain": "BOT-1 mengumpulkan C saat melewatinya."
+            "explain": "Definisi fungsi baru bekerja saat dipanggil."
           },
           {
-            "q": "Goal collect berarti BOT-1 harus...",
+            "q": "Bagaimana cara memanggil fungsi zigzag?",
             "options": [
-              "Mengumpulkan semua target C lalu mencapai G",
-              "Langsung ke G",
-              "Menghindari semua C"
+              "zigzag;",
+              "zigzag();",
+              "run zigzag"
             ],
-            "answer": 0,
-            "explain": "Kumpulkan target dulu, baru akhiri di G."
+            "answer": 1,
+            "explain": "Nama fungsi + tanda kurung."
           },
           {
-            "q": "Tool terbaik untuk rute lurus berulang?",
+            "q": "Manfaat utama fungsi?",
             "options": [
-              "For loop",
-              "TurnLeft saja",
-              "Menulis manual seribu kali"
+              "Kode lebih panjang",
+              "Kode pendek & bisa dipakai ulang",
+              "Tidak ada manfaat"
             ],
-            "answer": 0,
-            "explain": "Loop membuat rute berulang jadi satu perintah."
+            "answer": 1,
+            "explain": "Fungsi = abstraksi: tulis sekali, pakai berkali-kali."
           }
         ]
-      }
+      },
+      "parMs": 30000
     },
     {
       "id": "world-1-level-6",
@@ -428,19 +432,19 @@
         "id": "Neon Gauntlet",
         "en": "Neon Gauntlet"
       },
-      "topic": "kombinasi",
-      "concept": "loop + belok + hazard",
+      "topic": "membaca error, memperbaiki bug",
+      "concept": "debugging & maze",
       "objective": {
-        "id": "Gabungkan semua skill untuk lolos dari sarang robot liar.",
-        "en": "Combine every skill to escape the wild robot nest."
+        "id": "Kode starter rusak: arah belok salah sehingga BOT-1 menabrak dinding. Perbaiki dan lewati labirin!",
+        "en": "The starter code is broken: the turn direction is wrong so BOT-1 hits the wall. Fix it and cross the maze!"
       },
       "grid": [
         "##############",
-        "#P.....C.....#",
-        "#......S.....#",
-        "#......S.....#",
-        "#......S...C.#",
+        "#P....#......#",
+        "#.....#......#",
+        "#.....#......#",
         "#..........G.#",
+        "#............#",
         "##############"
       ],
       "goal": {
@@ -448,61 +452,62 @@
       },
       "hints": [
         [
-          "Ada 3 spike berjajar di kolom 7."
+          "Jalankan kode dan perhatikan baris mana yang membuat BOT-1 menabrak."
         ],
         [
-          "Jalan aman ada di kolom 11 ke bawah."
+          "Setelah 4 langkah, arah belok pertama menentukan apakah BOT-1 masuk dinding."
         ],
         [
-          "Maju 10, belok kanan, maju 4."
+          "Ganti turnLeft() menjadi turnRight() pada belokan pertama."
         ]
       ],
-      "starterCode": "// Kombinasikan loop dan belok\nfor (let i = 0; i < 3; i++) {\n  moveForward();\n}\n",
-      "solution": "for (let i = 0; i < 10; i++) { moveForward(); } turnRight(); for (let i = 0; i < 4; i++) { moveForward(); }",
+      "starterCode": "for (let i = 0; i < 4; i++) { moveForward(); }\nturnLeft();\nfor (let i = 0; i < 3; i++) { moveForward(); }\nturnLeft();\nfor (let i = 0; i < 6; i++) { moveForward(); }\n",
+      "solution": "for (let i = 0; i < 4; i++) { moveForward(); }\nturnRight();\nfor (let i = 0; i < 3; i++) { moveForward(); }\nturnLeft();\nfor (let i = 0; i < 6; i++) { moveForward(); }\n",
       "xpReward": 100,
       "lesson": {
-        "title": "Kombinasi — Loop + Belok + Hazard",
+        "title": "Debugging — Membaca Error & Memperbaiki Bug",
         "body": [
-          "Ini ujian terakhir sebelum boss: menggabungkan perulangan, belokan, dan hindaran hazard dalam satu misi.",
-          "Pecah masalah besar menjadi langkah kecil: jalur lurus pakai loop, belokan ditulis eksplisit.",
-          "Periksa ulang arah hadap BOT-1 setiap kali selesai satu bagian jalur.",
-          "Jalur terbaik adalah jalur terpendek yang aman — efisiensi memberi bonus XP karena speed bonus."
+          "Bug adalah kesalahan kecil yang membuat program berperilaku tidak sesuai harapan. Memperbaikinya disebut debugging.",
+          "Langkah 1: jalankan dan amati — di langkah berapa BOT-1 crash? Langkah 2: telusuri kode sampai ke perintah yang salah.",
+          "Di labirin ini, BOT-1 menabrak dinding karena belokan pertama memutar ke kiri, padahal harus ke kanan.",
+          "Debugging adalah keterampilan inti programmer — setiap error adalah petunjuk, bukan kegagalan."
         ]
       },
       "quiz": {
         "questions": [
           {
-            "q": "Cara terbaik menyelesaikan jalur panjang dengan hazard?",
+            "q": "Langkah pertama saat program crash?",
             "options": [
-              "Pecah jadi segmen: loop lurus + belok eksplisit",
-              "Satu moveForward raksasa",
-              "Pakai turnRight terus"
-            ],
-            "answer": 0,
-            "explain": "Gabungkan loop untuk lurus dan belok untuk tikungan."
-          },
-          {
-            "q": "Mengapa rute terpendek yang aman penting?",
-            "options": [
-              "Speed bonus XP",
-              "Kode lebih pendek",
-              "Keduanya"
-            ],
-            "answer": 2,
-            "explain": "Cepat = bonus XP dan kode efisien."
-          },
-          {
-            "q": "Setelah selesai satu bagian jalur, apa yang perlu dicek?",
-            "options": [
-              "Tidak perlu",
-              "Arah hadap BOT-1",
-              "Hitung hint"
+              "Menghapus semua kode",
+              "Amati di langkah mana crash terjadi",
+              "Menyerah"
             ],
             "answer": 1,
-            "explain": "Arah hadap menentukan belokan berikutnya."
+            "explain": "Lokasi crash menunjukkan perintah yang salah."
+          },
+          {
+            "q": "Apa bug pada kode starter level ini?",
+            "options": [
+              "Loop terlalu panjang",
+              "Arah belokan pertama salah",
+              "Tidak ada bug"
+            ],
+            "answer": 1,
+            "explain": "turnLeft() membuat BOT-1 menabrak dinding."
+          },
+          {
+            "q": "Mengapa kita pakai loop di labirin?",
+            "options": [
+              "Menulis ulang perintah berkali-kali",
+              "Segmen lurus ditulis sekali dan diulang",
+              "Loop tidak berguna"
+            ],
+            "answer": 1,
+            "explain": "Loop = efisiensi untuk segmen berulang."
           }
         ]
-      }
+      },
+      "parMs": 45000
     },
     {
       "id": "world-1-boss",
@@ -591,7 +596,8 @@
             "explain": "Boss memadukan loop, belokan, hazard, dan kecepatan."
           }
         ]
-      }
+      },
+      "parMs": 60000
     }
   ]
 }

@@ -196,6 +196,12 @@ describe("validateLevel", () => {
     expect(validateLevel({ ...base, order: 0 }).ok).toBe(false);
   });
 
+  it("rejects non-positive parMs", () => {
+    expect(validateLevel({ ...base, parMs: 0 }).ok).toBe(false);
+    expect(validateLevel({ ...base, parMs: -5 }).ok).toBe(false);
+    expect(validateLevel({ ...base, parMs: 30_000 }).ok).toBe(true);
+  });
+
   it("rejects boss level without boss spec", () => {
     expect(validateLevel({ ...base, isBoss: true }).ok).toBe(false);
   });

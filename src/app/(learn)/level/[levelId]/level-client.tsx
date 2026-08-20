@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { GameBoard } from "@/components/game/game-board";
 import { HintPanel } from "@/components/game/hint-panel";
@@ -8,6 +8,7 @@ import { QuizPanel } from "@/components/game/quiz-panel";
 import { BossPanel } from "@/components/game/boss-panel";
 import { CodeEditor } from "@/components/codelab/code-editor";
 import { parseCommands, type SimulationResult } from "@/lib/game/simulator";
+import { starsForHints } from "@/lib/game/stars";
 import { StatusChip } from "@/components/design/status-chip";
 import type { GameLevel } from "@/lib/game/validate";
 
@@ -30,6 +31,11 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
     leveledUp: boolean;
   } | null>(null);
   const [newBadges, setNewBadges] = useState<string[]>([]);
+  const [hintsUsed, setHintsUsed] = useState(0);
+  const [hadError, setHadError] = useState(false);
+  const [parBonus, setParBonus] = useState(0);
+  const [errorBonus, setErrorBonus] = useState(0);
+  const startRef = useRef<number | null>(null);
 
   const commands = parseCommands(code);
   const canRun = !result?.won;
@@ -37,20 +43,23 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
   const onResult = (res: SimulationResult) => {
     setResult(res);
     if (!res.won) {
+      if (res.crashed) setHadError(true);
       if (level.isBoss) {
         void fetch("/api/boss/attempt", { method: "POST" });
       }
       return;
     }
+    const elapsedMs = startRef.current ? performance.now() - startRef.current : 0;
     void (async () => {
       const response = await fetch("/api/game/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           level_id: level.id,
-          stars: res.steps <= 12 ? 3 : res.steps <= 20 ? 2 : 1,
-          hints_used: 0,
-          elapsed_ms: res.steps * 350,
+          stars: starsForHints(hintsUsed),
+          hints_used: hintsUsed,
+          elapsed_ms: Math.round(elapsedMs),
+          error_recovered: hadError,
         }),
       });
       if (response.ok) {
@@ -59,6 +68,8 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
           stars_to_credit: number;
           level: number;
           leveled_up: boolean;
+          par_bonus: number;
+          error_bonus: number;
         };
         setReward({
           xp: data.xp,
@@ -66,6 +77,8 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
           level: data.level,
           leveledUp: data.leveled_up,
         });
+        setParBonus(data.par_bonus);
+        setErrorBonus(data.error_bonus);
         const check = await fetch("/api/achievements/check", { method: "POST" });
         if (check.ok) {
           const badgeData = (await check.json()) as { earned: string[] };
@@ -95,7 +108,9 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
         <div className="flex flex-wrap items-center gap-2">
           {isDaily && <StatusChip status="warning" label="⚡ DAILY CHALLENGE" />}
           {result?.won && <StatusChip status="success" label="✓ LEVEL BERHASIL" />}
-          {result?.crashed && <StatusChip status="danger" label="✗ CRASH" />}
+          {result?.crashed && (
+            <StatusChip status="danger" label="✗ CRASH" className="animate-shake" />
+          )}
           {level.isBoss && <StatusChip status="info" label="BOSS BATTLE" />}
         </div>
       </div>
@@ -149,6 +164,9 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
               level={level}
               commands={commands}
               onResult={onResult}
+              onRunStart={() => {
+                startRef.current = performance.now();
+              }}
               disabled={canRun === false}
             />
 
@@ -170,13 +188,19 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
             </div>
 
             {result?.won && (
-              <div className="rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
+              <div className="animate-pop rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
                 Berhasil dalam {result.steps} langkah dengan {result.coins} power
                 cell!
                 {reward && (
                   <span>
                     {" "}
                     +{reward.xp} XP · ★{reward.stars}
+                    {parBonus > 0 && (
+                      <span className="ml-1 text-amber-300">⚡ par +{parBonus} XP</span>
+                    )}
+                    {errorBonus > 0 && (
+                      <span className="ml-1 text-sky-300">🛠️ error recovery +{errorBonus} XP</span>
+                    )}
                     {reward.leveledUp && (
                       <StatusChip status="warning" label={`NAIK LEVEL ${reward.level}!`} />
                     )}
@@ -198,7 +222,11 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
 
           <div className="space-y-6">
             {level.isBoss && <BossPanel />}
-            <HintPanel hints={level.hints} trackBalance />
+            <HintPanel
+              hints={level.hints}
+              trackBalance
+              onUseHint={() => setHintsUsed((n) => n + 1)}
+            />
 
             <div className="rounded-xl border border-border bg-slate-900/60 p-4">
               <h3 className="mb-2 font-display text-sm tracking-wide">AI TUTOR</h3>

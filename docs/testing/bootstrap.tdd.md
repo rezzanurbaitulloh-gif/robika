@@ -124,15 +124,42 @@ API: `/api/ai/[mode]` (SSE) • `/api/payments/{create,webhook,trial}` • `/api
 - Challenge page: panel 🐞 daftar bug, tombol Reset, label "PERBAIKI KODE", dan **preview iframe live** (`sandbox="allow-scripts"`, `srcDoc`) untuk kind preview.
 - `/codelab/playground`: editor tab HTML/CSS/JS + preview iframe live (debounce 500ms), link di nav + dashboard.
 
+## Fase G — Pematuhan Visi robika.md (rework dunia 1)
+
+### G1 — Simulator kontrol alur: if + function (TDD)
+- `simulator.ts`: `parseProgram(code): ProgramNode[]` — ekstraksi `function name() {...}`, ekspansi panggilan inline, unroll `for` manual (brace-matching, dukung body bersarang), parse `if (blockedAhead())` / `if (canMove())` / blok ekspansi fungsi.
+- `simulate()` rekursif terhadap struktur program dengan guard `maxSteps`. `parseCommands` tetap (flatten) untuk step-counter UI.
+- Test baru (parseProgram + simulate): if blockedAhead, if canMove, ekspansi fungsi, loop ter-unroll, detour spike, fungsi zigzag → 25 test simulator.
+
+### G2 — Bintang berbasis hint + error recovery XP (TDD)
+- `src/lib/game/stars.ts`: `starsForHints()` (0→3★, 1→2★, ≥2→1★) & `errorRecoveryBonus()` (+10 XP saat crash pernah terjadi tanpa hint). 7 test.
+- `rewards.ts`: `computeCompletionRewards` menerima `errorRecoveryXp`, mengekspos `parBonus` & `errorBonus` (bonus hanya untuk first completion). Test diperbarui.
+- `/api/game/complete`: `parMs` kini dari `level.parMs` (bukan hardcode 300_000); kredit error-XP; `best_score` = min hints (bukan max).
+
+### G3 — Paket gem 100/300/700 (visi robika.md)
+- `packages.ts`/`catalog.ts`: `gems-10/25/50` → `gems-100/300/700` (harga tetap Rp10rb/25rb/50rb). Test catalog diperbarui.
+
+### G4 — Konten dunia 1: If, Function, Fix-bug+Maze
+- L4 = If: spike di (7,1), solusi `if (blockedAhead())` detour (test lama "crashes on spikes" 6×forward tetap valid).
+- L5 = Function: `zigzag()` dipanggil 3× menuju goal.
+- L6 = Fix-bug + Maze: starter buggy (`turnLeft` salah arah) menabrak dinding; solusi `turnRight` menang.
+- Semua level diberi `parMs` (15s–60s); lesson/quiz L4–L6 ditulis ulang (kondisi, fungsi, debugging).
+- Validator: field opsional `parMs > 0` (test baru).
+
+### G5 — UI & juice
+- `game-board.tsx`: prop `onRunStart` untuk timer akurat.
+- `level-client.tsx`: timer `performance.now()`, `hintsUsed` dari `HintPanel.onUseHint`, kirim `error_recovered`, tampil `⚡ par +XP` & `🛠️ error recovery +XP`, chip CRASH ber-getar (`animate-shake`), panel menang ber-`animate-pop`.
+- `globals.css`: keyframes pop & shake (dengan `prefers-reduced-motion`).
+
 ## Status Akhir
 
-- **23 file test, 232 test, tsc 0 error, eslint 0 error, `next build` sukses** (17 route API + halaman).
-- Migrations baru untuk dijalankan: `0003` (Google OAuth), `0004` (achievements), `0005` (boss_attempts), `0006` (leaderboard).
+- **24 file test, 250 test, tsc 0 error, eslint 0 error, `next build` sukses** (17 route API + halaman).
+- Migrations untuk dijalankan: `0003`–`0006`; deploy Vercel + Google OAuth + migration Supabase **sudah selesai oleh user**.
 - Git: repo `rezzanurbaitulloh-gif/robika` (main), secret `enp` dikeluarkan + di-ignore, `.env*` aman.
 
 ## Fase Berikutnya (opsional)
 
-- Deploy Vercel (Hobby) + jalankan migration 0001–0006 ke Supabase + cron GitHub Actions anti-pause
 - Webhook uji nyata: transaksi Snap → notifikasi → cek wallet bertambah
 - Phaser renderer untuk board game
 - Uji end-to-end mobile (Playwright viewport 360px)
+- Onboarding adaptif per-stack (visi: 5 soal statis saat ini)

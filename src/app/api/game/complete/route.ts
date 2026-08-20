@@ -1,6 +1,7 @@
 import { createServerSupabase } from "@/lib/db/server";
 import { getLevel, getWorld } from "@/content";
 import { applyLevelUp, computeCompletionRewards } from "@/lib/game/rewards";
+import { errorRecoveryBonus } from "@/lib/game/stars";
 import { updateStreak } from "@/lib/game/streak";
 
 export const runtime = "nodejs";
@@ -11,6 +12,7 @@ interface CompleteBody {
   stars?: number;
   hints_used?: number;
   elapsed_ms?: number;
+  error_recovered?: boolean;
 }
 
 export async function POST(request: Request) {
@@ -58,8 +60,12 @@ export async function POST(request: Request) {
     existingStars: existing?.stars ?? 0,
     isFirstCompletion: !existing,
     elapsedMs: body.elapsed_ms ?? 0,
-    parMs: 300_000,
+    parMs: level.parMs ?? 300_000,
     baseXp: level.xpReward,
+    errorRecoveryXp: errorRecoveryBonus(
+      body.error_recovered === true,
+      body.hints_used ?? 0,
+    ),
   });
 
   if (!existing) {
@@ -77,7 +83,10 @@ export async function POST(request: Request) {
       .from("progress")
       .update({
         stars: Math.max(existing.stars, stars),
-        best_score: Math.max(existing.best_score, body.hints_used ?? 0),
+        best_score: Math.min(
+          existing.best_score > 0 ? existing.best_score : Number.MAX_SAFE_INTEGER,
+          body.hints_used ?? 0,
+        ),
         completed_at: new Date().toISOString(),
       })
       .eq("profile_id", user.id)
@@ -137,6 +146,8 @@ export async function POST(request: Request) {
     ok: true,
     stars_to_credit: rewards.starsToCredit,
     xp: rewards.xp,
+    par_bonus: rewards.parBonus,
+    error_bonus: rewards.errorBonus,
     level: newLevel,
     leveled_up: leveledUp,
   });

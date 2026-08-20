@@ -18,11 +18,14 @@ export interface CompletionInput {
   elapsedMs: number;
   parMs: number;
   baseXp?: number;
+  errorRecoveryXp?: number;
 }
 
 export interface CompletionRewards {
   starsToCredit: number;
   xp: number;
+  parBonus: number;
+  errorBonus: number;
 }
 
 export function computeCompletionRewards(input: CompletionInput): CompletionRewards {
@@ -34,16 +37,18 @@ export function computeCompletionRewards(input: CompletionInput): CompletionRewa
     elapsedMs,
     parMs,
     baseXp,
+    errorRecoveryXp,
   } = input;
   const starsToCredit = Math.max(0, stars - existingStars);
 
   if (!isFirstCompletion || starsToCredit === 0) {
-    return { starsToCredit, xp: 0 };
+    return { starsToCredit, xp: 0, parBonus: 0, errorBonus: 0 };
   }
 
   const base = baseXp ?? xpForCompletion(levelIndex, stars);
-  const bonus = speedBonusXp(base, elapsedMs, parMs);
-  return { starsToCredit, xp: base + bonus };
+  const parBonus = speedBonusXp(base, elapsedMs, parMs);
+  const errorBonus = errorRecoveryXp ?? 0;
+  return { starsToCredit, xp: base + parBonus + errorBonus, parBonus, errorBonus };
 }
 
 export function applyLevelUp(

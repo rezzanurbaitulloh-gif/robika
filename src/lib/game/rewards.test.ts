@@ -80,6 +80,54 @@ describe("computeCompletionRewards", () => {
     });
     expect(r.xp).toBe(300);
   });
+
+  it("adds an error recovery bonus on first completion", () => {
+    const r = computeCompletionRewards({
+      levelIndex: 0,
+      stars: 3,
+      existingStars: 0,
+      isFirstCompletion: true,
+      elapsedMs: 60_000,
+      parMs: 120_000,
+      errorRecoveryXp: 10,
+    });
+    expect(r.errorBonus).toBe(10);
+    expect(r.xp).toBeGreaterThan(150);
+  });
+
+  it("does not add error bonus on repeat completions", () => {
+    const r = computeCompletionRewards({
+      levelIndex: 0,
+      stars: 3,
+      existingStars: 3,
+      isFirstCompletion: false,
+      elapsedMs: 60_000,
+      parMs: 120_000,
+      errorRecoveryXp: 10,
+    });
+    expect(r.xp).toBe(0);
+    expect(r.errorBonus).toBe(0);
+  });
+
+  it("exposes the par speed bonus separately", () => {
+    const fast = computeCompletionRewards({
+      levelIndex: 0,
+      stars: 3,
+      existingStars: 0,
+      isFirstCompletion: true,
+      elapsedMs: 60_000,
+      parMs: 120_000,
+    });
+    const slow = computeCompletionRewards({
+      levelIndex: 0,
+      stars: 3,
+      existingStars: 0,
+      isFirstCompletion: true,
+      elapsedMs: 240_000,
+      parMs: 120_000,
+    });
+    expect(fast.parBonus).toBeGreaterThan(slow.parBonus);
+  });
 });
 
 describe("applyLevelUp", () => {

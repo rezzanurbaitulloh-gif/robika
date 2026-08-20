@@ -10,6 +10,7 @@ interface GameBoardProps {
   commands: Command[];
   speedMs?: number;
   onResult?: (result: SimulationResult) => void;
+  onRunStart?: () => void;
   disabled?: boolean;
 }
 
@@ -65,6 +66,7 @@ export function GameBoard({
   commands,
   speedMs = 350,
   onResult,
+  onRunStart,
   disabled = false,
 }: GameBoardProps) {
   const width = level.grid[0].length;
@@ -91,26 +93,31 @@ export function GameBoard({
   const run = useCallback(() => {
     if (disabled || running) return;
     stop();
+    onRunStart?.();
     setStep(0);
     setRunning(true);
     let i = 0;
     timerRef.current = setInterval(() => {
       i += 1;
-      const result = simulate(level, commands.slice(0, i));
+      const program = commands.slice(0, i).map((cmd) => ({ type: "cmd" as const, cmd }));
+      const result = simulate(level, program);
       setStep(i);
       if (result.crashed || result.won || i >= commands.length) {
         stop();
         onResult?.(result);
       }
     }, speedMs);
-  }, [commands, disabled, level, onResult, running, speedMs, stop]);
+  }, [commands, disabled, level, onResult, onRunStart, running, speedMs, stop]);
 
   const reset = useCallback(() => {
     stop();
     setStep(0);
   }, [stop]);
 
-  const current = simulate(level, commands.slice(0, step));
+  const current = simulate(
+    level,
+    commands.slice(0, step).map((cmd) => ({ type: "cmd" as const, cmd })),
+  );
   const pos = current.crashed && step === 0 ? startPos : current.position;
   const dir = useMemo(() => {
     const cmds = commands.slice(0, step);

@@ -49,9 +49,9 @@ const TOPUP_ICON: Record<string, string> = {
   "hints-10": "💡",
   "hints-30": "💡",
   "hints-150": "💡",
-  "gems-10": "💎",
-  "gems-25": "💎",
-  "gems-50": "💎",
+  "gems-100": "💎",
+  "gems-300": "💎",
+  "gems-700": "💎",
   "mentor-1m": "🧠",
 };
 

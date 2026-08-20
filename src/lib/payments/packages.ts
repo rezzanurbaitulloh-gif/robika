@@ -2,9 +2,9 @@ export type PaymentItemId =
   | "hints-10"
   | "hints-30"
   | "hints-150"
-  | "gems-10"
-  | "gems-25"
-  | "gems-50"
+  | "gems-100"
+  | "gems-300"
+  | "gems-700"
   | "mentor-1m";
 
 export type PaymentEffect =
@@ -43,25 +43,25 @@ export const PAYMENT_ITEMS: PaymentItem[] = [
     effect: { type: "hints", count: 150 },
   },
   {
-    id: "gems-10",
-    name: "10 Permata",
-    description: "Untuk membuka skin dan aksesoris BOT-1",
+    id: "gems-100",
+    name: "100 Permata",
+    description: "Paket starter — skin & aksesoris dasar BOT-1",
     price: 10000,
-    effect: { type: "gems", count: 10 },
+    effect: { type: "gems", count: 100 },
   },
   {
-    id: "gems-25",
-    name: "25 Permata",
-    description: "Paket hemat untuk kolektor skin",
+    id: "gems-300",
+    name: "300 Permata",
+    description: "Paket hemat (+50%) untuk kolektor skin",
     price: 25000,
-    effect: { type: "gems", count: 25 },
+    effect: { type: "gems", count: 300 },
   },
   {
-    id: "gems-50",
-    name: "50 Permata",
-    description: "Paket terlaris — semua skin world 1",
+    id: "gems-700",
+    name: "700 Permata",
+    description: "Paket terlaris (+75%) — semua skin dunia 1",
     price: 50000,
-    effect: { type: "gems", count: 50 },
+    effect: { type: "gems", count: 700 },
   },
   {
     id: "mentor-1m",

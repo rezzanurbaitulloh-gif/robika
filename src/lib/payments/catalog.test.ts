@@ -16,21 +16,21 @@ describe("PAYMENT_ITEMS", () => {
       "hints-10",
       "hints-30",
       "hints-150",
-      "gems-10",
-      "gems-25",
-      "gems-50",
+      "gems-100",
+      "gems-300",
+      "gems-700",
       "mentor-1m",
     ]);
   });
 
-  it("prices match the agreed catalog", () => {
+  it("prices match the plan in robika.md", () => {
     const price = (id: PaymentItemId) => getPaymentItem(id)!.price;
     expect(price("hints-10")).toBe(2000);
     expect(price("hints-30")).toBe(5000);
     expect(price("hints-150")).toBe(20000);
-    expect(price("gems-10")).toBe(10000);
-    expect(price("gems-25")).toBe(25000);
-    expect(price("gems-50")).toBe(50000);
+    expect(price("gems-100")).toBe(10000);
+    expect(price("gems-300")).toBe(25000);
+    expect(price("gems-700")).toBe(50000);
     expect(price("mentor-1m")).toBe(10000);
   });
 
@@ -45,13 +45,13 @@ describe("PAYMENT_ITEMS", () => {
     }
   });
 
-  it("hint counts match top-up tiers", () => {
-    const h10 = getPaymentItem("hints-10")!.effect;
-    const h30 = getPaymentItem("hints-30")!.effect;
-    const h150 = getPaymentItem("hints-150")!.effect;
-    expect(h10.type === "hints" ? h10.count : -1).toBe(10);
-    expect(h30.type === "hints" ? h30.count : -1).toBe(30);
-    expect(h150.type === "hints" ? h150.count : -1).toBe(150);
+  it("gem counts match top-up tiers", () => {
+    const g100 = getPaymentItem("gems-100")!.effect;
+    const g300 = getPaymentItem("gems-300")!.effect;
+    const g700 = getPaymentItem("gems-700")!.effect;
+    expect(g100.type === "gems" ? g100.count : -1).toBe(100);
+    expect(g300.type === "gems" ? g300.count : -1).toBe(300);
+    expect(g700.type === "gems" ? g700.count : -1).toBe(700);
   });
 
   it("returns undefined for unknown item", () => {
@@ -61,8 +61,8 @@ describe("PAYMENT_ITEMS", () => {
 
 describe("buildOrderId", () => {
   it("produces unique prefixed order ids", () => {
-    const a = buildOrderId("u1", "gems-10", new Date("2026-08-19T10:00:00Z"));
-    const b = buildOrderId("u1", "gems-10", new Date("2026-08-19T10:00:00Z"));
+    const a = buildOrderId("u1", "gems-100", new Date("2026-08-19T10:00:00Z"));
+    const b = buildOrderId("u1", "gems-100", new Date("2026-08-19T10:00:00Z"));
     expect(a).not.toBe(b);
     expect(a.startsWith("ROBIKA-")).toBe(true);
   });

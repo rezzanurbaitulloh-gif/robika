@@ -154,9 +154,46 @@
   animation: robika-ticker 18s linear infinite;
 }
 
+@keyframes robika-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-pop {
+  animation: robika-pop 0.35s ease-out both;
+}
+
+@keyframes robika-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+.animate-shake {
+  animation: robika-shake 0.25s ease-in-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ticker,
-  .blink {
+  .blink,
+  .animate-pop,
+  .animate-shake {
     animation: none;
   }
   .glow-text,

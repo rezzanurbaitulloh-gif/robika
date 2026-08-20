@@ -36,6 +36,7 @@ export interface GameLevel {
   starterCode: string;
   solution: string;
   xpReward: number;
+  parMs?: number;
   lesson?: LessonContent;
   quiz?: QuizContent;
   isBoss?: boolean;
@@ -108,6 +109,9 @@ export function validateLevel(level: GameLevel, existingIds: string[] = []): Val
   }
   if (!level.xpReward || level.xpReward <= 0) {
     errors.push("xpReward must be > 0");
+  }
+  if (level.parMs !== undefined && level.parMs <= 0) {
+    errors.push("parMs must be > 0");
   }
   if (!level.order || level.order <= 0) {
     errors.push("order must be > 0");
