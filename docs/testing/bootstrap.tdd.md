@@ -84,9 +84,55 @@ API: `/api/ai/[mode]` (SSE) • `/api/payments/{create,webhook,trial}` • `/api
 
 **Setup manual (dashboard Supabase)**: Authentication → Providers → Google → aktifkan, isi Client ID + Client Secret dari Google Cloud Console (OAuth client "Web application"), redirect URI `https://<ref>.supabase.co/auth/v1/callback`; tambahkan `https://<app-domain>/auth/callback` ke Authorized redirect URIs.
 
+## Gap Closure (Fase A–F)
+
+### Fase A — Materi + Kuis per level
+- `validate.ts`: skema `lesson` (title + body ≥1 paragraf) & `quiz` (3–5 soal, 2–6 opsi, answer in-range) → 23 test.
+- Konten dunia 1: semua 7 level kini punya lesson + quiz (loop, hazard, boss strategy).
+- `src/lib/game/quiz.ts` (5 test): `gradeQuiz` pass-rate 70%.
+- Level page → tab **📖 Materi | 🧪 Kuis | 🕹️ Game** (sticky tab bar, scrollable di mobile).
+- Board game responsif: sel `aspect-square`, max-width proporsional (sebelumnya fixed 34px × 14 = meluber di layar <476px).
+
+### Fase B — Badge + streak + sertifikat
+- `src/lib/game/streak.ts` (5 test): UTC-day streak — +1 jika kemarin, tetap jika hari ini, reset 1 jika putus.
+- `src/lib/game/badges.ts` (8 test): katalog 10 badge × 5 rarity; `evaluateBadges(state, owned)` idempotent.
+- Migration **0004**: tabel `achievements` (PK profile_id+badge_id) + RLS own.
+- `POST /api/game/complete` kini juga update `streak`/`last_active_at` (engine streak).
+- API: `GET /api/achievements`, `POST /api/achievements/check` (baca progress+profile+wallet+subscriptions → earn baru). Dipanggil otomatis setelah menang level (badge muncul di notifikasi).
+- Dashboard: `BadgeGrid` (kunci 🔒 untuk yang belum didapat), statistik streak, link sertifikat.
+- `/certificate`: kartu sertifikat printable (`window.print()` → PDF; style `@media print` putih).
+
+### Fase C — Boss cooldown + instant retry Gem
+- Engine `src/lib/core/boss.ts` (cooldown 30 menit, retry ◆5) sudah ada + test.
+- Migration **0005**: tabel `boss_attempts` (1 baris per user, upsert).
+- API: `GET /api/boss/status` (can_attempt, cooldown_ms, gems), `POST /api/boss/attempt` (mulai cooldown saat kalah), `POST /api/boss/retry` (bayar ◆5 → reset cooldown).
+- `BossPanel` di tab Game level boss: countdown live + tombol Retry Instan (402 → arahkan ke Shop).
+
+### Fase D — AI Mentor multimodal
+- `image?: string` (data URL) mengalir: `ai-chat.tsx` (resize canvas ≤1024px, JPEG 0.8) → `client.ts` → route (validasi prefix `data:image/` + ≤5MB) → `stream.ts` → `provider.ts` (pesan user terakhir jadi array `text` + `image_url` OpenAI-compatible).
+- Tombol 🖼️ di chat, thumbnail + batal, preview gambar di bubble user.
+
+### Fase E — Leaderboard + Daily Challenge
+- Migration **0006**: function `get_leaderboard(limit)` security definer (order XP desc).
+- `GET /api/leaderboard` + halaman `/leaderboard` (medali 🥇🥈🥉, highlight "kamu", responsif grid→stack).
+- `src/lib/game/daily.ts` (7 test): `hashDate` (UTC) → `dailyLevelId` deterministik per hari, `dailyEndsAt` tengah malam UTC.
+- `/daily`: kartu tantangan hari ini + tombol `?daily=1` → chip "⚡ DAILY CHALLENGE" di level page.
+
+### Fase F — CodeLab fix-bug + playground + preview
+- `runner.ts`: kind baru `fix-bug` (daftar `bugs`) & `preview` (dokumen HTML lengkap) + validator (test kinds diperbarui → 9 test codelab).
+- Challenge baru: `codelab-fixbug-loop` (off-by-one) & `codelab-preview-card` (kartu interaktif).
+- Challenge page: panel 🐞 daftar bug, tombol Reset, label "PERBAIKI KODE", dan **preview iframe live** (`sandbox="allow-scripts"`, `srcDoc`) untuk kind preview.
+- `/codelab/playground`: editor tab HTML/CSS/JS + preview iframe live (debounce 500ms), link di nav + dashboard.
+
+## Status Akhir
+
+- **23 file test, 232 test, tsc 0 error, eslint 0 error, `next build` sukses** (17 route API + halaman).
+- Migrations baru untuk dijalankan: `0003` (Google OAuth), `0004` (achievements), `0005` (boss_attempts), `0006` (leaderboard).
+- Git: repo `rezzanurbaitulloh-gif/robika` (main), secret `enp` dikeluarkan + di-ignore, `.env*` aman.
+
 ## Fase Berikutnya (opsional)
 
-- Deploy Vercel (Hobby) + jalankan migration 0001–0002 ke Supabase + cron GitHub Actions anti-pause
+- Deploy Vercel (Hobby) + jalankan migration 0001–0006 ke Supabase + cron GitHub Actions anti-pause
 - Webhook uji nyata: transaksi Snap → notifikasi → cek wallet bertambah
 - Phaser renderer untuk board game
-- Leaderboard XP antar pemain (RLS `profiles` sudah siap)
+- Uji end-to-end mobile (Playwright viewport 360px)
