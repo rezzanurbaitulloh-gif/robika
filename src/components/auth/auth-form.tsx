@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/db/client";
+import { getSiteUrl } from "@/lib/site-url";
 import { StatusChip } from "@/components/design/status-chip";
 import { Icon } from "@/components/design/icon";
 
@@ -20,7 +21,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const googleLogin = async () => {
     setOauthLoading(true);
     setError(null);
-    const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent("/dashboard")}`;
+    const redirectTo = `${getSiteUrl()}/auth/callback?next=${encodeURIComponent("/dashboard")}`;
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
