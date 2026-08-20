@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getCurriculumModule } from "@/content/curriculum/curriculum";
 import { QuizPanel } from "@/components/game/quiz-panel";
 import { BackButton } from "@/components/design/back-button";
-import { Icon, type IconName } from "@/components/design/icon";
+import { Icon } from "@/components/design/icon";
 
 export default async function CurriculumModulePage({
   params,
@@ -21,7 +21,7 @@ export default async function CurriculumModulePage({
       </div>
       <div className="mb-8">
         <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Icon name={stack.icon as IconName} size={14} />
+          <Icon name={stack.icon} size={14} />
           {stack.name} · ±{mod.minutes} menit
         </p>
         <h1 className="font-display text-2xl tracking-wide text-foreground">

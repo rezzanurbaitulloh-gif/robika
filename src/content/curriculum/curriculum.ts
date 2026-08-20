@@ -1,3 +1,5 @@
+import type { IconName } from "@/components/design/icon";
+
 export interface CurriculumTopic {
   title: string;
   body: string;
@@ -22,7 +24,7 @@ export interface CurriculumModule {
 export interface CurriculumStack {
   id: string;
   name: string;
-  icon: string;
+  icon: IconName;
   description: string;
   color: string;
   modules: CurriculumModule[];

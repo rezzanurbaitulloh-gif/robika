@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getCurriculumStack } from "@/content/curriculum/curriculum";
 import { BentoCard } from "@/components/design/bento-card";
 import { BackButton } from "@/components/design/back-button";
-import { Icon, type IconName } from "@/components/design/icon";
+import { Icon } from "@/components/design/icon";
 
 export default async function CurriculumStackPage({
   params,
@@ -21,7 +21,7 @@ export default async function CurriculumStackPage({
       </div>
       <div className="mb-8">
         <h1 className="flex items-center gap-3 font-display text-3xl tracking-wide text-foreground">
-          <Icon name={stack.icon as IconName} size={20} />
+          <Icon name={stack.icon} size={20} />
           {stack.name.toUpperCase()}
         </h1>
         <p className="text-sm text-muted-foreground">{stack.description}</p>
