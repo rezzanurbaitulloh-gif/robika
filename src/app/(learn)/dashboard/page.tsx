@@ -59,34 +59,33 @@ export default async function DashboardPage() {
           title="Kode Quest"
           description="Mainkan game 2D sambil belajar logika dasar."
           icon="🎮"
+          href={`/world/${worlds[0].world}`}
           className="lg:col-span-2"
           footer={
-            <Link
-              href={`/world/${worlds[0].world}`}
-              className="text-xs font-semibold text-accent hover:underline"
-            >
+            <span className="text-xs font-semibold text-accent">
               Mulai bermain →
-            </Link>
+            </span>
           }
         />
         <BentoCard
           title="CodeLab"
           description="Latihan JavaScript & Python dengan preview."
           icon="⚡"
+          href="/codelab/codelab-hello"
           footer={
-            <span className="flex flex-wrap gap-2">
-              <Link
-                href="/codelab/codelab-hello"
-                className="text-xs font-semibold text-accent hover:underline"
-              >
-                Buka latihan →
-              </Link>
-              <Link
-                href="/codelab/playground"
-                className="text-xs font-semibold text-accent hover:underline"
-              >
-                Playground →
-              </Link>
+            <span className="text-xs font-semibold text-accent">
+              Buka latihan →
+            </span>
+          }
+        />
+        <BentoCard
+          title="Playground"
+          description="Editor bebas HTML, CSS & JS dengan preview live."
+          icon="🧪"
+          href="/codelab/playground"
+          footer={
+            <span className="text-xs font-semibold text-accent">
+              Buka playground →
             </span>
           }
         />
@@ -94,13 +93,12 @@ export default async function DashboardPage() {
           title="AI Mentor"
           description="Belajar mendalam dengan mentor AI pribadi."
           icon="🧠"
+          href="/mentor"
+          className="lg:col-span-2"
           footer={
-            <Link
-              href="/mentor"
-              className="text-xs font-semibold text-accent hover:underline"
-            >
+            <span className="text-xs font-semibold text-accent">
               Chat sekarang →
-            </Link>
+            </span>
           }
         />
       </div>
