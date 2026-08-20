@@ -58,14 +58,14 @@ export function BossPanel() {
 
   if (!status) {
     return (
-      <div className="rounded-xl border border-border bg-slate-900/60 p-4 text-sm text-muted-foreground">
+      <div className="rounded-xl border border-border bg-card/60 p-4 text-sm text-muted-foreground">
         Memuat status boss…
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl border border-rose-400/30 bg-slate-900/60 p-4">
+    <div className="rounded-xl border border-rose-400/30 bg-card/60 p-4">
       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-display text-sm tracking-wide text-rose-300">
           <span className="inline-flex items-center gap-1.5">
@@ -96,7 +96,7 @@ export function BossPanel() {
             type="button"
             disabled={busy || status.gems < status.instant_retry_cost}
             onClick={instantRetry}
-            className="mt-3 w-full rounded-lg border border-emerald-400/50 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-400/20 disabled:opacity-40"
+            className="btn btn-md mt-3 w-full border border-emerald-400/50 bg-emerald-400/10 text-emerald-300 hover:bg-emerald-400/20"
           >
             <span className="inline-flex items-center gap-1.5">
               <Icon name="bolt" size={14} />

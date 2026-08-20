@@ -32,7 +32,7 @@ export function CodeEditor({
   if (!mounted) {
     return (
       <div
-        className="flex items-center justify-center rounded-lg border border-border bg-slate-950 text-sm text-muted-foreground"
+        className="flex items-center justify-center rounded-lg border border-border bg-input text-sm text-muted-foreground"
         style={{ height }}
       >
         Memuat editor...

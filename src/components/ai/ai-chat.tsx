@@ -110,7 +110,7 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
   };
 
   return (
-    <div className="flex h-full flex-col rounded-xl border border-border bg-slate-900/60">
+    <div className="flex h-full flex-col rounded-xl border border-border bg-card/60">
       <div className="flex-1 space-y-3 overflow-y-auto p-4">
         {messages.length === 0 && (
           <p className="text-sm text-muted-foreground">
@@ -178,7 +178,7 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
             onClick={() => fileInputRef.current?.click()}
             disabled={streaming}
             title="Lampirkan gambar (contoh: screenshot error)"
-            className="rounded-lg border border-border px-3 py-2 text-sm transition hover:bg-muted disabled:opacity-40"
+            className="btn btn-secondary btn-md"
           >
             <Icon name="camera" size={16} />
           </button>
@@ -192,13 +192,13 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
               }
             }}
             placeholder="Ketik pesan..."
-            className="flex-1 rounded-lg border border-border bg-slate-950 px-3 py-2 text-sm outline-none focus:border-accent"
+            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
           />
           <button
             type="button"
             onClick={() => void send()}
             disabled={streaming}
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-50"
+            className="btn btn-accent btn-md"
           >
             {streaming ? "..." : "Kirim"}
           </button>

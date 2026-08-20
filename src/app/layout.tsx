@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
   other: {
-    "theme-color": "#0b1120",
+    "theme-color": "#0B0B10",
     "mobile-web-app-capable": "yes",
   },
 };

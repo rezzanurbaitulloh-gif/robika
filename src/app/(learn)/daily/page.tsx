@@ -69,7 +69,7 @@ export default async function DailyPage() {
           </p>
           <Link
             href={`/level/${level.id}?daily=1`}
-            className="mt-5 inline-block rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:brightness-110"
+            className="btn btn-accent btn-lg mt-5"
           >
             <span className="inline-flex items-center gap-1.5">
               {progress ? "Mainkan Lagi" : "Mulai Tantangan"}
@@ -78,7 +78,7 @@ export default async function DailyPage() {
           </Link>
         </div>
       ) : (
-        <p className="rounded-xl border border-border bg-slate-900/60 p-6 text-sm text-muted-foreground">
+        <p className="rounded-xl border border-border bg-card/60 p-6 text-sm text-muted-foreground">
           Tidak ada tantangan hari ini.
         </p>
       )}

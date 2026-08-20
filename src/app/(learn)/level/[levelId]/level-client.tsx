@@ -145,7 +145,7 @@ export function LevelClient({
       </div>
 
       {tab === "materi" && level.lesson && (
-        <div className="rounded-xl border border-border bg-slate-900/60 p-4 sm:p-6">
+        <div className="rounded-xl border border-border bg-card/60 p-4 sm:p-6">
           <h2 className="font-display text-lg tracking-wide text-foreground">
             {level.lesson.title}
           </h2>
@@ -229,14 +229,14 @@ export function LevelClient({
                     {nextLevelId && (
                       <Link
                         href={`/level/${nextLevelId}`}
-                        className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110"
+                        className="btn btn-accent btn-md"
                       >
                         Level berikutnya
                       </Link>
                     )}
                     <Link
                       href={`/world/${level.world}`}
-                      className="rounded-lg border border-accent/50 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-accent/10"
+                      className="btn btn-outline btn-md"
                     >
                       Kembali ke peta
                     </Link>
@@ -254,7 +254,7 @@ export function LevelClient({
               onUseHint={() => setHintsUsed((n) => n + 1)}
             />
 
-            <div className="rounded-xl border border-border bg-slate-900/60 p-4">
+            <div className="rounded-xl border border-border bg-card/60 p-4">
               <h3 className="mb-2 font-display text-sm tracking-wide">AI TUTOR</h3>
               <p className="text-xs text-muted-foreground">
                 Butuh petunjuk? Buka AI Tutor lewat menu bawah — bebas 20×/hari.

@@ -40,7 +40,7 @@ export default async function LeaderboardPage() {
         </div>
         <Link
           href="/daily"
-          className="rounded-lg border border-accent/40 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-accent/20"
+          className="btn btn-outline btn-md"
         >
           <span className="inline-flex items-center gap-1.5">
             <Icon name="bolt" size={16} />
@@ -49,7 +49,7 @@ export default async function LeaderboardPage() {
         </Link>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-border bg-slate-900/60">
+      <div className="overflow-hidden rounded-xl border border-border bg-card/60">
         <div className="grid grid-cols-[3rem_1fr_auto] gap-2 border-b border-border bg-muted/40 px-4 py-2 text-[11px] uppercase tracking-wider text-muted-foreground sm:grid-cols-[3rem_1fr_4rem_4rem_4rem]">
           <span>Rank</span>
           <span>Pelajar</span>

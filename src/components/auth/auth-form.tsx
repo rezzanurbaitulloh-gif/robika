@@ -72,8 +72,16 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   return (
     <div className="mx-auto w-full max-w-sm">
       <div className="mb-8 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logo.png"
+          alt="Robika"
+          className="mx-auto mb-4 h-14 w-14 rounded-2xl border border-accent/30 shadow-[0_0_24px_rgba(59,130,246,0.25)]"
+        />
         <h1 className="font-display text-2xl tracking-widest text-foreground">
-          {mode === "login" ? "MASUK" : "DAFTAR"}
+          <span className="glow-text text-accent">
+            {mode === "login" ? "MASUK" : "DAFTAR"}
+          </span>
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {mode === "login"
@@ -93,7 +101,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-lg border border-border bg-slate-950 px-3 py-2 text-sm outline-none focus:border-accent"
+            className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
           />
         </div>
         <div>
@@ -111,7 +119,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-border bg-slate-950 px-3 py-2 pr-10 text-sm outline-none focus:border-accent"
+              className="w-full rounded-lg border border-border bg-input px-3 py-2 pr-10 text-sm outline-none focus:border-accent"
             />
             <button
               type="button"
@@ -146,7 +154,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           type="button"
           disabled={oauthLoading || loading}
           onClick={() => void googleLogin()}
-          className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-slate-950 px-4 py-2.5 text-sm font-medium text-foreground transition hover:bg-muted disabled:opacity-50"
+          className="btn btn-secondary btn-md w-full"
         >
           <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
             <path
@@ -172,11 +180,22 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         <button
           type="submit"
           disabled={loading || oauthLoading}
-          className="w-full rounded-lg bg-accent px-4 py-2.5 font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-50"
+          className="btn btn-accent btn-md w-full"
         >
           {loading ? "Memproses..." : mode === "login" ? "Masuk" : "Buat Akun"}
         </button>
       </form>
+
+      {mode === "login" && (
+        <div className="mt-2 text-center">
+          <Link
+            href="/forgot-password"
+            className="text-xs text-muted-foreground transition hover:text-accent"
+          >
+            Lupa password?
+          </Link>
+        </div>
+      )}
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
         {mode === "login" ? (

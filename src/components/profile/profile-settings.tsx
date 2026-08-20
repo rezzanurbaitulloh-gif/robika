@@ -111,7 +111,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
   };
 
   return (
-    <div className="rounded-xl border border-border bg-slate-900/60 p-5">
+    <div className="rounded-xl border border-border bg-card/60 p-5">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="font-display text-sm tracking-wide text-foreground">
           PENGATURAN PROFIL
@@ -124,7 +124,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               type="button"
               onClick={() => void save()}
               disabled={saving}
-              className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-50"
+              className="btn btn-accent btn-md"
             >
               Simpan
             </button>
@@ -146,7 +146,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               value={displayName}
               maxLength={50}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full rounded-lg border border-border bg-slate-950 px-3 py-2 text-sm outline-none focus:border-accent"
+              className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
               placeholder="Nama yang ditampilkan"
             />
           </div>
@@ -163,7 +163,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               maxLength={20}
               pattern="[a-zA-Z0-9_]{3,20}"
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full rounded-lg border border-border bg-slate-950 px-3 py-2 text-sm outline-none focus:border-accent"
+              className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
             />
             <p className="mt-1 text-[10px] text-muted-foreground">
               3–20 karakter, huruf/angka/underscore.
@@ -182,7 +182,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               onChange={(e) =>
                 setSkillLevel(e.target.value as (typeof SKILL_OPTIONS)[number])
               }
-              className="w-full rounded-lg border border-border bg-slate-950 px-3 py-2 text-sm outline-none focus:border-accent"
+              className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
             >
               {SKILL_OPTIONS.map((level) => (
                 <option key={level} value={level}>
@@ -196,7 +196,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
         <div>
           <span className="mb-1 block text-xs text-muted-foreground">AVATAR</span>
           <div className="flex items-start gap-4">
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-border bg-slate-950 text-3xl">
+                        <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-border bg-muted text-3xl">
               {avatarUrl.length > 8 ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -204,8 +204,10 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
                   alt="Avatar"
                   className="h-full w-full rounded-xl object-cover"
                 />
-              ) : (
+              ) : avatarUrl ? (
                 avatarUrl
+              ) : (
+                <Icon name="robot" size={28} className="text-accent" />
               )}
             </span>
             <div className="space-y-2">
@@ -219,7 +221,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
                     className={`flex h-9 w-9 items-center justify-center rounded-lg border text-lg transition hover:border-accent ${
                       avatarUrl === emoji
                         ? "border-accent bg-accent/20"
-                        : "border-border bg-slate-950"
+                        : "border-border bg-muted"
                     }`}
                   >
                     {emoji}
@@ -229,7 +231,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-accent/50 px-3 py-1.5 text-xs font-semibold text-accent transition hover:bg-accent/10"
+                className="btn btn-outline btn-sm"
               >
                 <Icon name="camera" size={14} /> Upload foto
               </button>

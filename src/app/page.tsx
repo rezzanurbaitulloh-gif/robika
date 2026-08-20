@@ -74,13 +74,13 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/login"
-              className="rounded-lg border border-border px-3 py-1.5 hover:bg-muted"
+              className="btn btn-secondary btn-sm"
             >
               Masuk
             </Link>
             <Link
               href="/register"
-              className="rounded-lg bg-accent px-3 py-1.5 font-semibold text-accent-foreground hover:brightness-110"
+              className="btn btn-accent btn-sm"
             >
               Mulai Gratis
             </Link>
@@ -104,13 +104,13 @@ export default function LandingPage() {
           <div className="mt-8 flex items-center justify-center gap-4">
             <Link
               href="/register"
-              className="rounded-xl bg-accent px-6 py-3 font-semibold text-accent-foreground transition hover:brightness-110"
+              className="btn btn-accent btn-lg"
             >
-              Mulai Petualangan
+              Mulai Gratis
             </Link>
             <Link
               href="/login"
-              className="rounded-xl border border-border px-6 py-3 text-foreground transition hover:bg-muted"
+              className="btn btn-secondary btn-lg"
             >
               Saya sudah punya akun
             </Link>

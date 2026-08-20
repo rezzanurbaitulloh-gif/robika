@@ -32,8 +32,8 @@ export function Avatar({
   className?: string;
 }) {
   if (isImageAvatar(value)) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={value}
         alt="Avatar"
@@ -41,7 +41,17 @@ export function Avatar({
       />
     );
   }
-  return <span className={className ?? ""}>{value}</span>;
+  if (value) {
+    return <span className={className ?? ""}>{value}</span>;
+  }
+  return (
+    <span
+      className={`flex items-center justify-center bg-gradient-to-br from-accent/40 via-accent/10 to-transparent text-accent ${className ?? ""}`}
+      aria-hidden="true"
+    >
+      <Icon name="robot" size={40} />
+    </span>
+  );
 }
 
 export function ProfileView({ initial }: { initial: ProfileViewInitial }) {
@@ -70,12 +80,12 @@ export function ProfileView({ initial }: { initial: ProfileViewInitial }) {
 
   return (
     <>
-      <div className="overflow-hidden rounded-xl border border-border bg-slate-900/60">
+      <div className="overflow-hidden rounded-xl border border-border bg-card/60">
         <div className="h-20 bg-gradient-to-r from-accent/30 via-accent/10 to-transparent" />
         <div className="px-5 pb-5">
           <div className="-mt-10 flex flex-wrap items-end justify-between gap-3">
             <div className="flex items-end gap-4">
-              <span className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-background bg-slate-950 text-4xl shadow-lg">
+              <span className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-background bg-muted text-4xl shadow-lg">
                 <Avatar value={avatarUrl} className="h-full w-full" />
               </span>
               <div className="min-w-0 pb-1">
@@ -99,7 +109,7 @@ export function ProfileView({ initial }: { initial: ProfileViewInitial }) {
             {stats.map((item) => (
               <div
                 key={item.label}
-                className="rounded-lg border border-border bg-slate-950/60 p-3"
+                className="rounded-lg border border-border bg-muted/60 p-3"
               >
                 <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
                   <Icon name={item.icon} size={13} />

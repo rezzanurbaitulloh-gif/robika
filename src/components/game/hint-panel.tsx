@@ -63,7 +63,7 @@ export function HintPanel({
   const remaining = balance ?? maxHints;
 
   return (
-    <div className="rounded-xl border border-border bg-slate-900/60 p-4">
+    <div className="rounded-xl border border-border bg-card/60 p-4">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="font-display text-sm tracking-wide text-foreground">
           HINT SYSTEM
@@ -97,7 +97,7 @@ export function HintPanel({
         type="button"
         onClick={() => void reveal()}
         disabled={revealed >= maxHints || (trackBalance && (balance ?? 0) <= 0)}
-        className="mt-3 w-full rounded-lg border border-accent/50 px-3 py-2 text-sm font-semibold text-accent transition hover:bg-accent/10 disabled:opacity-40"
+        className="btn btn-outline btn-md mt-3 w-full"
       >
         {trackBalance && (balance ?? 0) <= 0
           ? "Saldo habis"

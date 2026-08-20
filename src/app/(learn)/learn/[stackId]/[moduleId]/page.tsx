@@ -62,21 +62,21 @@ export default async function CurriculumModulePage({
         {mod.topics.map((topic, i) => (
           <section
             key={i}
-            className="rounded-xl border border-border bg-slate-900/60 p-4 sm:p-5"
+            className="rounded-xl border border-border bg-card/60 p-4 sm:p-5"
           >
             <h2 className="mb-2 font-display text-base tracking-wide text-foreground">
               {i + 1}. {topic.title}
             </h2>
             <p className="text-sm leading-relaxed text-foreground/90">{topic.body}</p>
             {topic.code && (
-              <pre className="mt-3 overflow-x-auto rounded-lg border border-border bg-slate-950 p-3 text-xs leading-relaxed text-emerald-200">
+              <pre className="mt-3 overflow-x-auto rounded-lg border border-border bg-input p-3 text-xs leading-relaxed text-emerald-200">
                 <code>{topic.code}</code>
               </pre>
             )}
           </section>
         ))}
 
-        <section className="rounded-xl border border-border bg-slate-900/60 p-4 sm:p-5">
+        <section className="rounded-xl border border-border bg-card/60 p-4 sm:p-5">
           <h2 className="mb-3 flex items-center gap-2 font-display text-base tracking-wide text-foreground">
             <Icon name="target" size={18} />
             Kuis Pemahaman

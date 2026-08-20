@@ -48,6 +48,12 @@ export function OnboardingClient() {
           <StatusChip status="info" label={`${answered + 1}/${QUESTIONS.length}`} />
           <StatusChip status="neutral" label="SKILL CHECK" />
         </div>
+        <div className="mb-6 h-1.5 overflow-hidden rounded-full bg-muted">
+          <div
+            className="h-full rounded-full bg-accent transition-all duration-300"
+            style={{ width: `${((answered + 1) / QUESTIONS.length) * 100}%` }}
+          />
+        </div>
         <h1 className="mb-6 font-display text-2xl tracking-wide text-foreground">
           {question.question}
         </h1>
@@ -57,7 +63,7 @@ export function OnboardingClient() {
               key={option.score}
               type="button"
               onClick={() => answer(option.score)}
-              className="w-full rounded-xl border border-border bg-slate-900/60 px-4 py-3 text-left text-sm text-foreground transition hover:border-accent/60 hover:bg-accent/5"
+              className="btn btn-secondary btn-lg w-full justify-start text-left"
             >
               {option.label}
             </button>
@@ -83,7 +89,7 @@ export function OnboardingClient() {
         type="button"
         onClick={() => void finish()}
         disabled={saving}
-        className="mx-auto mt-8 rounded-xl bg-accent px-8 py-3 font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-50"
+        className="btn btn-accent btn-lg mt-8"
       >
         {saving ? "Menyimpan..." : <>Mulai Belajar <Icon name="rocket" size={16} /></>}
       </button>

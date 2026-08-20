@@ -112,7 +112,7 @@ export default function PlaygroundPage() {
             value={value}
             onChange={(e) => onChange(e.target.value)}
             spellCheck={false}
-            className="h-96 w-full resize-none bg-slate-950 p-3 font-mono text-sm text-emerald-200 outline-none"
+            className="h-96 w-full resize-none bg-input p-3 font-mono text-sm text-emerald-200 outline-none"
           />
         </div>
 

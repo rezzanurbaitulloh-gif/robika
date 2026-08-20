@@ -38,7 +38,7 @@ export function BentoCard({
     <>
       <div className="flex items-start justify-between gap-2">
         <div className="space-y-1">
-          <h3 className="font-display text-xs font-medium uppercase tracking-wide text-foreground sm:text-sm">
+          <h3 className="font-display text-xs uppercase tracking-wide text-foreground sm:text-sm">
             {title}
           </h3>
           {description ? (

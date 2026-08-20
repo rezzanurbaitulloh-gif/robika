@@ -119,7 +119,7 @@ export function ModuleComplete({
             type="button"
             disabled={done || busy || !canComplete}
             onClick={() => void complete()}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:opacity-40 ${
+            className={`btn btn-md ${
               done
                 ? "cursor-default border border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
                 : "bg-accent text-accent-foreground hover:brightness-110"
@@ -142,7 +142,7 @@ export function ModuleComplete({
           {nextHref ? (
             <Link
               href={nextHref}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110"
+              className="btn btn-accent btn-md"
             >
               {nextLabel ?? "Lanjut ke Materi Berikutnya"}
               <Icon name="arrowRight" size={15} />
@@ -155,7 +155,7 @@ export function ModuleComplete({
           {backHref ? (
             <Link
               href={backHref}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-muted-foreground transition hover:border-accent/50 hover:text-foreground"
+              className="btn btn-secondary btn-md"
             >
               <Icon name="book" size={15} />
               {backLabel ?? "Kembali ke Daftar Modul"}

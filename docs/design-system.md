@@ -55,7 +55,9 @@ Semua warna hanya diakses via Tailwind utility (bg-card, text-muted-foreground, 
 | `BentoCard` | `components/design/bento-card.tsx` | Kartu grid: dashboard, world map, shop |
 | `StatusChip` | `components/design/status-chip.tsx` | Status: success/warning/danger/info/neutral + pulse |
 | `SegmentedNav` | `components/design/segmented-nav.tsx` | Navigasi segmented: Materi/Game/CodeLab, ID/EN |
-| *(shadcn)* Button/Card/Badge/Tabs/dll | `components/ui/*` | Blok dasar standar |
+| `AppNav` | `components/nav/app-nav.tsx` | Navigasi app: bottom-nav mobile + nav desktop (active state via pathname) |
+| `Button` | `components/ui/button.tsx` | Blok dasar standar (shadcn/base-ui) |
+| Tombol aksi | kelas `.btn .btn-accent .btn-outline .btn-secondary .btn-sm .btn-md .btn-lg` | Satu-satunya sistem tombol yang dipakai halaman (definisi di `globals.css`) |
 
 ## 6. Micro-interactions
 
@@ -64,22 +66,24 @@ Semua warna hanya diakses via Tailwind utility (bg-card, text-muted-foreground, 
 | Hover card | `glow-box` (box-shadow accent 25%→12%) + transisi 150-300ms |
 | Text penting | `.glow-text` (double text-shadow accent) |
 | Loading | `.blink` (1.2s step-end) — cocok untuk "mengetik..." AI |
-| Status berjalan | `.ticker` (18s linear) untuk ticker XP/news |
-| Overlay scanline | `.scanline::after` (jarang — hanya hero/level game) |
+| Status berhasil | `.animate-pop` (0.35s ease-out) — banner reward level |
+| Error/CRASH | `.animate-shake` (0.25s) — indikasi crash robot |
 | Focus keyboard | Ring accent `outline-ring/50` — wajib terlihat |
 
 ## 7. Anti-pattern
 
-- ❌ Emoji sebagai ikon struktural (pakai Lucide)
-- ❌ Hardcode warna di komponen
+- ❌ Emoji sebagai ikon struktural (pakai Lucide/`Icon`) — avatar default harus ikon robot, bukan emoji
+- ❌ Hardcode warna di komponen (pakai token: `bg-card`, `bg-input`, `bg-muted`)
 - ❌ Animasi tanpa `prefers-reduced-motion` guard
 - ❌ Kontras teks < 4.5:1 (pakai muted-foreground hanya untuk teks sekunder)
 - ❌ Menambah font baru tanpa approval (monospace adalah identitas)
+- ❌ Tombol custom inline (selalu pakai kelas `.btn-*`)
 
 ## 8. Checklist Pre-Delivery
 
 - [ ] Render di 375px, 768px, 1024px, 1440px
 - [ ] Focus states visible untuk keyboard
 - [ ] `cursor-pointer` pada semua elemen klik
-- [ ] Reduced-motion respected (ticker/blink/glow mati)
+- [ ] Reduced-motion respected (blink/glow mati)
 - [ ] Tombol aksi ≥44px hit area
+- [ ] Nav punya active state (`aria-current`)

@@ -40,7 +40,7 @@ export function CertificateClient({
         <button
           type="button"
           onClick={() => window.print()}
-          className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110 print:hidden"
+          className="btn btn-accent btn-md print:hidden"
         >
           Simpan PDF
         </button>

@@ -230,7 +230,7 @@ export function ShopClient() {
                       type="button"
                       disabled={isOwned}
                       onClick={() => void buy(item.id)}
-                      className="rounded-lg border border-accent/50 px-3 py-1 text-xs font-semibold text-accent transition hover:bg-accent/10 disabled:opacity-40"
+                      className="btn btn-outline btn-sm"
                     >
                       {isOwned ? "Dimiliki" : "Beli"}
                     </button>
@@ -268,7 +268,7 @@ export function ShopClient() {
                     type="button"
                     disabled={busy !== null}
                     onClick={() => void checkout(item)}
-                    className="rounded-lg border border-accent/50 px-3 py-1 text-xs font-semibold text-accent transition hover:bg-accent/10 disabled:opacity-40"
+                    className="btn btn-outline btn-sm"
                   >
                     {busy === item.id ? "..." : "Beli"}
                   </button>
@@ -304,7 +304,7 @@ export function ShopClient() {
               type="button"
               disabled={busy !== null || trialEnds !== null}
               onClick={() => void activateTrial()}
-              className="rounded-lg border border-accent/50 px-3 py-1 text-xs font-semibold text-accent transition hover:bg-accent/10 disabled:opacity-40"
+              className="btn btn-outline btn-sm"
             >
               {trialEnds ? "Sudah Aktif" : busy === "trial" ? "..." : "Aktivasi Trial"}
             </button>

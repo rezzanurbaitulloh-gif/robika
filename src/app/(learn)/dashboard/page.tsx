@@ -106,7 +106,7 @@ export default async function DashboardPage() {
 
       <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_320px]">
         <BadgeGrid owned={(achievements ?? []).map((a) => a.badge_id)} />
-        <div className="rounded-xl border border-border bg-slate-900/60 p-4">
+        <div className="rounded-xl border border-border bg-card/60 p-4">
           <h3 className="mb-3 font-display text-sm tracking-wide">STATISTIK</h3>
           <div className="space-y-2 text-sm">
             <div className="flex items-center justify-between">
@@ -123,7 +123,7 @@ export default async function DashboardPage() {
             </div>
             <Link
               href="/certificate"
-              className="mt-3 block rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-center text-sm font-semibold text-accent transition hover:bg-accent/20"
+              className="btn btn-outline btn-md mt-3 w-full"
             >
               Unduh Sertifikat
             </Link>

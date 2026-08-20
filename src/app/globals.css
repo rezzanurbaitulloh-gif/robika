@@ -102,6 +102,40 @@
 
 /* ===== Robika HUD effects (premium sci-fi feel) ===== */
 
+/* ===== Robika button system (satu-satunya sumber tombol) ===== */
+
+.btn {
+  @apply inline-flex shrink-0 select-none items-center justify-center gap-1.5 rounded-lg border border-transparent text-sm font-semibold whitespace-nowrap transition-all duration-150 outline-none disabled:pointer-events-none disabled:opacity-40;
+}
+
+.btn:focus-visible {
+  @apply ring-3 ring-ring/50;
+}
+
+.btn-accent {
+  @apply bg-accent text-accent-foreground hover:brightness-110;
+}
+
+.btn-outline {
+  @apply border-accent/50 text-accent hover:bg-accent/10;
+}
+
+.btn-secondary {
+  @apply border-border text-foreground hover:bg-muted;
+}
+
+.btn-sm {
+  @apply px-3 py-1.5 text-xs;
+}
+
+.btn-md {
+  @apply px-4 py-2;
+}
+
+.btn-lg {
+  @apply px-6 py-3;
+}
+
 .glow-text {
   text-shadow:
     0 0 8px color-mix(in srgb, var(--accent) 60%, transparent),
@@ -112,19 +146,6 @@
   box-shadow:
     0 0 12px color-mix(in srgb, var(--accent) 25%, transparent),
     0 0 32px color-mix(in srgb, var(--accent) 12%, transparent);
-}
-
-.scanline::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 3px,
-    color-mix(in srgb, var(--foreground) 4%, transparent) 4px
-  );
 }
 
 @keyframes robika-blink {
@@ -139,19 +160,6 @@
 
 .blink {
   animation: robika-blink 1.2s step-end infinite;
-}
-
-@keyframes robika-ticker {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.ticker {
-  animation: robika-ticker 18s linear infinite;
 }
 
 @keyframes robika-pop {
@@ -190,7 +198,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker,
   .blink,
   .animate-pop,
   .animate-shake {

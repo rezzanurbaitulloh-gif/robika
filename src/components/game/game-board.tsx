@@ -17,7 +17,7 @@ interface GameBoardProps {
 
 const TILE_STYLE: Record<string, string> = {
   "#": "bg-slate-800 border border-slate-700/60",
-  ".": "bg-slate-950/60",
+  ".": "bg-input/40",
   C: "bg-emerald-400/15 border border-emerald-400/40",
   S: "bg-rose-500/20 border border-rose-500/50",
   G: "bg-emerald-400/40 border border-emerald-300 glow-box",
@@ -137,7 +137,7 @@ export function GameBoard({
           type="button"
           onClick={run}
           disabled={disabled || running}
-          className="rounded-lg bg-accent px-4 py-1.5 text-sm font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-50"
+          className="btn btn-accent btn-md"
         >
           {running ? (
             "Menjalankan..."
@@ -150,7 +150,7 @@ export function GameBoard({
         <button
           type="button"
           onClick={reset}
-          className="rounded-lg border border-border px-4 py-1.5 text-sm transition hover:bg-muted"
+          className="btn btn-secondary btn-md"
         >
           <span className="inline-flex items-center gap-1.5">
             <Icon name="refresh" size={14} /> Reset
@@ -174,7 +174,7 @@ export function GameBoard({
       </div>
 
       <div
-        className="grid w-full gap-[2px] rounded-lg border border-border bg-slate-900/60 p-2"
+        className="grid w-full gap-[2px] rounded-lg border border-border bg-card/60 p-2"
         style={{
           gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
           maxWidth: `${width * 34}px`,

@@ -40,7 +40,7 @@ export default async function ProfilePage() {
         initial={{
           username: profile?.username ?? "",
           displayName: profile?.display_name ?? "",
-          avatarUrl: profile?.avatar_url ?? "🤖",
+          avatarUrl: profile?.avatar_url ?? "",
           skillLevel: (profile?.skill_level ?? "pemula") as
             | "pemula"
             | "menengah"

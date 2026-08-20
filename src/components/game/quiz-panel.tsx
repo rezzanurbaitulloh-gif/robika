@@ -32,7 +32,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
   const answeredAll = answers.length === questions.length;
 
   return (
-    <div className="rounded-xl border border-border bg-slate-900/60 p-4">
+    <div className="rounded-xl border border-border bg-card/60 p-4">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-display text-sm tracking-wide text-foreground">
           <span className="inline-flex items-center gap-1.5">
@@ -102,7 +102,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
             type="button"
             disabled={!answeredAll}
             onClick={() => setSubmitted(true)}
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-40"
+            className="btn btn-accent btn-md disabled:opacity-40"
           >
             {answeredAll ? "Periksa Jawaban" : `Jawab dulu (${answers.length}/${questions.length})`}
           </button>
@@ -111,7 +111,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
             <button
               type="button"
               onClick={retry}
-              className="rounded-lg border border-accent/50 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-accent/10"
+              className="btn btn-outline btn-md"
             >
               Ulangi Kuis
             </button>
@@ -119,7 +119,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
               <button
                 type="button"
                 onClick={onComplete}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110"
+                className="btn btn-accent btn-md"
               >
                 <Icon name="check" size={15} /> Selesaikan
               </button>

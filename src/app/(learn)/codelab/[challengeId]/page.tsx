@@ -123,7 +123,7 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
                 <button
                   type="button"
                   onClick={() => setCode(challenge.starterCode)}
-                  className="rounded-lg border border-border px-3 py-1 text-xs transition hover:bg-muted"
+                  className="btn btn-secondary btn-sm"
                 >
                   <span className="inline-flex items-center gap-1">
                     <Icon name="refresh" size={14} />
@@ -134,7 +134,7 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
                   type="button"
                   onClick={() => void run()}
                   disabled={running}
-                  className="rounded-lg bg-accent px-4 py-1 text-sm font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-50"
+                  className="btn btn-accent btn-md"
                 >
                   {running ? (
                     "Menjalankan..."
@@ -171,7 +171,7 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
               />
             </div>
           ) : (
-            <div className="rounded-xl border border-border bg-slate-950 p-4">
+            <div className="rounded-xl border border-border bg-input p-4">
               <div className="mb-2 font-display text-xs tracking-widest text-muted-foreground">
                 OUTPUT
               </div>
