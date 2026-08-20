@@ -34,3 +34,27 @@ export function errorFixXp(baseXp: number): number {
   }
   return Math.max(5, Math.round(baseXp * 0.1));
 }
+
+export interface LevelProgress {
+  level: number;
+  intoLevel: number;
+  needed: number;
+  remaining: number;
+  percent: number;
+}
+
+export function levelProgress(xp: number): LevelProgress {
+  const level = levelFromXp(xp);
+  const intoLevel = xp - xpForLevel(level);
+  const percent = Math.min(
+    100,
+    Math.round((intoLevel / XP_PER_LEVEL) * 100),
+  );
+  return {
+    level,
+    intoLevel,
+    needed: XP_PER_LEVEL,
+    remaining: Math.max(0, XP_PER_LEVEL - intoLevel),
+    percent,
+  };
+}

@@ -49,9 +49,31 @@ export function CodelabIndex({ done }: { done: string[] }) {
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Latihan singkat JavaScript & Python. Pilih bahasa, selesaikan
-          tantangan, dapatkan XP dan stars.
+          tantangan, dapatkan XP dan stars. Tantangan yang lulus ditandai LULUS
+          — mengulang tidak menambah reward.
         </p>
       </div>
+
+      <Link
+        href="/codelab/studio"
+        className="group mb-6 flex items-center gap-4 rounded-xl border border-accent/40 bg-gradient-to-r from-accent/10 via-card to-card p-4 transition hover:border-accent/70 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]"
+      >
+        <span className="shrink-0 rounded-xl bg-accent/15 p-3 text-accent">
+          <Icon name="code" size={24} />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display text-sm uppercase tracking-wide text-foreground">
+            CodeLab Studio
+          </span>
+          <span className="block text-xs text-muted-foreground">
+            Editor bebas — pilih bahasa (HTML, CSS, JS, Python), hasil tampil
+            live di samping.
+          </span>
+        </span>
+        <span className="shrink-0 text-xs font-semibold text-accent">
+          Buka →
+        </span>
+      </Link>
 
       <div
         role="tablist"

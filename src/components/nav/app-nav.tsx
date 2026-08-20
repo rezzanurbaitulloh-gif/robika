@@ -15,10 +15,11 @@ const MOBILE_NAV: { href: string; label: string; icon: IconName }[] = [
 
 const MORE_ITEMS: { href: string; label: string; icon: IconName }[] = [
   { href: "/codelab", label: "CodeLab", icon: "code" },
-  { href: "/codelab/playground", label: "Playground", icon: "pen" },
+  { href: "/codelab/studio", label: "CodeLab Studio", icon: "pen" },
   { href: "/leaderboard", label: "Leaderboard", icon: "trophy" },
   { href: "/mentor", label: "AI Mentor", icon: "brain" },
   { href: "/shop", label: "Shop", icon: "cart" },
+  { href: "/certificate", label: "Sertifikat", icon: "certificate" },
   { href: "/profile", label: "Profil", icon: "user" },
 ];
 
@@ -27,7 +28,7 @@ const DESKTOP_NAV: { href: string; label: string }[] = [
   { href: "/world/world-1", label: "Kode Quest" },
   { href: "/learn", label: "Belajar" },
   { href: "/codelab", label: "CodeLab" },
-  { href: "/codelab/playground", label: "Playground" },
+  { href: "/codelab/studio", label: "Studio" },
   { href: "/daily", label: "Daily" },
   { href: "/leaderboard", label: "Leaderboard" },
   { href: "/mentor", label: "Mentor" },

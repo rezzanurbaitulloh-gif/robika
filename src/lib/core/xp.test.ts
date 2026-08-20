@@ -5,6 +5,7 @@ import {
   levelFromXp,
   speedBonusXp,
   errorFixXp,
+  levelProgress,
 } from "./xp";
 
 describe("xpForLevel", () => {
@@ -81,5 +82,35 @@ describe("errorFixXp", () => {
 
   it("throws on non-positive base xp", () => {
     expect(() => errorFixXp(0)).toThrow(RangeError);
+  });
+});
+
+describe("levelProgress", () => {
+  it("fresh profile sits at 0% into level 1", () => {
+    const p = levelProgress(0);
+    expect(p.level).toBe(1);
+    expect(p.intoLevel).toBe(0);
+    expect(p.remaining).toBe(XP_PER_LEVEL);
+    expect(p.percent).toBe(0);
+  });
+
+  it("half way through a level reports ~50%", () => {
+    const p = levelProgress(Math.floor(XP_PER_LEVEL / 2));
+    expect(p.level).toBe(1);
+    expect(p.intoLevel).toBe(Math.floor(XP_PER_LEVEL / 2));
+    expect(p.percent).toBeGreaterThanOrEqual(49);
+    expect(p.percent).toBeLessThanOrEqual(51);
+  });
+
+  it("exactly at a boundary resets into the next level", () => {
+    const p = levelProgress(XP_PER_LEVEL);
+    expect(p.level).toBe(2);
+    expect(p.intoLevel).toBe(0);
+    expect(p.percent).toBe(0);
+  });
+
+  it("caps percent at 100 when almost at the boundary", () => {
+    const p = levelProgress(XP_PER_LEVEL * 2 + XP_PER_LEVEL - 1);
+    expect(p.percent).toBe(100);
   });
 });
