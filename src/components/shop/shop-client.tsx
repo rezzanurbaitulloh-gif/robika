@@ -8,37 +8,7 @@ import { BentoCard } from "@/components/design/bento-card";
 import { BackButton } from "@/components/design/back-button";
 import { Icon, type IconName } from "@/components/design/icon";
 import { PAYMENT_ITEMS, type PaymentItem } from "@/lib/payments/packages";
-
-const ITEMS = [
-  {
-    id: "skin-bot-classic",
-    name: "BOT-1 Classic",
-    rarity: "common",
-    priceStars: 500,
-    icon: "robot",
-  },
-  {
-    id: "skin-bot-neon",
-    name: "BOT-1 Neon",
-    rarity: "epic",
-    priceStars: 2500,
-    icon: "bolt",
-  },
-  {
-    id: "skin-bot-gold",
-    name: "BOT-1 Gold",
-    rarity: "legendary",
-    priceGems: 250,
-    icon: "trophy",
-  },
-  {
-    id: "skin-bot-void",
-    name: "BOT-1 Void",
-    rarity: "mythic",
-    priceGems: 600,
-    icon: "moon",
-  },
-] as const;
+import { SKIN_ITEMS, type SkinItem } from "@/lib/shop/catalog";
 
 const RARITY_TONE: Record<string, "neutral" | "info" | "warning" | "success"> = {
   common: "neutral",
@@ -90,6 +60,7 @@ function loadSnap(baseUrl: string): Promise<{ pay: (token: string, handlers: obj
 
 export function ShopClient() {
   const [owned, setOwned] = useState<string[]>([]);
+  const [balance, setBalance] = useState<{ stars: number; gems: number } | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [notice, setNotice] = useState<{ tone: "success" | "error"; text: string } | null>(null);
   const [trialEnds, setTrialEnds] = useState<string | null>(null);
@@ -103,6 +74,12 @@ export function ShopClient() {
       if (!user) return;
       const { data: inv } = await supabase.from("inventory").select("item_id");
       setOwned((inv ?? []).map((r) => r.item_id));
+      const { data: wallet } = await supabase
+        .from("wallets")
+        .select("stars, gems")
+        .eq("profile_id", user.id)
+        .maybeSingle();
+      if (wallet) setBalance({ stars: wallet.stars ?? 0, gems: wallet.gems ?? 0 });
       const { data: sub } = await supabase
         .from("subscriptions")
         .select("trial_ends_at, paid_until")
@@ -112,20 +89,52 @@ export function ShopClient() {
     })();
   }, []);
 
-  const buy = async (itemId: string) => {
-    const supabase = createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const { error } = await supabase
-      .from("inventory")
-      .insert({ profile_id: user.id, item_id: itemId });
-    if (!error) {
-      setOwned((prev) => [...prev, itemId]);
+  const buy = async (item: SkinItem) => {
+    if (busy) return;
+    setBusy(item.id);
+    setNotice(null);
+    try {
+      const response = await fetch("/api/shop/buy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ item_id: item.id }),
+      });
+      const data = (await response.json()) as { error?: string; balance?: number };
+      if (!response.ok) {
+        if (response.status === 402) {
+          setNotice({
+            tone: "error",
+            text: `Saldo tidak cukup — butuh ${data.balance}${item.priceStars !== undefined ? " stars" : " gems"}.`,
+          });
+        } else if (data.error === "already_owned") {
+          setNotice({ tone: "error", text: "Skin ini sudah kamu miliki." });
+        } else {
+          setNotice({
+            tone: "error",
+            text: `Gagal membeli: ${data.error ?? "unknown"}`,
+          });
+        }
+        return;
+      }
+      setOwned((prev) => [...prev, item.id]);
+      setBalance((prev) =>
+        prev
+          ? item.priceStars !== undefined
+            ? { ...prev, stars: prev.stars - (item.priceStars ?? 0) }
+            : { ...prev, gems: prev.gems - (item.priceGems ?? 0) }
+          : prev,
+      );
+      setNotice({ tone: "success", text: `${item.name} dibeli!` });
+    } finally {
+      setBusy(null);
     }
   };
+
+  const canAfford = (item: SkinItem) =>
+    balance === null ||
+    (item.priceStars !== undefined
+      ? balance.stars >= item.priceStars
+      : balance.gems >= (item.priceGems ?? 0));
 
   const checkout = async (item: PaymentItem) => {
     if (busy) return;
@@ -168,7 +177,13 @@ export function ShopClient() {
       const response = await fetch("/api/payments/trial", { method: "POST" });
       const data = (await response.json()) as { trial_ends_at?: string; error?: string };
       if (!response.ok) {
-        setNotice({ tone: "error", text: `Trial gagal: ${data.error ?? "unknown"}` });
+        if (data.error === "trial_used") {
+          setNotice({ tone: "error", text: "Trial sudah pernah digunakan — maksimal satu kali per akun." });
+        } else if (data.error === "already_paid") {
+          setNotice({ tone: "success", text: "Langganan kamu sudah aktif — tidak perlu trial." });
+        } else {
+          setNotice({ tone: "error", text: `Trial gagal: ${data.error ?? "unknown"}` });
+        }
         return;
       }
       setTrialEnds(data.trial_ends_at ?? null);
@@ -184,9 +199,21 @@ export function ShopClient() {
         <BackButton fallbackHref="/dashboard" />
       </div>
       <div className="mb-8">
-        <h1 className="font-display text-3xl tracking-wide text-foreground">
-          SHOP KOSMETIK
-        </h1>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h1 className="font-display text-3xl tracking-wide text-foreground">
+            SHOP KOSMETIK
+          </h1>
+          {balance && (
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
+                <Icon name="star" size={14} /> {balance.stars}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia-400/40 bg-fuchsia-400/10 px-3 py-1 text-xs font-semibold text-fuchsia-300">
+                <Icon name="gem" size={14} /> {balance.gems}
+              </span>
+            </div>
+          )}
+        </div>
         <p className="mt-1 text-sm text-muted-foreground">
           Bintang dari belajar, gem dari top-up. Murni kosmetik — tidak ada
           pay-to-win.
@@ -210,9 +237,10 @@ export function ShopClient() {
           SKIN BOT-1
         </h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {ITEMS.map((item) => {
+          {SKIN_ITEMS.map((item) => {
             const isOwned = owned.includes(item.id);
             const rarity = RARITY_TONE[item.rarity];
+            const afford = canAfford(item);
             return (
               <BentoCard
                 key={item.id}
@@ -220,19 +248,25 @@ export function ShopClient() {
                 description={`Rarity: ${item.rarity}`}
                 icon={<Icon name={item.icon as IconName} size={22} />}
                 footer={
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="font-display text-lg text-accent">
-                      {"priceStars" in item
+                      {item.priceStars !== undefined
                         ? `${item.priceStars} stars`
                         : `${item.priceGems} gems`}
                     </span>
                     <button
                       type="button"
-                      disabled={isOwned}
-                      onClick={() => void buy(item.id)}
+                      disabled={isOwned || busy !== null || !afford}
+                      onClick={() => void buy(item)}
                       className="btn btn-outline btn-sm"
                     >
-                      {isOwned ? "Dimiliki" : "Beli"}
+                      {isOwned
+                        ? "Dimiliki"
+                        : busy === item.id
+                          ? "..."
+                          : afford
+                            ? "Beli"
+                            : "Saldo kurang"}
                     </button>
                   </div>
                 }
@@ -260,7 +294,7 @@ export function ShopClient() {
               description={item.description}
               icon={<Icon name={(TOPUP_ICON[item.id] ?? "cart") as IconName} size={22} />}
               footer={
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-display text-lg text-accent">
                     {formatPrice(item.price)}
                   </span>

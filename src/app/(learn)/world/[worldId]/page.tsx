@@ -44,7 +44,7 @@ export default async function WorldPage({
               }
               className="h-full transition hover:border-accent/60 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]"
               footer={
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
                   <span className="text-xs text-muted-foreground">
                     {level.goal.type === "collect"
                       ? `Kumpulkan ${level.goal.target}`

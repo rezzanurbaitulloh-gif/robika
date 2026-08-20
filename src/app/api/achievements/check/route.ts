@@ -13,7 +13,7 @@ export async function POST() {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const [{ data: progress }, { data: profile }, { data: wallet }, { data: owned }] =
+  const [{ data: progress }, { data: profile }, { data: wallet }, { data: owned }, { data: codelabDone }] =
     await Promise.all([
       supabase
         .from("progress")
@@ -30,6 +30,11 @@ export async function POST() {
         .eq("profile_id", user.id)
         .maybeSingle<{ gems: number }>(),
       supabase.from("achievements").select("badge_id").eq("profile_id", user.id),
+      supabase
+        .from("codelab_progress")
+        .select("challenge_id")
+        .eq("profile_id", user.id)
+        .limit(1),
     ]);
 
   const { data: subscription } = await supabase
@@ -62,7 +67,7 @@ export async function POST() {
       streak: profile?.streak ?? 0,
       level: profile?.level ?? 1,
       xp: profile?.xp ?? 0,
-      codelabDone: false,
+      codelabDone: (codelabDone ?? []).length > 0,
       trialActive,
       gems: wallet?.gems ?? 0,
     },

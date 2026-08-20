@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { notFound } from "next/navigation";
 import { challenges } from "@/content/codelab";
 import { checkOutput } from "@/lib/codelab/check";
@@ -36,6 +36,43 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
   const [error, setError] = useState<string | undefined>();
   const [passed, setPassed] = useState<boolean | null>(null);
   const [running, setRunning] = useState(false);
+  const [reward, setReward] = useState<{
+    xp: number;
+    stars: number;
+    leveledUp: boolean;
+    level: number;
+    earned: string[];
+  } | null>(null);
+  const claimedRef = useRef(false);
+
+  const claimReward = async () => {
+    if (claimedRef.current) return;
+    claimedRef.current = true;
+    try {
+      const response = await fetch("/api/codelab/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ challenge_id: challenge.id }),
+      });
+      if (!response.ok) return;
+      const data = (await response.json()) as {
+        xp: number;
+        stars: number;
+        leveled_up: boolean;
+        level: number;
+        earned: string[];
+      };
+      setReward({
+        xp: data.xp,
+        stars: data.stars,
+        leveledUp: data.leveled_up,
+        level: data.level,
+        earned: data.earned,
+      });
+    } catch {
+      claimedRef.current = false;
+    }
+  };
 
   const run = async () => {
     setRunning(true);
@@ -54,6 +91,9 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
         mode: challenge.mode,
       });
       setPassed(check.passed);
+      if (check.passed) {
+        void claimReward();
+      }
     } else {
       setPassed(false);
     }
@@ -154,6 +194,31 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
               language={challenge.lang}
             />
           </div>
+
+          {reward && (
+            <div className="animate-pop rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
+              <span className="font-semibold">Tantangan selesai!</span> +{reward.xp} XP ·{" "}
+              {reward.stars} stars
+              {reward.leveledUp && (
+                <span className="ml-2">
+                  <StatusChip status="warning" label={`NAIK LEVEL ${reward.level}!`} />
+                </span>
+              )}
+              {reward.earned.length > 0 && (
+                <span className="mt-1 block text-xs">
+                  Badge baru:{" "}
+                  {reward.earned.map((id) => (
+                    <span
+                      key={id}
+                      className="mr-1 inline-block rounded bg-amber-400/20 px-1.5 py-0.5"
+                    >
+                      {id}
+                    </span>
+                  ))}
+                </span>
+              )}
+            </div>
+          )}
 
           {previewHtml ? (
             <div className="overflow-hidden rounded-xl border border-border">

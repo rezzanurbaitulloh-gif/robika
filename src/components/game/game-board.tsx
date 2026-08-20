@@ -177,7 +177,7 @@ export function GameBoard({
         className="grid w-full gap-[2px] rounded-lg border border-border bg-card/60 p-2"
         style={{
           gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
-          maxWidth: `${width * 34}px`,
+          maxWidth: `min(${width * 34}px, 100%)`,
         }}
       >
         {level.grid.map((row, y) =>

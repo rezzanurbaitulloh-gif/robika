@@ -1,8 +1,9 @@
 import { createServerSupabase } from "@/lib/db/server";
 import { getLevel, getWorld } from "@/content";
 import { applyLevelUp, computeCompletionRewards } from "@/lib/game/rewards";
-import { errorRecoveryBonus } from "@/lib/game/stars";
+import { errorRecoveryBonus, starsForHints } from "@/lib/game/stars";
 import { updateStreak } from "@/lib/game/streak";
+import { parseProgram, simulate } from "@/lib/game/simulator";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,7 +14,11 @@ interface CompleteBody {
   hints_used?: number;
   elapsed_ms?: number;
   error_recovered?: boolean;
+  code?: string;
 }
+
+const MIN_ELAPSED_MS = 1_500;
+const COOLDOWN_MS = 8_000;
 
 export async function POST(request: Request) {
   let body: CompleteBody;
@@ -24,8 +29,8 @@ export async function POST(request: Request) {
   }
 
   const levelId = body.level_id ?? "";
-  const stars = body.stars ?? 0;
-  if (stars < 1 || stars > 3) {
+  const clientStars = body.stars ?? 0;
+  if (clientStars < 1 || clientStars > 3) {
     return Response.json({ error: "invalid_stars" }, { status: 400 });
   }
 
@@ -39,6 +44,21 @@ export async function POST(request: Request) {
   }
   const levelIndex = world.levels.findIndex((l) => l.id === level.id);
 
+  const hintsUsed = Math.max(0, Math.min(3, body.hints_used ?? 0));
+
+  if (!body.code) {
+    return Response.json({ error: "solution_missing" }, { status: 400 });
+  }
+  const simulation = simulate(level, parseProgram(body.code));
+  if (!simulation.won) {
+    return Response.json({ error: "solution_invalid" }, { status: 400 });
+  }
+
+  const elapsedMs = body.elapsed_ms ?? 0;
+  if (elapsedMs < MIN_ELAPSED_MS) {
+    return Response.json({ error: "suspicious_timing" }, { status: 400 });
+  }
+
   const supabase = await createServerSupabase();
   const {
     data: { user },
@@ -49,22 +69,31 @@ export async function POST(request: Request) {
 
   const { data: existing } = await supabase
     .from("progress")
-    .select("stars, best_score")
+    .select("stars, best_score, completed_at")
     .eq("profile_id", user.id)
     .eq("level_id", levelId)
-    .maybeSingle<{ stars: number; best_score: number }>();
+    .maybeSingle<{ stars: number; best_score: number; completed_at: string | null }>();
+
+  if (
+    existing?.completed_at &&
+    Date.now() - new Date(existing.completed_at).getTime() < COOLDOWN_MS
+  ) {
+    return Response.json({ error: "too_fast" }, { status: 429 });
+  }
+
+  const stars = starsForHints(hintsUsed);
 
   const rewards = computeCompletionRewards({
     levelIndex,
     stars,
     existingStars: existing?.stars ?? 0,
     isFirstCompletion: !existing,
-    elapsedMs: body.elapsed_ms ?? 0,
+    elapsedMs,
     parMs: level.parMs ?? 300_000,
     baseXp: level.xpReward,
     errorRecoveryXp: errorRecoveryBonus(
       body.error_recovered === true,
-      body.hints_used ?? 0,
+      hintsUsed,
     ),
   });
 
@@ -73,7 +102,8 @@ export async function POST(request: Request) {
       profile_id: user.id,
       level_id: levelId,
       stars,
-      best_score: Math.max(0, body.hints_used ?? 0),
+      best_score: hintsUsed,
+      completed_at: new Date().toISOString(),
     });
     if (error) {
       return Response.json({ error: "progress_failed" }, { status: 500 });
@@ -85,7 +115,7 @@ export async function POST(request: Request) {
         stars: Math.max(existing.stars, stars),
         best_score: Math.min(
           existing.best_score > 0 ? existing.best_score : Number.MAX_SAFE_INTEGER,
-          body.hints_used ?? 0,
+          hintsUsed,
         ),
         completed_at: new Date().toISOString(),
       })

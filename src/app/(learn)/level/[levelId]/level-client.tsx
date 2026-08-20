@@ -7,6 +7,7 @@ import { HintPanel } from "@/components/game/hint-panel";
 import { QuizPanel } from "@/components/game/quiz-panel";
 import { BossPanel } from "@/components/game/boss-panel";
 import { CodeEditor } from "@/components/codelab/code-editor";
+import { AiChat } from "@/components/ai/ai-chat";
 import { parseCommands, type SimulationResult } from "@/lib/game/simulator";
 import { starsForHints } from "@/lib/game/stars";
 import { StatusChip } from "@/components/design/status-chip";
@@ -14,12 +15,13 @@ import { Icon, type IconName } from "@/components/design/icon";
 import { BackButton } from "@/components/design/back-button";
 import type { GameLevel } from "@/lib/game/validate";
 
-type Tab = "materi" | "kuis" | "game";
+type Tab = "materi" | "kuis" | "game" | "ai";
 
 const TABS: { id: Tab; label: string; icon: IconName }[] = [
   { id: "materi", label: "Materi", icon: "book" },
   { id: "kuis", label: "Kuis", icon: "target" },
   { id: "game", label: "Game", icon: "gamepad" },
+  { id: "ai", label: "AI", icon: "robot" },
 ];
 
 export function LevelClient({
@@ -70,6 +72,7 @@ export function LevelClient({
           hints_used: hintsUsed,
           elapsed_ms: Math.round(elapsedMs),
           error_recovered: hadError,
+          code,
         }),
       });
       if (response.ok) {
@@ -165,6 +168,16 @@ export function LevelClient({
 
       {tab === "kuis" && level.quiz && <QuizPanel questions={level.quiz.questions} />}
 
+      {tab === "ai" && (
+        <div className="h-[560px]">
+          <AiChat
+            mode="tutor"
+            context={{ topic: level.concept, level: level.title.id, code }}
+            placeholder="Buntu di level ini? Tanya — AI memandu dengan petunjuk bertahap, bukan jawaban instan."
+          />
+        </div>
+      )}
+
       {tab === "game" && (
         <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <div className="space-y-6">
@@ -255,9 +268,13 @@ export function LevelClient({
             />
 
             <div className="rounded-xl border border-border bg-card/60 p-4">
-              <h3 className="mb-2 font-display text-sm tracking-wide">AI TUTOR</h3>
+              <h3 className="mb-2 flex items-center gap-1.5 font-display text-sm tracking-wide">
+                <Icon name="robot" size={15} />
+                AI TUTOR
+              </h3>
               <p className="text-xs text-muted-foreground">
-                Butuh petunjuk? Buka AI Tutor lewat menu bawah — bebas 20×/hari.
+                Butuh petunjuk? Buka tab <span className="font-semibold text-foreground">AI</span> di
+                atas — gratis 20×/hari.
               </p>
             </div>
           </div>
