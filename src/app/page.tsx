@@ -121,7 +121,7 @@ export default function LandingPage() {
           <h2 className="mb-8 text-center font-display text-2xl tracking-wide text-foreground">
             KENAPA ROBIKA ADA?
           </h2>
-          <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
+          <div className="mx-auto grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-2">
             <BentoCard
               title="Coding bukan untuk segelintir orang"
               description="Setiap anak — apa pun latar belakangnya — berhak belajar pemrograman dengan cara yang menyenangkan, tanpa biaya."
@@ -149,7 +149,7 @@ export default function LandingPage() {
           <h2 className="mb-8 text-center font-display text-2xl tracking-wide text-foreground">
             APA YANG KAMU DAPATKAN
           </h2>
-          <div className="mx-auto max-w-4xl space-y-3">
+          <div className="mx-auto grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-2">
             {[
               {
                 icon: <Icon name="book" size={16} />,
@@ -186,6 +186,7 @@ export default function LandingPage() {
                 key={item.title}
                 title={item.title}
                 description={item.desc}
+                descriptionClassName="hidden sm:block"
                 icon={item.icon}
                 className="items-start"
               />
@@ -197,14 +198,17 @@ export default function LandingPage() {
           <h2 className="mb-8 text-center font-display text-2xl tracking-wide text-foreground">
             SATU PLATFORM, SEMUA YANG KAMU BUTUHKAN
           </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((feature) => (
               <BentoCard
                 key={feature.title}
                 title={feature.title}
                 description={feature.description}
+                descriptionClassName="hidden sm:block"
                 icon={feature.icon}
-                className={feature.span === 2 ? "lg:col-span-2" : undefined}
+                className={
+                  feature.span === 2 ? "col-span-2 lg:col-span-2" : undefined
+                }
               />
             ))}
           </div>

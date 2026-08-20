@@ -31,7 +31,7 @@ export default async function CurriculumStackPage({
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {stack.modules.map((mod, index) => (
           <Link
             key={mod.id}
@@ -41,10 +41,10 @@ export default async function CurriculumStackPage({
             <BentoCard
               title={`${index + 1}. ${mod.title}`}
               description={`±${mod.minutes} menit · ${mod.topics.length} topik + kuis`}
-              icon={<Icon name="book" size={22} />}
-              className="h-full transition hover:border-accent/60"
+              icon={<Icon name="book" size={18} />}
+              className="h-full gap-2 transition hover:border-accent/60 sm:gap-3"
               footer={
-                <span className="text-xs font-semibold text-accent">
+                <span className="text-[11px] font-semibold text-accent sm:text-xs">
                   Baca materi →
                 </span>
               }

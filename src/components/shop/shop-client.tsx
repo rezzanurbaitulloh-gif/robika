@@ -209,7 +209,7 @@ export function ShopClient() {
         <h2 className="mb-4 font-display text-xl tracking-wide text-foreground">
           SKIN BOT-1
         </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {ITEMS.map((item) => {
             const isOwned = owned.includes(item.id);
             const rarity = RARITY_TONE[item.rarity];
@@ -252,7 +252,7 @@ export function ShopClient() {
           Mode uji coba — pakai kartu tes Midtrans: 4811 1111 1111 1114, CVV
           apa pun, exp. bulan depan, OTP 112233.
         </p>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {PAYMENT_ITEMS.map((item) => (
             <BentoCard
               key={item.id}

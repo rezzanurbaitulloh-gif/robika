@@ -19,16 +19,17 @@ export default function LearnPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {CURRICULUM_STACKS.map((stack) => (
           <Link key={stack.id} href={`/learn/${stack.id}`} className="h-full">
             <BentoCard
               title={stack.name}
               description={stack.description}
-              icon={<Icon name={stack.icon} size={22} />}
-              className="h-full transition hover:border-accent/60 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]"
+              descriptionClassName="hidden sm:block"
+              icon={<Icon name={stack.icon} size={18} />}
+              className="h-full gap-2 transition hover:border-accent/60 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] sm:gap-3"
               footer={
-                <span className="text-xs font-semibold text-accent">
+                <span className="text-[11px] font-semibold text-accent sm:text-xs">
                   {stack.modules.length} modul · Mulai →
                 </span>
               }

@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 export interface BentoCardProps {
   title: string;
   description?: string;
+  descriptionClassName?: string;
   icon?: ReactNode;
   children?: ReactNode;
   footer?: ReactNode;
@@ -16,6 +17,7 @@ export interface BentoCardProps {
 export function BentoCard({
   title,
   description,
+  descriptionClassName,
   icon,
   children,
   footer,
@@ -25,8 +27,9 @@ export function BentoCard({
   "data-testid": dataTestId,
 }: BentoCardProps) {
   const classes = cn(
-    "group relative flex flex-col gap-3 rounded-xl border border-border bg-card p-5",
+    "group relative flex flex-col gap-2.5 rounded-xl border border-border bg-card p-4",
     "transition-all duration-200 hover:border-accent/50",
+    "sm:gap-3 sm:p-5",
     interactive && "glow-box cursor-pointer",
     className,
   );
@@ -34,16 +37,23 @@ export function BentoCard({
   const content = (
     <>
       <div className="flex items-start justify-between gap-2">
-        <div className="space-y-1.5">
-          <h3 className="font-display text-sm font-medium uppercase tracking-wide text-foreground">
+        <div className="space-y-1">
+          <h3 className="font-display text-xs font-medium uppercase tracking-wide text-foreground sm:text-sm">
             {title}
           </h3>
           {description ? (
-            <p className="text-sm text-muted-foreground">{description}</p>
+            <p
+              className={cn(
+                "text-xs leading-relaxed text-muted-foreground sm:text-sm",
+                descriptionClassName,
+              )}
+            >
+              {description}
+            </p>
           ) : null}
         </div>
         {icon ? (
-          <span className="shrink-0 rounded-lg bg-accent/10 p-2 text-accent">
+          <span className="shrink-0 rounded-lg bg-accent/10 p-1.5 text-accent sm:p-2">
             {icon}
           </span>
         ) : null}
