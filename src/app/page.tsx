@@ -57,11 +57,20 @@ export default function LandingPage() {
             </span>
           </Link>
           <nav className="flex items-center gap-4 text-sm text-muted-foreground">
+            <Link href="/#tujuan" className="hidden hover:text-foreground sm:inline">
+              Tujuan
+            </Link>
+            <Link href="/#manfaat" className="hidden hover:text-foreground sm:inline">
+              Manfaat
+            </Link>
             <Link href="/#fitur" className="hidden hover:text-foreground sm:inline">
               Fitur
             </Link>
             <Link href="/#pricing" className="hidden hover:text-foreground sm:inline">
               Harga
+            </Link>
+            <Link href="/#faq" className="hidden hover:text-foreground sm:inline">
+              FAQ
             </Link>
             <Link
               href="/login"
@@ -108,6 +117,82 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <section id="tujuan" className="pb-20">
+          <h2 className="mb-8 text-center font-display text-2xl tracking-wide text-foreground">
+            KENAPA ROBIKA ADA?
+          </h2>
+          <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
+            <BentoCard
+              title="Coding bukan untuk segelintir orang"
+              description="Setiap anak — apa pun latar belakangnya — berhak belajar pemrograman dengan cara yang menyenangkan, tanpa biaya."
+              icon={<Icon name="sparkles" size={16} />}
+            />
+            <BentoCard
+              title="Belajar sambil bermain, bukan menghafal"
+              description="Game 2D, tantangan interaktif, dan reward bintang membuat konsep sulit terasa seperti petualangan, bukan pelajaran."
+              icon={<Icon name="gamepad" size={16} />}
+            />
+            <BentoCard
+              title="Praktik langsung sejak menit pertama"
+              description="CodeLab memberi editor nyata di browser: tulis kode, lihat hasilnya, ulangi sampai paham. Tidak ada teori tanpa praktik."
+              icon={<Icon name="bolt" size={16} />}
+            />
+            <BentoCard
+              title="Gratis selamanya, tanpa kompromi"
+              description="Tanpa iklan, tanpa paywall materi, tanpa mengorbankan kualitas. AI Tutor dan kurikulum lengkap tersedia untuk semua."
+              icon={<Icon name="shield" size={16} />}
+            />
+          </div>
+        </section>
+
+        <section id="manfaat" className="pb-20">
+          <h2 className="mb-8 text-center font-display text-2xl tracking-wide text-foreground">
+            APA YANG KAMU DAPATKAN
+          </h2>
+          <div className="mx-auto max-w-4xl space-y-3">
+            {[
+              {
+                icon: <Icon name="book" size={16} />,
+                title: "Kurikulum 9 bahasa pemrograman",
+                desc: "HTML & CSS, JavaScript, TypeScript, Python, SQL, Java, PHP, Go, dan C++ — dari dasar sampai mahir, bertahap dan terstruktur.",
+              },
+              {
+                icon: <Icon name="trophy" size={16} />,
+                title: "Game Kode Quest",
+                desc: "Terapkan logika coding untuk menyelesaikan level game 2D — bukti nyata bahwa kamu memahami materinya.",
+              },
+              {
+                icon: <Icon name="robot" size={16} />,
+                title: "AI Tutor yang tidak memanjakan",
+                desc: "Saat buntu, AI memandu dengan hint bertingkat — bukan jawaban instan. Kamu yang menemukan solusinya.",
+              },
+              {
+                icon: <Icon name="brain" size={16} />,
+                title: "AI Mentor pribadi",
+                desc: "Butuh penjelasan mendalam atau proyek besar? Mentor AI menemani belajar 1-on-1, gratis 1 minggu percobaan.",
+              },
+              {
+                icon: <Icon name="star" size={16} />,
+                title: "Reward yang memotivasi",
+                desc: "Kumpulkan bintang dan XP dari belajar, selesaikan misi harian, dan bangun streak belajar yang konsisten.",
+              },
+              {
+                icon: <Icon name="certificate" size={16} />,
+                title: "Sertifikat pencapaian",
+                desc: "Selesaikan kurikulum dan dapatkan sertifikat yang bisa ditampilkan sebagai bukti keterampilanmu.",
+              },
+            ].map((item) => (
+              <BentoCard
+                key={item.title}
+                title={item.title}
+                description={item.desc}
+                icon={item.icon}
+                className="items-start"
+              />
+            ))}
+          </div>
+        </section>
+
         <section id="fitur" className="pb-20">
           <h2 className="mb-8 text-center font-display text-2xl tracking-wide text-foreground">
             SATU PLATFORM, SEMUA YANG KAMU BUTUHKAN
@@ -150,6 +235,56 @@ export default function LandingPage() {
                 </span>
               }
             />
+          </div>
+        </section>
+      <section id="faq" className="pb-20">
+          <h2 className="mb-8 text-center font-display text-2xl tracking-wide text-foreground">
+            PERTANYAAN YANG SERING DITANYAKAN
+          </h2>
+          <div className="mx-auto max-w-3xl space-y-3">
+            {[
+              {
+                q: "Benarkah Robika gratis selamanya?",
+                a: "Ya. Semua kurikulum, Kode Quest, CodeLab, dan AI Tutor gratis selamanya tanpa iklan dan tanpa paywall. Satu-satunya fitur berbayar adalah AI Mentor (Rp10rb/bulan) dengan trial gratis 1 minggu — dan kamu bisa berhenti kapan saja.",
+              },
+              {
+                q: "Apakah saya harus bisa coding dulu?",
+                a: "Tidak. Robika dirancang untuk pemula total: setiap bahasa dimulai dari nol dengan materi bertahap, latihan langsung, dan AI Tutor yang memandu tanpa memberi jawaban instan.",
+              },
+              {
+                q: "Untuk usia berapa Robika cocok?",
+                a: "Robika cocok untuk pelajar SMP/SMA ke atas dan siapa pun yang ingin mulai coding. Materi disusun sederhana dan menyenangkan, namun cukup dalam untuk membangun fondasi yang serius.",
+              },
+              {
+                q: "Bahasa pemrograman apa saja yang diajarkan?",
+                a: "Saat ini 9 bahasa: HTML & CSS, JavaScript, TypeScript, Python, SQL, Java, PHP, Go, dan C++. Setiap bahasa punya kurikulum lengkap dengan topik mendalam, contoh kode, dan kuis.",
+              },
+              {
+                q: "Apakah bisa diakses dari HP?",
+                a: "Bisa. Robika adalah aplikasi web yang dioptimalkan untuk layar ponsel dan bisa dipasang sebagai aplikasi (PWA) — jalankan offline untuk materi yang sudah dimuat.",
+              },
+              {
+                q: "Bagaimana cara saya mendapat bantuan saat buntu?",
+                a: "Gunakan AI Tutor yang memberi hint bertingkat, tanyakan ke AI Mentor (setelah aktivasi trial), atau ulangi materi modul — kunci belajar coding adalah mencoba dan memperbaiki sendiri.",
+              },
+            ].map((item) => (
+              <details
+                key={item.q}
+                className="group rounded-xl border border-border bg-background px-5 py-4 transition hover:border-accent/40"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-foreground [&::-webkit-details-marker]:hidden">
+                  {item.q}
+                  <Icon
+                    name="chevronRight"
+                    size={14}
+                    className="shrink-0 transition group-open:rotate-90"
+                  />
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {item.a}
+                </p>
+              </details>
+            ))}
           </div>
         </section>
       </main>
