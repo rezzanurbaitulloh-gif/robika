@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getWorld } from "@/content";
 import { StatusChip } from "@/components/design/status-chip";
 import { BentoCard } from "@/components/design/bento-card";
+import { BackButton } from "@/components/design/back-button";
 
 export default async function WorldPage({
   params,
@@ -15,6 +16,9 @@ export default async function WorldPage({
 
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+      <div className="mb-2">
+        <BackButton fallbackHref="/dashboard" />
+      </div>
       <div className="mb-8">
         <h1 className="font-display text-3xl tracking-wide text-foreground">
           {world.name.id.toUpperCase()}

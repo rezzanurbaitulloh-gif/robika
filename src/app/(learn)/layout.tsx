@@ -5,9 +5,9 @@ import { LogoutButton } from "@/components/auth/logout-button";
 const MOBILE_NAV = [
   { href: "/dashboard", label: "Home", icon: "🏠" },
   { href: "/world/world-1", label: "Quest", icon: "🎮" },
+  { href: "/learn", label: "Belajar", icon: "📚" },
   { href: "/daily", label: "Daily", icon: "⚡" },
-  { href: "/leaderboard", label: "Papan", icon: "🏆" },
-  { href: "/shop", label: "Shop", icon: "🛒" },
+  { href: "/profile", label: "Profil", icon: "👤" },
 ];
 
 export default function LearnLayout({ children }: { children: ReactNode }) {
@@ -29,6 +29,9 @@ export default function LearnLayout({ children }: { children: ReactNode }) {
             <Link href="/world/world-1" className="hover:text-foreground">
               Kode Quest
             </Link>
+            <Link href="/learn" className="hover:text-foreground">
+              Belajar
+            </Link>
             <Link href="/codelab/codelab-hello" className="hover:text-foreground">
               CodeLab
             </Link>
@@ -48,7 +51,17 @@ export default function LearnLayout({ children }: { children: ReactNode }) {
               Shop
             </Link>
           </nav>
-          <LogoutButton />
+          <div className="flex items-center gap-2">
+            <Link
+              href="/profile"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-slate-950 text-lg transition hover:border-accent"
+              aria-label="Buka profil"
+              title="Profil"
+            >
+              👤
+            </Link>
+            <LogoutButton />
+          </div>
         </div>
       </header>
       <div className="flex flex-1 flex-col pb-16 md:pb-0">{children}</div>

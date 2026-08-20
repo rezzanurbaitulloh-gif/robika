@@ -10,6 +10,7 @@ import { CodeEditor } from "@/components/codelab/code-editor";
 import { parseCommands, type SimulationResult } from "@/lib/game/simulator";
 import { starsForHints } from "@/lib/game/stars";
 import { StatusChip } from "@/components/design/status-chip";
+import { BackButton } from "@/components/design/back-button";
 import type { GameLevel } from "@/lib/game/validate";
 
 type Tab = "materi" | "kuis" | "game";
@@ -20,7 +21,15 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "game", label: "🕹️ Game" },
 ];
 
-export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDaily?: boolean }) {
+export function LevelClient({
+  level,
+  isDaily = false,
+  nextLevelId = null,
+}: {
+  level: GameLevel;
+  isDaily?: boolean;
+  nextLevelId?: string | null;
+}) {
   const [tab, setTab] = useState<Tab>("materi");
   const [code, setCode] = useState(level.starterCode);
   const [result, setResult] = useState<SimulationResult | null>(null);
@@ -92,12 +101,7 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-8">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0">
-          <Link
-            href="/world/world-1"
-            className="text-xs text-muted-foreground hover:text-foreground"
-          >
-            ← Kembali ke peta dunia
-          </Link>
+          <BackButton fallbackHref={`/world/${level.world}`} />
           <h1 className="font-display text-xl tracking-wide text-foreground sm:text-2xl">
             {level.title.id}
           </h1>
@@ -214,6 +218,24 @@ export function LevelClient({ level, isDaily = false }: { level: GameLevel; isDa
                         {id}
                       </span>
                     ))}
+                  </span>
+                )}
+                {!isDaily && (
+                  <span className="mt-3 flex flex-wrap gap-2">
+                    {nextLevelId && (
+                      <Link
+                        href={`/level/${nextLevelId}`}
+                        className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110"
+                      >
+                        Level berikutnya →
+                      </Link>
+                    )}
+                    <Link
+                      href={`/world/${level.world}`}
+                      className="rounded-lg border border-accent/50 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-accent/10"
+                    >
+                      Kembali ke peta
+                    </Link>
                   </span>
                 )}
               </div>

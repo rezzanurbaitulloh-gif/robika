@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { challenges } from "@/content/codelab";
 import { checkOutput } from "@/lib/codelab/check";
@@ -9,6 +8,7 @@ import { runChallenge } from "@/lib/codelab/runner";
 import { CodeEditor } from "@/components/codelab/code-editor";
 import { HintPanel } from "@/components/game/hint-panel";
 import { StatusChip } from "@/components/design/status-chip";
+import { BackButton } from "@/components/design/back-button";
 
 export default function ChallengePage({
   params,
@@ -66,12 +66,7 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
       <div className="mb-6">
-        <Link
-          href="/dashboard"
-          className="text-xs text-muted-foreground hover:text-foreground"
-        >
-          ← Kembali
-        </Link>
+        <BackButton fallbackHref="/dashboard" />
         <div className="mt-1 flex flex-wrap items-center justify-between gap-2">
           <h1 className="font-display text-2xl tracking-wide text-foreground">
             {challenge.title.id}

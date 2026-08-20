@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { BackButton } from "@/components/design/back-button";
 
 interface CertificateClientProps {
   username: string;
@@ -29,9 +29,7 @@ export function CertificateClient({
     <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-8">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <Link href="/dashboard" className="text-xs text-muted-foreground hover:text-foreground">
-            ← Dashboard
-          </Link>
+          <BackButton fallbackHref="/dashboard" />
           <h1 className="font-display text-2xl tracking-wide text-foreground">🎓 SERTIFIKAT</h1>
         </div>
         <button

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/db/server";
+import { BackButton } from "@/components/design/back-button";
 
 export const dynamic = "force-dynamic";
 
@@ -30,9 +31,7 @@ export default async function LeaderboardPage() {
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <div>
-          <Link href="/dashboard" className="text-xs text-muted-foreground hover:text-foreground">
-            ← Dashboard
-          </Link>
+          <BackButton fallbackHref="/dashboard" />
           <h1 className="font-display text-2xl tracking-wide text-foreground">
             🏆 LEADERBOARD
           </h1>

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { worlds } from "@/content";
 import { dailyLevelId, dailyEndsAt } from "@/lib/game/daily";
 import { createServerSupabase } from "@/lib/db/server";
+import { BackButton } from "@/components/design/back-button";
 
 export const dynamic = "force-dynamic";
 
@@ -29,9 +30,7 @@ export default async function DailyPage() {
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
       <div className="mb-6">
-        <Link href="/leaderboard" className="text-xs text-muted-foreground hover:text-foreground">
-          ← Leaderboard
-        </Link>
+        <BackButton fallbackHref="/leaderboard" />
         <h1 className="font-display text-2xl tracking-wide text-foreground">
           ⚡ DAILY CHALLENGE
         </h1>

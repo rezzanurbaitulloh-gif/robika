@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getLevel } from "@/content";
+import { getLevel, getWorld } from "@/content";
 import { LevelClient } from "./level-client";
 
 export default async function LevelPage({
@@ -14,5 +14,12 @@ export default async function LevelPage({
   const level = getLevel(levelId);
   if (!level) notFound();
 
-  return <LevelClient level={level} isDaily={daily === "1"} />;
+  const world = getWorld(level.world);
+  const nextLevel =
+    world?.levels
+      .filter((l) => !l.isBoss)
+      .sort((a, b) => a.order - b.order)
+      .find((l) => l.order > level.order) ?? null;
+
+  return <LevelClient level={level} isDaily={daily === "1"} nextLevelId={nextLevel?.id ?? null} />;
 }

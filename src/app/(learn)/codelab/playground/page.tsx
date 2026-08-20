@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { BackButton } from "@/components/design/back-button";
 
 const DEFAULT_HTML = `<div class="card">
   <h2>Halo, Robika! 👋</h2>
@@ -79,9 +79,7 @@ export default function PlaygroundPage() {
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
       <div className="mb-4">
-        <Link href="/dashboard" className="text-xs text-muted-foreground hover:text-foreground">
-          ← Dashboard
-        </Link>
+        <BackButton fallbackHref="/dashboard" />
         <h1 className="font-display text-2xl tracking-wide text-foreground">
           🧪 CODE PLAYGROUND
         </h1>

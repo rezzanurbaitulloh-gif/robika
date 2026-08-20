@@ -1,6 +1,7 @@
 import { AiChat } from "@/components/ai/ai-chat";
 import { BentoCard } from "@/components/design/bento-card";
 import { StatusChip } from "@/components/design/status-chip";
+import { BackButton } from "@/components/design/back-button";
 import { createServerSupabase } from "@/lib/db/server";
 import { redirect } from "next/navigation";
 
@@ -32,6 +33,9 @@ export default async function MentorPage() {
 
   return (
     <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-8">
+      <div className="mb-2">
+        <BackButton fallbackHref="/dashboard" />
+      </div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <h1 className="font-display text-2xl tracking-wide text-foreground">
           AI MENTOR
