@@ -13,11 +13,17 @@ interface ProfileSettingsProps {
     avatarUrl: string;
     skillLevel: "pemula" | "menengah" | "lanjut";
   };
+  onUpdated?: (updated: {
+    username?: string;
+    displayName?: string;
+    avatarUrl?: string;
+    skillLevel?: "pemula" | "menengah" | "lanjut";
+  }) => void;
 }
 
 const SKILL_OPTIONS = ["pemula", "menengah", "lanjut"] as const;
 
-export function ProfileSettings({ initial }: ProfileSettingsProps) {
+export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
   const [username, setUsername] = useState(initial.username);
   const [displayName, setDisplayName] = useState(initial.displayName);
   const [avatarUrl, setAvatarUrl] = useState(initial.avatarUrl);
@@ -90,6 +96,12 @@ export function ProfileSettings({ initial }: ProfileSettingsProps) {
         return;
       }
       setMessage({ tone: "success", text: "Profil berhasil diperbarui!" });
+      onUpdated?.({
+        username,
+        displayName,
+        avatarUrl,
+        skillLevel,
+      });
       router.refresh();
     } catch {
       setMessage({ tone: "danger", text: "Koneksi bermasalah. Coba lagi." });

@@ -7,9 +7,10 @@ import { Icon } from "@/components/design/icon";
 
 interface QuizPanelProps {
   questions: QuizQuestionLike[];
+  onComplete?: () => void;
 }
 
-export function QuizPanel({ questions }: QuizPanelProps) {
+export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
   const [answers, setAnswers] = useState<number[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const result = submitted ? gradeQuiz(answers, questions) : null;
@@ -106,13 +107,24 @@ export function QuizPanel({ questions }: QuizPanelProps) {
             {answeredAll ? "Periksa Jawaban" : `Jawab dulu (${answers.length}/${questions.length})`}
           </button>
         ) : (
-          <button
-            type="button"
-            onClick={retry}
-            className="rounded-lg border border-accent/50 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-accent/10"
-          >
-            Ulangi Kuis
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={retry}
+              className="rounded-lg border border-accent/50 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-accent/10"
+            >
+              Ulangi Kuis
+            </button>
+            {result?.passed && onComplete && (
+              <button
+                type="button"
+                onClick={onComplete}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110"
+              >
+                <Icon name="check" size={15} /> Selesaikan
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>

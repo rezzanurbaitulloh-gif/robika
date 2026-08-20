@@ -1,8 +1,12 @@
 import { notFound } from "next/navigation";
 import { getCurriculumModule } from "@/content/curriculum/curriculum";
-import { QuizPanel } from "@/components/game/quiz-panel";
 import { BackButton } from "@/components/design/back-button";
 import { Icon } from "@/components/design/icon";
+import { ModuleComplete } from "@/components/learn/module-complete";
+import { QuizCompletePanel } from "@/components/learn/quiz-complete-panel";
+import { createServerSupabase } from "@/lib/db/server";
+
+export const dynamic = "force-dynamic";
 
 export default async function CurriculumModulePage({
   params,
@@ -13,6 +17,23 @@ export default async function CurriculumModulePage({
   const found = getCurriculumModule(stackId, moduleId);
   if (!found) notFound();
   const { stack, module: mod } = found;
+
+  const supabase = await createServerSupabase();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const itemId = `${stack.id}/${mod.id}`;
+  const { data: progress } = user
+    ? await supabase
+        .from("learn_progress")
+        .select("item_type, completed_at")
+        .eq("profile_id", user.id)
+        .eq("item_id", itemId)
+    : { data: [] as { item_type: string }[] };
+
+  const moduleDone = progress?.some((p) => p.item_type === "module") ?? false;
+  const quizDone = progress?.some((p) => p.item_type === "quiz") ?? false;
 
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
@@ -52,8 +73,18 @@ export default async function CurriculumModulePage({
             <Icon name="target" size={18} />
             Kuis Pemahaman
           </h2>
-          <QuizPanel questions={mod.quiz} />
+          <QuizCompletePanel
+            questions={mod.quiz}
+            itemId={itemId}
+            initialDone={quizDone}
+          />
         </section>
+
+        <ModuleComplete
+          itemType="module"
+          itemId={itemId}
+          initialDone={moduleDone}
+        />
       </div>
     </main>
   );

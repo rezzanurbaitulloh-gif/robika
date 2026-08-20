@@ -122,6 +122,17 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["boss_attempts"]["Row"]>;
         Relationships: [];
       };
+      learn_progress: {
+        Row: {
+          profile_id: string;
+          item_type: "module" | "quiz";
+          item_id: string;
+          completed_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["learn_progress"]["Row"]>;
+        Update: Partial<Database["public"]["Tables"]["learn_progress"]["Row"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {

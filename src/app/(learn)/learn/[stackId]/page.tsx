@@ -25,6 +25,10 @@ export default async function CurriculumStackPage({
           {stack.name.toUpperCase()}
         </h1>
         <p className="text-sm text-muted-foreground">{stack.description}</p>
+        <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
+          <Icon name="target" size={12} />
+          Tingkat: {stack.difficulty}
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
