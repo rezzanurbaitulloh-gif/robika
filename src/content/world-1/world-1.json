@@ -1,0 +1,597 @@
+{
+  "world": "world-1",
+  "name": {
+    "id": "Robot Rescue",
+    "en": "Robot Rescue"
+  },
+  "levels": [
+    {
+      "id": "world-1-level-1",
+      "order": 1,
+      "title": {
+        "id": "Boot Up",
+        "en": "Boot Up"
+      },
+      "topic": "perintah dasar",
+      "concept": "moveForward()",
+      "objective": {
+        "id": "Bawa BOT-1 ke kotak neon hijau.",
+        "en": "Move BOT-1 to the neon green tile."
+      },
+      "grid": [
+        "##############",
+        "#P..C.......G#",
+        "#............#",
+        "#............#",
+        "#............#",
+        "##############"
+      ],
+      "goal": {
+        "type": "reach"
+      },
+      "hints": [
+        [
+          "BOT-1 bergerak dengan perintah moveForward()."
+        ],
+        [
+          "Panggil moveForward() beberapa kali agar maju terus."
+        ],
+        [
+          "Ketik moveForward(); sampai BOT-1 mencapai G."
+        ]
+      ],
+      "starterCode": "// BOT-1 menunggu perintahmu!\n// Coba panggil moveForward()\nmoveForward();\n",
+      "solution": "moveForward();moveForward();moveForward();moveForward();moveForward();moveForward();moveForward();moveForward();moveForward();moveForward();moveForward();",
+      "xpReward": 50,
+      "lesson": {
+        "title": "Perintah Dasar — moveForward()",
+        "body": [
+          "BOT-1 adalah robot kecil yang hanya menuruti perintah yang kamu tulis dalam bahasa kode.",
+          "Perintah pertama kita adalah moveForward() — BOT-1 maju satu petak ke arah hadapnya. Setiap pemanggilan = satu langkah.",
+          "Kode dieksekusi berurutan dari atas ke bawah, satu perintah demi satu perintah.",
+          "Di papan, P adalah posisi awal BOT-1 dan G adalah tujuan akhir. Tulis kode lalu tekan Run untuk melihat BOT-1 bergerak."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Perintah apa yang membuat BOT-1 maju satu petak?",
+            "options": [
+              "turnLeft()",
+              "moveForward()",
+              "turnRight()"
+            ],
+            "answer": 1,
+            "explain": "moveForward() = maju satu petak ke arah hadap."
+          },
+          {
+            "q": "Bagaimana kode dieksekusi?",
+            "options": [
+              "Acak setiap kali",
+              "Berurutan dari atas ke bawah",
+              "Sekaligus"
+            ],
+            "answer": 1,
+            "explain": "Kode berjalan baris per baris dari atas ke bawah."
+          },
+          {
+            "q": "Apa arti petak G di papan?",
+            "options": [
+              "Goal/tujuan",
+              "Ganjalan",
+              "Gem"
+            ],
+            "answer": 0,
+            "explain": "G = goal, tempat BOT-1 harus berhenti."
+          }
+        ]
+      }
+    },
+    {
+      "id": "world-1-level-2",
+      "order": 2,
+      "title": {
+        "id": "Turn the Core",
+        "en": "Turn the Core"
+      },
+      "topic": "perintah & arah",
+      "concept": "moveForward(), turnLeft(), turnRight()",
+      "objective": {
+        "id": "Kelilingi dinding dan raih pintu keluar.",
+        "en": "Go around the wall and reach the exit."
+      },
+      "grid": [
+        "##############",
+        "#P......#....#",
+        "#.......#....#",
+        "#..C....#....#",
+        "#...........G#",
+        "##############"
+      ],
+      "goal": {
+        "type": "reach"
+      },
+      "hints": [
+        [
+          "Dinding # tidak bisa ditembus."
+        ],
+        [
+          "Pakai turnRight() untuk berbelok ke bawah."
+        ],
+        [
+          "Maju 6, belok kanan, maju 3, belok kiri, maju 5."
+        ]
+      ],
+      "starterCode": "// Belok dengan turnLeft() / turnRight()\nmoveForward();\n",
+      "solution": "moveForward();moveForward();moveForward();moveForward();moveForward();moveForward();turnRight();moveForward();moveForward();moveForward();turnLeft();moveForward();moveForward();moveForward();moveForward();moveForward();",
+      "xpReward": 60,
+      "lesson": {
+        "title": "Arah — turnLeft() & turnRight()",
+        "body": [
+          "BOT-1 menghadap ke kanan (timur) saat mulai. Untuk mengubah arah, gunakan turnLeft() (berputar 90° ke kiri) atau turnRight() (berputar 90° ke kanan).",
+          "Penting: berputar tidak memindahkan BOT-1 — hanya mengubah arah hadap. Setelah berputar, moveForward() bergerak ke arah yang baru.",
+          "Urutan perintah sangat menentukan: turnLeft() lalu moveForward() berarti melangkah ke atas.",
+          "Strategi: bayangkan arah hadap BOT-1 setiap kali selesai menulis satu perintah, lalu putuskan langkah berikutnya."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "BOT-1 menghadap timur (kanan). Setelah turnLeft(), menghadap ke mana?",
+            "options": [
+              "Utara (atas)",
+              "Barat (kiri)",
+              "Selatan (bawah)"
+            ],
+            "answer": 0,
+            "explain": "Kiri dari timur adalah utara."
+          },
+          {
+            "q": "Apa efek turnRight()?",
+            "options": [
+              "Maju ke kanan",
+              "Berputar 90° ke kanan",
+              "Kembali ke awal"
+            ],
+            "answer": 1,
+            "explain": "turnRight() hanya mengubah arah hadap, tidak memindahkan BOT-1."
+          },
+          {
+            "q": "Urutan: turnLeft(); moveForward(); — BOT-1...",
+            "options": [
+              "Maju lalu berputar",
+              "Berputar lalu maju",
+              "Tidak bergerak"
+            ],
+            "answer": 1,
+            "explain": "Perintah dijalankan berurutan: putar dulu, lalu maju."
+          }
+        ]
+      }
+    },
+    {
+      "id": "world-1-level-3",
+      "order": 3,
+      "title": {
+        "id": "Loop Assembly",
+        "en": "Loop Assembly"
+      },
+      "topic": "perulangan (loop)",
+      "concept": "for loop",
+      "objective": {
+        "id": "Kumpulkan 3 power cell di jalur utama.",
+        "en": "Collect 3 power cells on the main path."
+      },
+      "grid": [
+        "##############",
+        "#P.C.C.C.....#",
+        "#............#",
+        "#............#",
+        "#............#",
+        "#..........G.#",
+        "##############"
+      ],
+      "goal": {
+        "type": "collect",
+        "target": 3
+      },
+      "hints": [
+        [
+          "Menulis moveForward() 10 kali itu membosankan."
+        ],
+        [
+          "Gunakan for loop: for (let i = 0; i < 10; i++) moveForward();"
+        ],
+        [
+          "Maju 10 dengan loop, belok kanan, maju 5 dengan loop."
+        ]
+      ],
+      "starterCode": "// Ulangi perintah dengan for loop\nfor (let i = 0; i < 3; i++) {\n  moveForward();\n}\n",
+      "solution": "for (let i = 0; i < 10; i++) { moveForward(); } turnRight(); for (let i = 0; i < 5; i++) { moveForward(); }",
+      "xpReward": 70,
+      "lesson": {
+        "title": "Perulangan — for loop",
+        "body": [
+          "Menulis moveForward(); dua puluh kali itu membosankan dan rawan salah. Di sinilah perulangan membantu.",
+          "for (let i = 0; i < 20; i++) { ... } menjalankan isi kurung kurawal sebanyak 20 kali.",
+          "Contoh: for (let i = 0; i < 5; i++) { moveForward(); } — BOT-1 maju 5 petak.",
+          "Logika perulangan: inisialisasi (i = 0), kondisi (i < 5, selama benar loop berlanjut), lalu langkah (i++ menambah i).",
+          "Perulangan adalah inti efisiensi — kode lebih pendek, lebih mudah dibaca, dan lebih sedikit kesalahan ketik."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Berapa kali loop berikut berjalan? for (let i = 0; i < 10; i++)",
+            "options": [
+              "9",
+              "10",
+              "11"
+            ],
+            "answer": 1,
+            "explain": "i berjalan dari 0 sampai 9 = 10 kali."
+          },
+          {
+            "q": "Fungsi i++ pada loop?",
+            "options": [
+              "Mengurangi i",
+              "Menambah i sebanyak 1",
+              "Menghentikan loop"
+            ],
+            "answer": 1,
+            "explain": "i++ menaikkan penghitung satu per satu."
+          },
+          {
+            "q": "Kode mana yang membuat BOT-1 maju 5 petak?",
+            "options": [
+              "moveForward(); × 5",
+              "for (let i = 0; i < 5; i++) { moveForward(); }",
+              "Keduanya benar"
+            ],
+            "answer": 2,
+            "explain": "Loop = cara singkat untuk perintah berulang."
+          }
+        ]
+      }
+    },
+    {
+      "id": "world-1-level-4",
+      "order": 4,
+      "title": {
+        "id": "Scrap Field",
+        "en": "Scrap Field"
+      },
+      "topic": "hazard & perencanaan",
+      "concept": "hindari spike (S)",
+      "objective": {
+        "id": "Lewati ladang scrap tanpa menyentuh spike.",
+        "en": "Cross the scrap field without touching spikes."
+      },
+      "grid": [
+        "##############",
+        "#P....S......#",
+        "#.....S..S...#",
+        "#.....S......#",
+        "#..........G.#",
+        "##############"
+      ],
+      "goal": {
+        "type": "reach"
+      },
+      "hints": [
+        [
+          "Spike S mematikan — BOT-1 akan reset."
+        ],
+        [
+          "Rencanakan jalur di kolom yang aman."
+        ],
+        [
+          "Maju 4, belok kanan, maju 3, belok kiri, maju 6."
+        ]
+      ],
+      "starterCode": "// Hindari S! Spikes mematikan\nmoveForward();\n",
+      "solution": "moveForward();moveForward();moveForward();moveForward();turnRight();moveForward();moveForward();moveForward();turnLeft();moveForward();moveForward();moveForward();moveForward();moveForward();moveForward();",
+      "xpReward": 80,
+      "lesson": {
+        "title": "Hazard & Perencanaan",
+        "body": [
+          "Tidak semua petak aman. Petak S (spike) akan membuat BOT-1 crash jika diinjak.",
+          "Misi ini melatih perencanaan: amati peta dulu, tentukan jalur aman, baru tulis kode.",
+          "Berhenti di tepi peta juga menyebabkan crash — peta adalah arena tertutup.",
+          "Kebiasaan pemrogram yang baik: berpikir sebelum menulis. Gambar jalurnya di kepalamu, lalu terjemahkan menjadi perintah."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Apa yang terjadi jika BOT-1 menginjak petak S?",
+            "options": [
+              "Bonus XP",
+              "Crash",
+              "Dapat coin"
+            ],
+            "answer": 1,
+            "explain": "S = spike, membuat BOT-1 crash."
+          },
+          {
+            "q": "Strategi terbaik sebelum menulis kode?",
+            "options": [
+              "Langsung tulis semua perintah",
+              "Amati peta lalu rencanakan jalur",
+              "Acak saja"
+            ],
+            "answer": 1,
+            "explain": "Rencana dulu = lebih sedikit percobaan gagal."
+          },
+          {
+            "q": "Apa yang terjadi jika BOT-1 keluar peta?",
+            "options": [
+              "Crash",
+              "Kembali ke awal",
+              "Langsung menang"
+            ],
+            "answer": 0,
+            "explain": "Tepi peta tidak bisa dilalui — crash."
+          }
+        ]
+      }
+    },
+    {
+      "id": "world-1-level-5",
+      "order": 5,
+      "title": {
+        "id": "Power Cells",
+        "en": "Power Cells"
+      },
+      "topic": "koleksi & path",
+      "concept": "loop + collect",
+      "objective": {
+        "id": "Kumpulkan 4 power cell dan capai pintu keluar.",
+        "en": "Collect 4 power cells and reach the exit."
+      },
+      "grid": [
+        "##############",
+        "#P.C....C....#",
+        "#............#",
+        "#..........C.#",
+        "#.C........C.#",
+        "#............#",
+        "#..........G.#",
+        "##############"
+      ],
+      "goal": {
+        "type": "collect",
+        "target": 4
+      },
+      "hints": [
+        [
+          "Power cell C terkumpul otomatis saat dilalui."
+        ],
+        [
+          "Semua cell ada di kolom kanan bawah."
+        ],
+        [
+          "Maju 10, belok kanan, maju 5 — semua cell terlalui."
+        ]
+      ],
+      "starterCode": "// Kumpulkan semua power cell!\nfor (let i = 0; i < 5; i++) {\n  moveForward();\n}\n",
+      "solution": "for (let i = 0; i < 10; i++) { moveForward(); } turnRight(); for (let i = 0; i < 5; i++) { moveForward(); }",
+      "xpReward": 90,
+      "lesson": {
+        "title": "Koleksi & Path",
+        "body": [
+          "Selain mencapai tujuan, beberapa level memintamu mengumpulkan power cell (C) sebanyak target tertentu.",
+          "Goal bertipe collect: BOT-1 harus menyentuh semua power cell dan berakhir di petak tujuan.",
+          "Gabungkan loop dengan turn agar rutenya efisien: misalnya maju, belok, maju lagi dalam satu pola berulang.",
+          "Power cell tidak menghalangi jalan — BOT-1 boleh lewat dan otomatis mengumpulkannya."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Apa fungsi power cell (C)?",
+            "options": [
+              "Penghalang",
+              "Dikumpulkan untuk target collect",
+              "Hiasan"
+            ],
+            "answer": 1,
+            "explain": "BOT-1 mengumpulkan C saat melewatinya."
+          },
+          {
+            "q": "Goal collect berarti BOT-1 harus...",
+            "options": [
+              "Mengumpulkan semua target C lalu mencapai G",
+              "Langsung ke G",
+              "Menghindari semua C"
+            ],
+            "answer": 0,
+            "explain": "Kumpulkan target dulu, baru akhiri di G."
+          },
+          {
+            "q": "Tool terbaik untuk rute lurus berulang?",
+            "options": [
+              "For loop",
+              "TurnLeft saja",
+              "Menulis manual seribu kali"
+            ],
+            "answer": 0,
+            "explain": "Loop membuat rute berulang jadi satu perintah."
+          }
+        ]
+      }
+    },
+    {
+      "id": "world-1-level-6",
+      "order": 6,
+      "title": {
+        "id": "Neon Gauntlet",
+        "en": "Neon Gauntlet"
+      },
+      "topic": "kombinasi",
+      "concept": "loop + belok + hazard",
+      "objective": {
+        "id": "Gabungkan semua skill untuk lolos dari sarang robot liar.",
+        "en": "Combine every skill to escape the wild robot nest."
+      },
+      "grid": [
+        "##############",
+        "#P.....C.....#",
+        "#......S.....#",
+        "#......S.....#",
+        "#......S...C.#",
+        "#..........G.#",
+        "##############"
+      ],
+      "goal": {
+        "type": "reach"
+      },
+      "hints": [
+        [
+          "Ada 3 spike berjajar di kolom 7."
+        ],
+        [
+          "Jalan aman ada di kolom 11 ke bawah."
+        ],
+        [
+          "Maju 10, belok kanan, maju 4."
+        ]
+      ],
+      "starterCode": "// Kombinasikan loop dan belok\nfor (let i = 0; i < 3; i++) {\n  moveForward();\n}\n",
+      "solution": "for (let i = 0; i < 10; i++) { moveForward(); } turnRight(); for (let i = 0; i < 4; i++) { moveForward(); }",
+      "xpReward": 100,
+      "lesson": {
+        "title": "Kombinasi — Loop + Belok + Hazard",
+        "body": [
+          "Ini ujian terakhir sebelum boss: menggabungkan perulangan, belokan, dan hindaran hazard dalam satu misi.",
+          "Pecah masalah besar menjadi langkah kecil: jalur lurus pakai loop, belokan ditulis eksplisit.",
+          "Periksa ulang arah hadap BOT-1 setiap kali selesai satu bagian jalur.",
+          "Jalur terbaik adalah jalur terpendek yang aman — efisiensi memberi bonus XP karena speed bonus."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Cara terbaik menyelesaikan jalur panjang dengan hazard?",
+            "options": [
+              "Pecah jadi segmen: loop lurus + belok eksplisit",
+              "Satu moveForward raksasa",
+              "Pakai turnRight terus"
+            ],
+            "answer": 0,
+            "explain": "Gabungkan loop untuk lurus dan belok untuk tikungan."
+          },
+          {
+            "q": "Mengapa rute terpendek yang aman penting?",
+            "options": [
+              "Speed bonus XP",
+              "Kode lebih pendek",
+              "Keduanya"
+            ],
+            "answer": 2,
+            "explain": "Cepat = bonus XP dan kode efisien."
+          },
+          {
+            "q": "Setelah selesai satu bagian jalur, apa yang perlu dicek?",
+            "options": [
+              "Tidak perlu",
+              "Arah hadap BOT-1",
+              "Hitung hint"
+            ],
+            "answer": 1,
+            "explain": "Arah hadap menentukan belokan berikutnya."
+          }
+        ]
+      }
+    },
+    {
+      "id": "world-1-boss",
+      "order": 7,
+      "isBoss": true,
+      "boss": {
+        "name": "Motherboard",
+        "hp": 3,
+        "cooldownMs": 1800000
+      },
+      "title": {
+        "id": "Boss: Motherboard",
+        "en": "Boss: Motherboard"
+      },
+      "topic": "boss battle",
+      "concept": "speed run & presisi",
+      "objective": {
+        "id": "Kumpulkan 4 power cell dan kalahkan Motherboard dalam 30 detik.",
+        "en": "Collect 4 power cells and defeat Motherboard within 30 seconds."
+      },
+      "grid": [
+        "################",
+        "#P.C.C.C.......#",
+        "#............C.#",
+        "#.............G#",
+        "#..............#",
+        "################"
+      ],
+      "goal": {
+        "type": "collect",
+        "target": 4
+      },
+      "hints": [
+        [
+          "Motherboard hanya bisa dikalahkan dengan speed run."
+        ],
+        [
+          "Satu power cell ada di kolom 13, baris 2."
+        ],
+        [
+          "Maju 13, belok kanan, maju 2, belok kiri, maju 1."
+        ]
+      ],
+      "starterCode": "// Boss battle! Semua skill kamu dibutuhkan\nfor (let i = 0; i < 13; i++) {\n  moveForward();\n}\n",
+      "solution": "for (let i = 0; i < 12; i++) { moveForward(); } turnRight(); moveForward(); moveForward(); turnLeft(); moveForward();",
+      "xpReward": 200,
+      "lesson": {
+        "title": "Boss Battle — Motherboard",
+        "body": [
+          "Boss Motherboard menantangmu dengan rute tercepat dan paling presisi dalam satu dunia.",
+          "Aturan boss: waktu terbatas. Menyelesaikan dengan cepat = damage besar. Cepat dan tepat = kemenangan.",
+          "Kalah? Tidak apa-apa — cooldown retry berlaku, atau bayar 1 Gem untuk retry instan.",
+          "Semua yang kamu pelajari di level 1-6 dipakai di sini: loop, belok, hazard, dan kecepatan."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Kunci menang melawan boss?",
+            "options": [
+              "Kecepatan + presisi",
+              "Banyak hint",
+              "Menunggu"
+            ],
+            "answer": 0,
+            "explain": "Boss menuntut rute tercepat dan tepat."
+          },
+          {
+            "q": "Setelah kalah melawan boss, apa yang bisa kamu lakukan?",
+            "options": [
+              "Tunggu cooldown",
+              "Bayar 1 Gem untuk retry instan",
+              "Keduanya"
+            ],
+            "answer": 2,
+            "explain": "Cooldown gratis, retry instan bayar gem."
+          },
+          {
+            "q": "Konsep apa yang TIDAK dipakai di boss?",
+            "options": [
+              "Loop",
+              "Belokan",
+              "Berbahasa asing"
+            ],
+            "answer": 2,
+            "explain": "Boss memadukan loop, belokan, hazard, dan kecepatan."
+          }
+        ]
+      }
+    }
+  ]
+}

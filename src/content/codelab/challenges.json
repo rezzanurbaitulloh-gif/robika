@@ -1,0 +1,129 @@
+{
+  "challenges": [
+    {
+      "id": "codelab-hello",
+      "title": { "id": "Halo, BOT-1!", "en": "Hello, BOT-1!" },
+      "lang": "javascript",
+      "kind": "output",
+      "description": {
+        "id": "Tulis program JavaScript yang mencetak teks: Halo, BOT-1!",
+        "en": "Write a JavaScript program that prints: Hello, BOT-1!"
+      },
+      "expected": "Halo, BOT-1!",
+      "mode": "exact",
+      "starterCode": "// Cetak teks dengan console.log()\n",
+      "solution": "console.log(\"Halo, BOT-1!\");",
+      "hints": [
+        ["Gunakan fungsi console.log()."],
+        ["Teks harus diapit tanda kutip."],
+        ["console.log(\"Halo, BOT-1!\");"]
+      ],
+      "xpReward": 40
+    },
+    {
+      "id": "codelab-loop-sum",
+      "title": { "id": "Loop Sum", "en": "Loop Sum" },
+      "lang": "javascript",
+      "kind": "complete-code",
+      "description": {
+        "id": "Lengkapi kode: jumlahkan 1 sampai 5 lalu cetak hasilnya.",
+        "en": "Complete the code: sum 1 to 5 and print the result."
+      },
+      "expected": "15",
+      "mode": "exact",
+      "starterCode": "let total = 0;\nfor (let i = 1; i <= 5; i++) {\n  // TODO: tambahkan i ke total\n}\nconsole.log(total);\n",
+      "solution": "let total = 0;\nfor (let i = 1; i <= 5; i++) {\n  total += i;\n}\nconsole.log(total);",
+      "hints": [
+        ["Operator penjumlahan: += atau +."],
+        ["Di dalam loop, tulis: total += i;"],
+        ["total += i;"]
+      ],
+      "xpReward": 60
+    },
+    {
+      "id": "codelab-py-hello",
+      "title": { "id": "Python: Salam", "en": "Python: Greeting" },
+      "lang": "python",
+      "kind": "output",
+      "description": {
+        "id": "Tulis program Python yang mencetak: Selamat datang di Robika!",
+        "en": "Write a Python program that prints: Welcome to Robika!"
+      },
+      "expected": "Selamat datang di Robika!",
+      "mode": "exact",
+      "starterCode": "# Cetak teks dengan print()\n",
+      "solution": "print(\"Selamat datang di Robika!\")",
+      "hints": [
+        ["Gunakan fungsi print()."],
+        ["Teks diapit tanda kutip."],
+        ["print(\"Selamat datang di Robika!\")"]
+      ],
+      "xpReward": 40
+    },
+    {
+      "id": "codelab-py-square",
+      "title": { "id": "Python: Kuadrat", "en": "Python: Square" },
+      "lang": "python",
+      "kind": "complete-code",
+      "description": {
+        "id": "Lengkapi fungsi kuadrat: kembalikan angka dikali dirinya sendiri.",
+        "en": "Complete the square function: return the number times itself."
+      },
+      "expected": "49",
+      "mode": "exact",
+      "starterCode": "def kuadrat(n):\n    # TODO: kembalikan n * n\n    pass\n\nprint(kuadrat(7))\n",
+      "solution": "def kuadrat(n):\n    return n * n\n\nprint(kuadrat(7))",
+      "hints": [
+        ["Gunakan kata kunci return."],
+        ["return n * n"],
+        ["return n * n"]
+      ],
+      "xpReward": 60
+    },
+    {
+      "id": "codelab-fixbug-loop",
+      "title": { "id": "Fix Bug: Loop Off-by-One", "en": "Fix Bug: Off-by-One Loop" },
+      "lang": "javascript",
+      "kind": "fix-bug",
+      "description": {
+        "id": "Program ini seharusnya mencetak angka 0 sampai 4. Ada satu bug kecil yang membuat hasilnya salah. Perbaiki!",
+        "en": "This program should print the numbers 0 to 4. One small bug makes it wrong. Fix it!"
+      },
+      "expected": "0\n1\n2\n3\n4",
+      "mode": "exact",
+      "starterCode": "for (let i = 1; i < 5; i++) {\n  console.log(i);\n}\n",
+      "solution": "for (let i = 0; i < 5; i++) {\n  console.log(i);\n}",
+      "bugs": [
+        "Loop dimulai dari angka 1, seharusnya 0.",
+        "Perhatikan batas bawah dan batas atas loop."
+      ],
+      "hints": [
+        ["Cek nilai awal variabel i."],
+        ["Seharusnya mulai dari 0."],
+        ["for (let i = 0; i < 5; i++) { ... }"]
+      ],
+      "xpReward": 80
+    },
+    {
+      "id": "codelab-preview-card",
+      "title": { "id": "Preview: Kartu Interaktif", "en": "Preview: Interactive Card" },
+      "lang": "javascript",
+      "kind": "preview",
+      "description": {
+        "id": "Rancang kartu interaktif: saat tombol diklik, warna kartu berubah. Kode HTML/CSS/JS sudah lengkap — lihat hasilnya di panel Preview.",
+        "en": "Design an interactive card: when the button is clicked, the card changes color. The HTML/CSS/JS is complete — see the result in the Preview panel."
+      },
+      "expected": "",
+      "mode": "exact",
+      "starterCode": "const card = document.getElementById('card');\nconst btn = document.getElementById('btn');\nconst colors = ['#7c3aed', '#0ea5e9', '#10b981', '#f59e0b'];\nlet index = 0;\nbtn.addEventListener('click', () => {\n  index = (index + 1) % colors.length;\n  card.style.background = colors[index];\n});\n",
+      "solution": "const card = document.getElementById('card');\nconst btn = document.getElementById('btn');\nconst colors = ['#7c3aed', '#0ea5e9', '#10b981', '#f59e0b'];\nlet index = 0;\nbtn.addEventListener('click', () => {\n  index = (index + 1) % colors.length;\n  card.style.background = colors[index];\n});\n",
+      "html": "<html><body style=\"margin:0;font-family:system-ui,sans-serif;display:grid;place-items:center;height:100vh;background:#0f172a\"><div id=\"card\" style=\"padding:40px 32px;border-radius:16px;background:#7c3aed;color:#fff;text-align:center\"><h2>Halo, Robika!</h2><p>Klik tombol untuk mengganti warna.</p><button id=\"btn\" style=\"margin-top:12px;padding:10px 18px;border:0;border-radius:8px;background:#fff;color:#0f172a;font-weight:700;cursor:pointer\">Ganti Warna</button></div><script src=\"__CODE__\"></script></body></html>",
+      "hints": [
+        ["Kode sudah lengkap — coba jalankan dan lihat preview."],
+        ["Modifikasi warna pada array colors."],
+        ["Tambahkan animasi transisi pada gaya kartu."]
+      ],
+      "xpReward": 50
+    }
+  ]
+}

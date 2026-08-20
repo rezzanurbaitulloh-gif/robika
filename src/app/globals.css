@@ -1,0 +1,167 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.75rem;
+
+  --background: #0b0b10;
+  --foreground: #f8fafc;
+
+  --card: #1e1e23;
+  --card-foreground: #f8fafc;
+
+  --popover: #1e1e23;
+  --popover-foreground: #f8fafc;
+
+  --primary: #f8fafc;
+  --primary-foreground: #0f172a;
+
+  --secondary: #232328;
+  --secondary-foreground: #94a3b8;
+
+  --muted: #232328;
+  --muted-foreground: #94a3b8;
+
+  --accent: #3b82f6;
+  --accent-foreground: #0f172a;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --success: #22c55e;
+  --success-foreground: #052e16;
+
+  --warning: #f59e0b;
+  --warning-foreground: #431407;
+
+  --border: #1e293b;
+  --input: #1e293b;
+  --ring: #3b82f6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-robika-sans);
+  --font-mono: var(--font-robika-mono);
+  --font-display: var(--font-robika-display);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+}
+
+/* ===== Robika HUD effects (premium sci-fi feel) ===== */
+
+.glow-text {
+  text-shadow:
+    0 0 8px color-mix(in srgb, var(--accent) 60%, transparent),
+    0 0 24px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.glow-box {
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--accent) 25%, transparent),
+    0 0 32px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.scanline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    color-mix(in srgb, var(--foreground) 4%, transparent) 4px
+  );
+}
+
+@keyframes robika-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.blink {
+  animation: robika-blink 1.2s step-end infinite;
+}
+
+@keyframes robika-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker {
+  animation: robika-ticker 18s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker,
+  .blink {
+    animation: none;
+  }
+  .glow-text,
+  .glow-box {
+    text-shadow: none;
+    box-shadow: none;
+  }
+}
