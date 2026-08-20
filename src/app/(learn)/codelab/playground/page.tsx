@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { BackButton } from "@/components/design/back-button";
 import { Icon } from "@/components/design/icon";
+import { runPython } from "@/lib/codelab/runner";
 
 const DEFAULT_HTML = `<div class="card">
   <h2>Halo, Robika!</h2>
@@ -43,10 +44,17 @@ const DEFAULT_JS = `function greet() {
   alert("Selamat datang di Robika Playground!");
 }`;
 
+const DEFAULT_PY = `# Python — coba jalankan!
+nama = "Robika"
+for i in range(1, 6):
+    print(f"{i}. Halo {nama}!")
+print("Total:", sum(range(1, 6)))`;
+
 const TABS = [
   { id: "html", label: "HTML" },
   { id: "css", label: "CSS" },
   { id: "js", label: "JS" },
+  { id: "py", label: "PY" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
@@ -55,6 +63,10 @@ export default function PlaygroundPage() {
   const [html, setHtml] = useState(DEFAULT_HTML);
   const [css, setCss] = useState(DEFAULT_CSS);
   const [js, setJs] = useState(DEFAULT_JS);
+  const [py, setPy] = useState(DEFAULT_PY);
+  const [pyOutput, setPyOutput] = useState("");
+  const [pyError, setPyError] = useState<string | undefined>();
+  const [pyRunning, setPyRunning] = useState(false);
   const [tab, setTab] = useState<TabId>("html");
   const [doc, setDoc] = useState("");
 
@@ -70,11 +82,28 @@ export default function PlaygroundPage() {
     };
   }, [html, css, js]);
 
-  const value = tab === "html" ? html : tab === "css" ? css : js;
+  const runPy = async () => {
+    if (pyRunning) return;
+    setPyRunning(true);
+    setPyError(undefined);
+    setPyOutput("");
+    try {
+      const result = await runPython(py);
+      setPyOutput(result.stdout);
+      setPyError(result.error);
+    } catch (err) {
+      setPyError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setPyRunning(false);
+    }
+  };
+
+  const value = tab === "html" ? html : tab === "css" ? css : tab === "js" ? js : py;
   const onChange = (v: string) => {
     if (tab === "html") setHtml(v);
     else if (tab === "css") setCss(v);
-    else setJs(v);
+    else if (tab === "js") setJs(v);
+    else setPy(v);
   };
 
   return (
@@ -86,13 +115,14 @@ export default function PlaygroundPage() {
           CODE PLAYGROUND
         </h1>
         <p className="text-sm text-muted-foreground">
-          Tulis HTML, CSS, dan JavaScript — lihat hasilnya langsung di panel Preview.
+          Tulis HTML, CSS, JavaScript, atau Python — lihat hasilnya langsung di
+          panel Preview.
         </p>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="overflow-hidden rounded-xl border border-border">
-          <div className="flex gap-1 border-b border-border bg-muted/60 p-1">
+          <div className="flex items-center gap-1 border-b border-border bg-muted/60 p-1">
             {TABS.map((t) => (
               <button
                 key={t.id}
@@ -107,6 +137,16 @@ export default function PlaygroundPage() {
                 {t.label}
               </button>
             ))}
+            {tab === "py" && (
+              <button
+                type="button"
+                onClick={() => void runPy()}
+                disabled={pyRunning}
+                className="btn btn-accent btn-sm ml-auto"
+              >
+                {pyRunning ? "Menjalankan..." : "Jalankan Python"}
+              </button>
+            )}
           </div>
           <textarea
             value={value}
@@ -114,6 +154,20 @@ export default function PlaygroundPage() {
             spellCheck={false}
             className="h-96 w-full resize-none bg-input p-3 font-mono text-sm text-emerald-200 outline-none"
           />
+          {tab === "py" && (
+            <div className="border-t border-border bg-input p-3">
+              <div className="mb-1 font-display text-xs tracking-widest text-muted-foreground">
+                OUTPUT PYTHON
+              </div>
+              <pre className="min-h-[40px] whitespace-pre-wrap text-sm text-emerald-200">
+                {pyError ? (
+                  <span className="text-rose-300">{pyError}</span>
+                ) : (
+                  pyOutput || "— belum ada output —"
+                )}
+              </pre>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col overflow-hidden rounded-xl border border-border">
