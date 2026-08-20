@@ -3,6 +3,7 @@ import { createServerSupabase } from "@/lib/db/server";
 import { ProfileSettings } from "@/components/profile/profile-settings";
 import { BackButton } from "@/components/design/back-button";
 import { StatusChip } from "@/components/design/status-chip";
+import { Icon, type IconName } from "@/components/design/icon";
 
 export const dynamic = "force-dynamic";
 
@@ -31,7 +32,7 @@ export default async function ProfilePage() {
         .eq("profile_id", user.id),
     ]);
 
-  const avatar = profile?.avatar_url ?? "🤖";
+  const avatar = profile?.avatar_url ?? "robot";
 
   return (
     <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-8">
@@ -59,18 +60,19 @@ export default async function ProfilePage() {
             <div className="flex flex-wrap gap-2 pb-1">
               <StatusChip status="info" label={`LV ${profile?.level ?? 1}`} />
               <StatusChip status="neutral" label={`XP ${profile?.xp ?? 0}`} />
-              <StatusChip status="warning" label={`★ ${wallet?.stars ?? 0}`} />
-              <StatusChip status="success" label={`◆ ${wallet?.gems ?? 0}`} />
+              <StatusChip status="warning" label={`Stars ${wallet?.stars ?? 0}`} />
+              <StatusChip status="success" label={`Gems ${wallet?.gems ?? 0}`} />
             </div>
           </div>
 
           <div className="mt-5 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
             {[
-              { label: "🔥 Streak", value: `${profile?.streak ?? 0} hari` },
-              { label: "🏅 Badge", value: `${achievements?.length ?? 0} / 10` },
-              { label: "📚 Level keahlian", value: profile?.skill_level ?? "pemula" },
+              { label: "Streak", value: `${profile?.streak ?? 0} hari`, icon: "flame" },
+              { label: "Badge", value: `${achievements?.length ?? 0} / 10`, icon: "medal" },
+              { label: "Level keahlian", value: profile?.skill_level ?? "pemula", icon: "layers" },
               {
-                label: "📅 Bergabung",
+                label: "Bergabung",
+                icon: "calendar",
                 value: profile?.created_at
                   ? new Date(profile.created_at).toLocaleDateString("id-ID", {
                       month: "short",
@@ -83,7 +85,10 @@ export default async function ProfilePage() {
                 key={item.label}
                 className="rounded-lg border border-border bg-slate-950/60 p-3"
               >
-                <div className="text-xs text-muted-foreground">{item.label}</div>
+                <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+                  <Icon name={item.icon as IconName} size={13} />
+                  {item.label}
+                </div>
                 <div className="mt-1 text-sm font-semibold text-foreground">
                   {item.value}
                 </div>

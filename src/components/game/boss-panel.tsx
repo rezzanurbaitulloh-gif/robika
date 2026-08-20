@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { StatusChip } from "@/components/design/status-chip";
+import { Icon } from "@/components/design/icon";
 
 interface BossStatus {
   can_attempt: boolean;
@@ -46,7 +47,7 @@ export function BossPanel() {
     const res = await fetch("/api/boss/retry", { method: "POST" });
     setBusy(false);
     if (res.ok) {
-      setNotice("⚡ Cooldown direset! Boss siap dilawan lagi.");
+      setNotice("Cooldown direset! Boss siap dilawan lagi.");
     } else if (res.status === 402) {
       setNotice("Gem tidak cukup — beli Gem di Shop.");
     } else {
@@ -67,7 +68,10 @@ export function BossPanel() {
     <div className="rounded-xl border border-rose-400/30 bg-slate-900/60 p-4">
       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-display text-sm tracking-wide text-rose-300">
-          👹 BOSS STATUS
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="skull" size={16} />
+            BOSS STATUS
+          </span>
         </h3>
         <StatusChip
           status={status.can_attempt ? "success" : "danger"}
@@ -94,11 +98,15 @@ export function BossPanel() {
             onClick={instantRetry}
             className="mt-3 w-full rounded-lg border border-emerald-400/50 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-400/20 disabled:opacity-40"
           >
-            ⚡ Retry Instan — ◆{status.instant_retry_cost}
+            <span className="inline-flex items-center gap-1.5">
+              <Icon name="bolt" size={14} />
+              Retry Instan — <Icon name="gem" size={14} />{" "}
+              {status.instant_retry_cost}
+            </span>
           </button>
           {status.gems < status.instant_retry_cost && (
             <p className="mt-1 text-[11px] text-muted-foreground">
-              Gem kamu ◆{status.gems} — belum cukup. Beli di Shop.
+              Gem kamu {status.gems} — belum cukup. Beli di Shop.
             </p>
           )}
         </>

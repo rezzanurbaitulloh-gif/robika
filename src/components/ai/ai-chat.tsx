@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { streamAiChat } from "@/lib/ai/client";
 import type { AiContext } from "@/lib/ai/types";
+import { Icon } from "@/components/design/icon";
 
 interface Message {
   role: "user" | "assistant";
@@ -179,7 +180,7 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
             title="Lampirkan gambar (contoh: screenshot error)"
             className="rounded-lg border border-border px-3 py-2 text-sm transition hover:bg-muted disabled:opacity-40"
           >
-            🖼️
+            <Icon name="camera" size={16} />
           </button>
           <input
             value={input}

@@ -10,15 +10,16 @@ import { CodeEditor } from "@/components/codelab/code-editor";
 import { parseCommands, type SimulationResult } from "@/lib/game/simulator";
 import { starsForHints } from "@/lib/game/stars";
 import { StatusChip } from "@/components/design/status-chip";
+import { Icon, type IconName } from "@/components/design/icon";
 import { BackButton } from "@/components/design/back-button";
 import type { GameLevel } from "@/lib/game/validate";
 
 type Tab = "materi" | "kuis" | "game";
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: "materi", label: "📖 Materi" },
-  { id: "kuis", label: "🧪 Kuis" },
-  { id: "game", label: "🕹️ Game" },
+const TABS: { id: Tab; label: string; icon: IconName }[] = [
+  { id: "materi", label: "Materi", icon: "book" },
+  { id: "kuis", label: "Kuis", icon: "target" },
+  { id: "game", label: "Game", icon: "gamepad" },
 ];
 
 export function LevelClient({
@@ -110,10 +111,10 @@ export function LevelClient({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {isDaily && <StatusChip status="warning" label="⚡ DAILY CHALLENGE" />}
-          {result?.won && <StatusChip status="success" label="✓ LEVEL BERHASIL" />}
+          {isDaily && <StatusChip status="warning" label="DAILY CHALLENGE" />}
+          {result?.won && <StatusChip status="success" label="LEVEL BERHASIL" />}
           {result?.crashed && (
-            <StatusChip status="danger" label="✗ CRASH" className="animate-shake" />
+            <StatusChip status="danger" label="CRASH" className="animate-shake" />
           )}
           {level.isBoss && <StatusChip status="info" label="BOSS BATTLE" />}
         </div>
@@ -121,7 +122,7 @@ export function LevelClient({
 
       <div
         role="tablist"
-        className="sticky top-0 z-10 mb-6 flex gap-1 overflow-x-auto rounded-xl border border-border bg-background/90 p-1 backdrop-blur"
+        className="sticky top-[52px] z-10 mb-6 flex gap-1 overflow-x-auto rounded-xl border border-border bg-background/90 p-1 backdrop-blur"
       >
         {TABS.map((t) => (
           <button
@@ -135,7 +136,10 @@ export function LevelClient({
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {t.label}
+            <span className="flex items-center gap-1.5">
+              <Icon name={t.icon} size={15} />
+              {t.label}
+            </span>
           </button>
         ))}
       </div>
@@ -198,12 +202,12 @@ export function LevelClient({
                 {reward && (
                   <span>
                     {" "}
-                    +{reward.xp} XP · ★{reward.stars}
+                    +{reward.xp} XP · {reward.stars} stars
                     {parBonus > 0 && (
-                      <span className="ml-1 text-amber-300">⚡ par +{parBonus} XP</span>
+                      <span className="ml-1 inline-flex items-center gap-1 text-amber-300"><Icon name="bolt" size={13} /> par +{parBonus} XP</span>
                     )}
                     {errorBonus > 0 && (
-                      <span className="ml-1 text-sky-300">🛠️ error recovery +{errorBonus} XP</span>
+                      <span className="ml-1 inline-flex items-center gap-1 text-sky-300"><Icon name="refresh" size={13} /> error recovery +{errorBonus} XP</span>
                     )}
                     {reward.leveledUp && (
                       <StatusChip status="warning" label={`NAIK LEVEL ${reward.level}!`} />
@@ -212,7 +216,7 @@ export function LevelClient({
                 )}
                 {newBadges.length > 0 && (
                   <span className="mt-2 block">
-                    🏅 Badge baru:{" "}
+                    Badge baru:{" "}
                     {newBadges.map((id) => (
                       <span key={id} className="mr-1 inline-block rounded bg-amber-400/20 px-1.5 py-0.5 text-xs">
                         {id}
@@ -227,7 +231,7 @@ export function LevelClient({
                         href={`/level/${nextLevelId}`}
                         className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110"
                       >
-                        Level berikutnya →
+                        Level berikutnya
                       </Link>
                     )}
                     <Link

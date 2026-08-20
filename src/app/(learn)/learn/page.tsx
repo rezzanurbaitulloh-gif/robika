@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CURRICULUM_STACKS } from "@/content/curriculum/curriculum";
 import { BentoCard } from "@/components/design/bento-card";
 import { BackButton } from "@/components/design/back-button";
+import { Icon, type IconName } from "@/components/design/icon";
 
 export default function LearnPage() {
   return (
@@ -24,7 +25,7 @@ export default function LearnPage() {
             <BentoCard
               title={stack.name}
               description={stack.description}
-              icon={stack.icon}
+              icon={<Icon name={stack.icon as IconName} size={22} />}
               className="h-full transition hover:border-accent/60 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]"
               footer={
                 <span className="text-xs font-semibold text-accent">

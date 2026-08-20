@@ -1,4 +1,5 @@
 import { BADGES, RARITY_ORDER, type BadgeRarity } from "@/lib/game/badges";
+import { Icon, type IconName } from "@/components/design/icon";
 
 const RARITY_STYLE: Record<BadgeRarity, string> = {
   common: "border-slate-500/40 bg-slate-500/10",
@@ -25,7 +26,12 @@ export function BadgeGrid({ owned }: { owned: string[] }) {
   return (
     <div className="rounded-xl border border-border bg-slate-900/60 p-4">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <h3 className="font-display text-sm tracking-wide">🏅 BADGE COLLECTION</h3>
+        <h3 className="font-display text-sm tracking-wide">
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="medal" size={16} />
+            BADGE COLLECTION
+          </span>
+        </h3>
         <span className="text-xs text-muted-foreground">
           {ownedSet.size} / {BADGES.length} terkumpul
         </span>
@@ -41,7 +47,13 @@ export function BadgeGrid({ owned }: { owned: string[] }) {
                 has ? RARITY_STYLE[badge.rarity] : "border-border bg-muted/30 opacity-50"
               }`}
             >
-              <div className="text-2xl">{has ? badge.icon : "🔒"}</div>
+              <div className="flex h-9 items-center justify-center">
+                {has ? (
+                  <Icon name={badge.icon as IconName} size={28} />
+                ) : (
+                  <Icon name="lock" size={28} className="opacity-60" />
+                )}
+              </div>
               <p
                 className={`mt-1 truncate text-[11px] font-semibold ${
                   has ? RARITY_TEXT[badge.rarity] : "text-muted-foreground"

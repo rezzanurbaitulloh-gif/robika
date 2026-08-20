@@ -6,6 +6,7 @@ import { createClient } from "@/lib/db/client";
 import { StatusChip } from "@/components/design/status-chip";
 import { BentoCard } from "@/components/design/bento-card";
 import { BackButton } from "@/components/design/back-button";
+import { Icon, type IconName } from "@/components/design/icon";
 import { PAYMENT_ITEMS, type PaymentItem } from "@/lib/payments/packages";
 
 const ITEMS = [
@@ -14,28 +15,28 @@ const ITEMS = [
     name: "BOT-1 Classic",
     rarity: "common",
     priceStars: 500,
-    icon: "🤖",
+    icon: "robot",
   },
   {
     id: "skin-bot-neon",
     name: "BOT-1 Neon",
     rarity: "epic",
     priceStars: 2500,
-    icon: "⚡",
+    icon: "bolt",
   },
   {
     id: "skin-bot-gold",
     name: "BOT-1 Gold",
     rarity: "legendary",
     priceGems: 250,
-    icon: "👑",
+    icon: "trophy",
   },
   {
     id: "skin-bot-void",
     name: "BOT-1 Void",
     rarity: "mythic",
     priceGems: 600,
-    icon: "🌑",
+    icon: "moon",
   },
 ] as const;
 
@@ -47,13 +48,13 @@ const RARITY_TONE: Record<string, "neutral" | "info" | "warning" | "success"> = 
 };
 
 const TOPUP_ICON: Record<string, string> = {
-  "hints-10": "💡",
-  "hints-30": "💡",
-  "hints-150": "💡",
-  "gems-100": "💎",
-  "gems-300": "💎",
-  "gems-700": "💎",
-  "mentor-1m": "🧠",
+  "hints-10": "star",
+  "hints-30": "star",
+  "hints-150": "star",
+  "gems-100": "gem",
+  "gems-300": "gem",
+  "gems-700": "gem",
+  "mentor-1m": "brain",
 };
 
 interface SnapResult {
@@ -217,13 +218,13 @@ export function ShopClient() {
                 key={item.id}
                 title={item.name}
                 description={`Rarity: ${item.rarity}`}
-                icon={item.icon}
+                icon={<Icon name={item.icon as IconName} size={22} />}
                 footer={
                   <div className="flex items-center justify-between">
                     <span className="font-display text-lg text-accent">
                       {"priceStars" in item
-                        ? `★ ${item.priceStars}`
-                        : `◆ ${item.priceGems}`}
+                        ? `${item.priceStars} stars`
+                        : `${item.priceGems} gems`}
                     </span>
                     <button
                       type="button"
@@ -231,7 +232,7 @@ export function ShopClient() {
                       onClick={() => void buy(item.id)}
                       className="rounded-lg border border-accent/50 px-3 py-1 text-xs font-semibold text-accent transition hover:bg-accent/10 disabled:opacity-40"
                     >
-                      {isOwned ? "Dimiliki ✓" : "Beli"}
+                      {isOwned ? "Dimiliki" : "Beli"}
                     </button>
                   </div>
                 }
@@ -257,7 +258,7 @@ export function ShopClient() {
               key={item.id}
               title={item.name}
               description={item.description}
-              icon={TOPUP_ICON[item.id] ?? "🛒"}
+              icon={<Icon name={(TOPUP_ICON[item.id] ?? "cart") as IconName} size={22} />}
               footer={
                 <div className="flex items-center justify-between">
                   <span className="font-display text-lg text-accent">
@@ -297,7 +298,7 @@ export function ShopClient() {
               ? `Aktif — berakhir ${new Date(trialEnds).toLocaleDateString("id-ID")}`
               : "Akses penuh AI Mentor, gratis 7 hari pertama."
           }
-          icon="🧠"
+          icon={<Icon name="brain" size={22} />}
           footer={
             <button
               type="button"
@@ -305,7 +306,7 @@ export function ShopClient() {
               onClick={() => void activateTrial()}
               className="rounded-lg border border-accent/50 px-3 py-1 text-xs font-semibold text-accent transition hover:bg-accent/10 disabled:opacity-40"
             >
-              {trialEnds ? "Sudah Aktif ✓" : busy === "trial" ? "..." : "Aktivasi Trial"}
+              {trialEnds ? "Sudah Aktif" : busy === "trial" ? "..." : "Aktivasi Trial"}
             </button>
           }
         >

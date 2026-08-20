@@ -4,6 +4,7 @@ import { worlds } from "@/content";
 import { dailyLevelId, dailyEndsAt } from "@/lib/game/daily";
 import { createServerSupabase } from "@/lib/db/server";
 import { BackButton } from "@/components/design/back-button";
+import { Icon } from "@/components/design/icon";
 
 export const dynamic = "force-dynamic";
 
@@ -31,8 +32,9 @@ export default async function DailyPage() {
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
       <div className="mb-6">
         <BackButton fallbackHref="/leaderboard" />
-        <h1 className="font-display text-2xl tracking-wide text-foreground">
-          ⚡ DAILY CHALLENGE
+        <h1 className="flex items-center gap-2 font-display text-2xl tracking-wide text-foreground">
+          <Icon name="bolt" size={22} />
+          DAILY CHALLENGE
         </h1>
         <p className="text-sm text-muted-foreground">
           Satu level khusus setiap hari. Berlaku sampai{" "}
@@ -51,7 +53,7 @@ export default async function DailyPage() {
             </span>
             {progress ? (
               <span className="rounded-full bg-emerald-400/20 px-3 py-1 text-xs text-emerald-300">
-                ✓ Selesai ★{progress.stars}
+                Selesai {progress.stars}
               </span>
             ) : (
               <span className="rounded-full bg-amber-400/20 px-3 py-1 text-xs text-amber-300">
@@ -69,7 +71,10 @@ export default async function DailyPage() {
             href={`/level/${level.id}?daily=1`}
             className="mt-5 inline-block rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition hover:brightness-110"
           >
-            {progress ? "Mainkan Lagi" : "Mulai Tantangan"} →
+            <span className="inline-flex items-center gap-1.5">
+              {progress ? "Mainkan Lagi" : "Mulai Tantangan"}
+              <Icon name="arrowRight" size={16} />
+            </span>
           </Link>
         </div>
       ) : (

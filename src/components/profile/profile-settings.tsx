@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { PRESET_AVATARS } from "@/lib/profile/validation";
 import { StatusChip } from "@/components/design/status-chip";
+import { Icon } from "@/components/design/icon";
 
 interface ProfileSettingsProps {
   initial: {
@@ -26,6 +28,7 @@ export function ProfileSettings({ initial }: ProfileSettingsProps) {
     text: string;
   } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const router = useRouter();
 
   const resizeToDataUrl = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -86,7 +89,8 @@ export function ProfileSettings({ initial }: ProfileSettingsProps) {
         });
         return;
       }
-      setMessage({ tone: "success", text: "Profil berhasil diperbarui! ✨" });
+      setMessage({ tone: "success", text: "Profil berhasil diperbarui!" });
+      router.refresh();
     } catch {
       setMessage({ tone: "danger", text: "Koneksi bermasalah. Coba lagi." });
     } finally {
@@ -213,9 +217,9 @@ export function ProfileSettings({ initial }: ProfileSettingsProps) {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="rounded-lg border border-accent/50 px-3 py-1.5 text-xs font-semibold text-accent transition hover:bg-accent/10"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-accent/50 px-3 py-1.5 text-xs font-semibold text-accent transition hover:bg-accent/10"
               >
-                📷 Upload foto
+                <Icon name="camera" size={14} /> Upload foto
               </button>
               <input
                 ref={fileInputRef}

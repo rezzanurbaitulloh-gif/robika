@@ -1,6 +1,7 @@
 "use client";
 
 import { BackButton } from "@/components/design/back-button";
+import { Icon } from "@/components/design/icon";
 
 interface CertificateClientProps {
   username: string;
@@ -30,14 +31,18 @@ export function CertificateClient({
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <BackButton fallbackHref="/dashboard" />
-          <h1 className="font-display text-2xl tracking-wide text-foreground">🎓 SERTIFIKAT</h1>
+          <h1 className="font-display text-2xl tracking-wide text-foreground">
+            <span className="inline-flex items-center gap-2">
+              <Icon name="certificate" size={20} /> SERTIFIKAT
+            </span>
+          </h1>
         </div>
         <button
           type="button"
           onClick={() => window.print()}
           className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110 print:hidden"
         >
-          🖨️ Simpan PDF
+          Simpan PDF
         </button>
       </div>
 
@@ -78,7 +83,11 @@ export function CertificateClient({
             </div>
             <div className="rounded-lg border border-border/60 bg-background/40 p-3 print:border-gray-300 print:bg-gray-50">
               <p className="text-lg font-bold text-accent print:text-black">
-                {world1Complete ? "✓" : "—"}
+                {world1Complete ? (
+                  <Icon name="check" size={18} />
+                ) : (
+                  "—"
+                )}
               </p>
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground print:text-gray-500">
                 Dunia 1
@@ -100,7 +109,7 @@ export function CertificateClient({
             </div>
             <div className="text-center">
               <p className="font-display text-lg tracking-wide text-amber-300 print:text-amber-700">
-                {bossDone ? "⚔️ Pemenang Boss Battle" : "⭐ Pelajar Aktif"}
+                {bossDone ? "Pemenang Boss Battle" : "Pelajar Aktif"}
               </p>
               <div className="mx-auto mt-1 h-px w-40 bg-amber-400/40 print:bg-gray-400" />
               <p className="mt-1 text-[10px] uppercase tracking-wider text-muted-foreground print:text-gray-500">

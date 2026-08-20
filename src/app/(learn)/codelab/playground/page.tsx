@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { BackButton } from "@/components/design/back-button";
+import { Icon } from "@/components/design/icon";
 
 const DEFAULT_HTML = `<div class="card">
-  <h2>Halo, Robika! 👋</h2>
+  <h2>Halo, Robika!</h2>
   <p>Ketik HTML, CSS, dan JS di panel kiri.</p>
   <button onclick="greet()">Klik aku</button>
 </div>`;
@@ -80,8 +81,9 @@ export default function PlaygroundPage() {
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
       <div className="mb-4">
         <BackButton fallbackHref="/dashboard" />
-        <h1 className="font-display text-2xl tracking-wide text-foreground">
-          🧪 CODE PLAYGROUND
+        <h1 className="flex items-center gap-2 font-display text-2xl tracking-wide text-foreground">
+          <Icon name="code" size={22} />
+          CODE PLAYGROUND
         </h1>
         <p className="text-sm text-muted-foreground">
           Tulis HTML, CSS, dan JavaScript — lihat hasilnya langsung di panel Preview.

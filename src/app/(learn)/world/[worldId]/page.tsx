@@ -4,6 +4,7 @@ import { getWorld } from "@/content";
 import { StatusChip } from "@/components/design/status-chip";
 import { BentoCard } from "@/components/design/bento-card";
 import { BackButton } from "@/components/design/back-button";
+import { Icon } from "@/components/design/icon";
 
 export default async function WorldPage({
   params,
@@ -34,13 +35,19 @@ export default async function WorldPage({
             <BentoCard
               title={level.title.id}
               description={level.concept}
-              icon={level.isBoss ? "☠️" : "🤖"}
+              icon={
+                level.isBoss ? (
+                  <Icon name="skull" size={20} />
+                ) : (
+                  <Icon name="robot" size={20} />
+                )
+              }
               className="h-full transition hover:border-accent/60 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]"
               footer={
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">
                     {level.goal.type === "collect"
-                      ? `Kumpulkan ${level.goal.target} 🔋`
+                      ? `Kumpulkan ${level.goal.target}`
                       : "Raih tujuan"}
                   </span>
                   <span className="flex items-center gap-1">

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getCurriculumModule } from "@/content/curriculum/curriculum";
 import { QuizPanel } from "@/components/game/quiz-panel";
 import { BackButton } from "@/components/design/back-button";
+import { Icon, type IconName } from "@/components/design/icon";
 
 export default async function CurriculumModulePage({
   params,
@@ -19,8 +20,9 @@ export default async function CurriculumModulePage({
         <BackButton fallbackHref={`/learn/${stack.id}`} />
       </div>
       <div className="mb-8">
-        <p className="text-xs text-muted-foreground">
-          {stack.icon} {stack.name} · ±{mod.minutes} menit
+        <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Icon name={stack.icon as IconName} size={14} />
+          {stack.name} · ±{mod.minutes} menit
         </p>
         <h1 className="font-display text-2xl tracking-wide text-foreground">
           {mod.title}
@@ -46,8 +48,9 @@ export default async function CurriculumModulePage({
         ))}
 
         <section className="rounded-xl border border-border bg-slate-900/60 p-4 sm:p-5">
-          <h2 className="mb-3 font-display text-base tracking-wide text-foreground">
-            🧪 Kuis Pemahaman
+          <h2 className="mb-3 flex items-center gap-2 font-display text-base tracking-wide text-foreground">
+            <Icon name="target" size={18} />
+            Kuis Pemahaman
           </h2>
           <QuizPanel questions={mod.quiz} />
         </section>

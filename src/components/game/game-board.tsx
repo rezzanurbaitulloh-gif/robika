@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GameLevel } from "@/lib/game/validate";
 import { simulate, type Command, type SimulationResult } from "@/lib/game/simulator";
 import { StatusChip } from "@/components/design/status-chip";
+import { Icon, type IconName } from "@/components/design/icon";
 
 interface GameBoardProps {
   level: GameLevel;
@@ -22,18 +23,16 @@ const TILE_STYLE: Record<string, string> = {
   G: "bg-emerald-400/40 border border-emerald-300 glow-box",
 };
 
-function tileEmoji(tile: string): string {
+function tileEmoji(tile: string): IconName | null {
   switch (tile) {
-    case "#":
-      return "";
     case "C":
-      return "🔋";
+      return "bolt";
     case "S":
-      return "⚠️";
+      return "alert";
     case "G":
-      return "◈";
+      return "target";
     default:
-      return "";
+      return null;
   }
 }
 
@@ -140,14 +139,22 @@ export function GameBoard({
           disabled={disabled || running}
           className="rounded-lg bg-accent px-4 py-1.5 text-sm font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-50"
         >
-          {running ? "Menjalankan..." : "▶ Jalankan"}
+          {running ? (
+            "Menjalankan..."
+          ) : (
+            <span className="inline-flex items-center gap-1.5">
+              <Icon name="play" size={14} /> Jalankan
+            </span>
+          )}
         </button>
         <button
           type="button"
           onClick={reset}
           className="rounded-lg border border-border px-4 py-1.5 text-sm transition hover:bg-muted"
         >
-          ⟲ Reset
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="refresh" size={14} /> Reset
+          </span>
         </button>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <StatusChip
@@ -162,7 +169,7 @@ export function GameBoard({
                   : `LANGKAH ${step}/${commands.length}`
             }
           />
-          <StatusChip status="info" label={`🔋 ${current.coins}`} />
+          <StatusChip status="info" label={`${current.coins}`} />
         </div>
       </div>
 
@@ -176,20 +183,21 @@ export function GameBoard({
         {level.grid.map((row, y) =>
           row.split("").map((tile, x) => {
             const isPlayer = pos.x === x && pos.y === y && !current.won;
+            const tileIcon = tileEmoji(tile);
             return (
               <div
                 key={`${x}-${y}`}
                 className={`relative flex aspect-square items-center justify-center text-sm sm:text-base ${TILE_STYLE[tile] ?? ""}`}
               >
-                {tileEmoji(tile)}
+                {tileIcon ? <Icon name={tileIcon} size={14} /> : null}
                 {isPlayer && (
                   <span className="absolute inset-0 flex items-center justify-center text-base text-cyan-300 drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]">
                     {robotFace}
                   </span>
                 )}
                 {current.won && pos.x === x && pos.y === y && (
-                  <span className="absolute inset-0 flex items-center justify-center text-base text-emerald-300">
-                    ★
+                  <span className="absolute inset-0 flex items-center justify-center text-emerald-300">
+                    <Icon name="star" size={16} />
                   </span>
                 )}
               </div>

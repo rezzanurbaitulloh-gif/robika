@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { gradeQuiz, type QuizQuestionLike } from "@/lib/game/quiz";
 import { StatusChip } from "@/components/design/status-chip";
+import { Icon } from "@/components/design/icon";
 
 interface QuizPanelProps {
   questions: QuizQuestionLike[];
@@ -33,7 +34,10 @@ export function QuizPanel({ questions }: QuizPanelProps) {
     <div className="rounded-xl border border-border bg-slate-900/60 p-4">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-display text-sm tracking-wide text-foreground">
-          🧪 KUIS MATERI
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="target" size={16} />
+            KUIS MATERI
+          </span>
         </h3>
         {submitted && result && (
           <div className="flex items-center gap-2">
@@ -41,7 +45,7 @@ export function QuizPanel({ questions }: QuizPanelProps) {
               status={result.passed ? "success" : "danger"}
               label={`${result.score}/${result.total} (${result.percent}%)`}
             />
-            {result.passed && <StatusChip status="info" label="LULUS ✓" />}
+            {result.passed && <StatusChip status="info" label="LULUS" />}
           </div>
         )}
       </div>
@@ -81,8 +85,9 @@ export function QuizPanel({ questions }: QuizPanelProps) {
                 })}
               </div>
               {submitted && wrongPicked && question.explain && (
-                <p className="mt-1.5 text-xs text-amber-200">
-                  💡 {question.explain}
+                <p className="mt-1.5 flex items-start gap-1.5 text-xs text-amber-200">
+                  <Icon name="info" size={14} className="mt-0.5 shrink-0" />
+                  {question.explain}
                 </p>
               )}
             </div>

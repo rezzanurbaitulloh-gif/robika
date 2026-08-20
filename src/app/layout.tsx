@@ -18,9 +18,20 @@ export const metadata: Metadata = {
   title: "Robika",
   description:
     "Belajar coding interaktif dengan AI, game 2D, dan CodeLab — gratis untuk semua.",
+  applicationName: "Robika",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "Robika",
+    statusBarStyle: "black-translucent",
+  },
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",
+  },
+  other: {
+    "theme-color": "#0b1120",
+    "mobile-web-app-capable": "yes",
   },
 };
 
@@ -30,7 +41,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       lang="id"
       className={`dark ${firaCode.variable} ${shareTechMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if ('serviceWorker' in navigator && !location.hostname.startsWith('localhost')) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }`,
+          }}
+        />
+      </body>
     </html>
   );
 }

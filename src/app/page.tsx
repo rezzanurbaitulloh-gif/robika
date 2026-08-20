@@ -1,44 +1,45 @@
 import Link from "next/link";
 import { BentoCard } from "@/components/design/bento-card";
 import { StatusChip } from "@/components/design/status-chip";
+import { Icon } from "@/components/design/icon";
 
 const FEATURES = [
   {
     title: "Kode Quest",
     description:
       "Belajar dengan game 2D. Tulis kode yang menggerakkan robot BOT-1 menembus dunia Robot Rescue.",
-    icon: "🎮",
+    icon: <Icon name="gamepad" size={16} />,
     span: 2,
   },
   {
     title: "CodeLab",
     description:
       "Editor ala VS Code dengan preview langsung. JavaScript & Python berjalan di browser.",
-    icon: "⚡",
+    icon: <Icon name="bolt" size={16} />,
   },
   {
     title: "AI Tutor",
     description:
       "Dibantu AI yang tidak pernah memberi jawaban instan — dia memandu dengan hint bertingkat.",
-    icon: "🤖",
+    icon: <Icon name="robot" size={16} />,
   },
   {
     title: "AI Mentor",
     description:
       "Mentor pribadi untuk solusi mendalam. Gratis 1 minggu, lalu Rp10rb/bulan.",
-    icon: "🧠",
+    icon: <Icon name="brain" size={16} />,
   },
   {
     title: "2 Mata Uang",
     description:
       "Bintang dari belajar, gem dari top-up. Kosmetik eksklusif tanpa pay-to-win.",
-    icon: "💎",
+    icon: <Icon name="gem" size={16} />,
   },
   {
     title: "Rp0 untukmu",
     description:
       "Semua materi dan CodeLab gratis selamanya. Tanpa iklan, tanpa paywall belajar.",
-    icon: "🛡️",
+    icon: <Icon name="shield" size={16} />,
     span: 2,
   },
 ];
@@ -132,7 +133,7 @@ export default function LandingPage() {
             <BentoCard
               title="Gratis"
               description="Semua kurikulum, Kode Quest, CodeLab, AI Tutor, 3 hint tiap 3 hari. Selamanya."
-              icon="🛡️"
+              icon={<Icon name="shield" size={16} />}
               footer={
                 <span className="font-display text-2xl text-accent">
                   Rp0<span className="text-sm text-muted-foreground">/bulan</span>
@@ -142,7 +143,7 @@ export default function LandingPage() {
             <BentoCard
               title="Mentor"
               description="AI Mentor pribadi tanpa batas topik. Trial 1 minggu gratis, lalu berhenti kapan saja."
-              icon="🧠"
+              icon={<Icon name="brain" size={16} />}
               footer={
                 <span className="font-display text-2xl text-accent">
                   Rp10rb<span className="text-sm text-muted-foreground">/bulan</span>

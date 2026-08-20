@@ -4,6 +4,7 @@ import { StatusChip } from "@/components/design/status-chip";
 import { BackButton } from "@/components/design/back-button";
 import { createServerSupabase } from "@/lib/db/server";
 import { redirect } from "next/navigation";
+import { Icon } from "@/components/design/icon";
 
 export const dynamic = "force-dynamic";
 
@@ -51,7 +52,7 @@ export default async function MentorPage() {
         <BentoCard
           title="Mulai Trial 1 Minggu"
           description="Nikmati AI Mentor penuh gratis selama 7 hari. Setelah itu Rp10rb/bulan — berhenti kapan saja. Tidak ada pembayaran otomatis."
-          icon="🧠"
+          icon={<Icon name="brain" size={22} />}
           className="mb-6"
           footer={
             <span className="rounded-lg bg-accent px-4 py-1.5 text-sm font-semibold text-accent-foreground">

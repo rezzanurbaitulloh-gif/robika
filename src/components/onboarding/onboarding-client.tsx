@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/db/client";
 import { classifyAnswers, QUESTIONS } from "@/lib/core/assessment";
 import { StatusChip } from "@/components/design/status-chip";
+import { Icon } from "@/components/design/icon";
 
 export function OnboardingClient() {
   const router = useRouter();
@@ -84,7 +85,7 @@ export function OnboardingClient() {
         disabled={saving}
         className="mx-auto mt-8 rounded-xl bg-accent px-8 py-3 font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-50"
       >
-        {saving ? "Menyimpan..." : "Mulai Belajar 🚀"}
+        {saving ? "Menyimpan..." : <>Mulai Belajar <Icon name="rocket" size={16} /></>}
       </button>
     </main>
   );

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/db/server";
 import { BackButton } from "@/components/design/back-button";
+import { Icon } from "@/components/design/icon";
 
 export const dynamic = "force-dynamic";
 
@@ -32,15 +33,19 @@ export default async function LeaderboardPage() {
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <div>
           <BackButton fallbackHref="/dashboard" />
-          <h1 className="font-display text-2xl tracking-wide text-foreground">
-            🏆 LEADERBOARD
+          <h1 className="flex items-center gap-2 font-display text-2xl tracking-wide text-foreground">
+            <Icon name="trophy" size={22} />
+            LEADERBOARD
           </h1>
         </div>
         <Link
           href="/daily"
           className="rounded-lg border border-accent/40 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-accent/20"
         >
-          ⚡ Daily Challenge
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="bolt" size={16} />
+            Daily Challenge
+          </span>
         </Link>
       </div>
 
@@ -49,7 +54,9 @@ export default async function LeaderboardPage() {
           <span>Rank</span>
           <span>Pelajar</span>
           <span className="hidden text-right sm:block">LV</span>
-          <span className="hidden text-right sm:block">🔥</span>
+          <span className="hidden text-right sm:block">
+            <Icon name="flame" size={14} />
+          </span>
           <span className="text-right">XP</span>
         </div>
         {rows.length === 0 ? (
@@ -69,7 +76,11 @@ export default async function LeaderboardPage() {
                 <span
                   className={`font-display text-base ${RANK_STYLE[i] ?? "text-muted-foreground"}`}
                 >
-                  {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`}
+                  {i < 3 ? (
+                    <Icon name="medal" size={16} />
+                  ) : (
+                    `#${i + 1}`
+                  )}
                 </span>
                 <span className="truncate font-medium text-foreground">
                   {row.username}

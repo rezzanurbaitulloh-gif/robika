@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { BentoCard } from "./bento-card";
+import { Icon } from "./icon";
 
 describe("BentoCard", () => {
   it("renders title and description", () => {
@@ -13,10 +14,10 @@ describe("BentoCard", () => {
     render(
       <BentoCard
         title="Dunia 1"
-        icon={<span aria-hidden>🤖</span>}
+        icon={<Icon name="robot" size={20} data-testid="icon" />}
       />,
     );
-    expect(screen.getByText("🤖")).toBeInTheDocument();
+    expect(screen.getByTestId("icon")).toBeInTheDocument();
   });
 
   it("renders children content", () => {

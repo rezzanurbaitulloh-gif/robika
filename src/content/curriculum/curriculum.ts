@@ -32,7 +32,7 @@ export const CURRICULUM_STACKS: CurriculumStack[] = [
   {
     id: "web-frontend",
     name: "Web Frontend",
-    icon: "🎨",
+    icon: "palette",
     description:
       "HTML, CSS, JavaScript, TypeScript, React, Next.js & Tailwind — dari struktur halaman sampai aplikasi modern.",
     color: "sky",
@@ -178,7 +178,7 @@ export const CURRICULUM_STACKS: CurriculumStack[] = [
   {
     id: "web-backend",
     name: "Web Backend",
-    icon: "⚙️",
+    icon: "settings",
     description:
       "Node.js, Express, Python (FastAPI/Flask), Go, PHP/Laravel, Java/Spring — logika server, API, dan database.",
     color: "emerald",
@@ -322,7 +322,7 @@ export const CURRICULUM_STACKS: CurriculumStack[] = [
   {
     id: "data-ai",
     name: "Data & AI",
-    icon: "🤖",
+    icon: "robot",
     description:
       "Python, Pandas, visualisasi, dasar machine learning, dan integrasi API AI untuk membangun produk cerdas.",
     color: "violet",
@@ -469,7 +469,7 @@ export const CURRICULUM_STACKS: CurriculumStack[] = [
   {
     id: "mobile",
     name: "Mobile (React Native)",
-    icon: "📱",
+    icon: "phone",
     description:
       "React Native & Expo — bangun aplikasi Android dan iOS dari satu basis kode JavaScript/TypeScript.",
     color: "cyan",
@@ -568,7 +568,7 @@ export const CURRICULUM_STACKS: CurriculumStack[] = [
   {
     id: "game-dev",
     name: "Game Dev (Web)",
-    icon: "🎮",
+    icon: "gamepad",
     description:
       "Fondasi logika game, kanvas 2D, dan Phaser — dari konsep loop sampai game sederhana yang bisa dimainkan.",
     color: "orange",
@@ -666,7 +666,7 @@ export const CURRICULUM_STACKS: CurriculumStack[] = [
   {
     id: "database-stack",
     name: "Database (Lanjutan)",
-    icon: "🗄️",
+    icon: "database",
     description:
       "PostgreSQL, indeks, transaksi, normalisasi, dan optimasi query untuk aplikasi berskala nyata.",
     color: "amber",
@@ -764,7 +764,7 @@ export const CURRICULUM_STACKS: CurriculumStack[] = [
   {
     id: "fullstack",
     name: "Fullstack",
-    icon: "🧩",
+    icon: "puzzle",
     description:
       "Proyek end-to-end: frontend + backend + database + deploy — dari ide sampai aplikasi berjalan di internet.",
     color: "rose",
@@ -861,7 +861,7 @@ export const CURRICULUM_STACKS: CurriculumStack[] = [
   {
     id: "ui-ux",
     name: "UI/UX Design",
-    icon: "✏️",
+    icon: "pen",
     description:
       "Prinsip desain, wireframe, design system, dan aksesibilitas — membuat produk yang indah dan mudah dipakai.",
     color: "fuchsia",

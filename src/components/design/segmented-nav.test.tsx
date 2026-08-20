@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { SegmentedNav } from "./segmented-nav";
+import { Icon } from "./icon";
 
 const options = [
   { value: "materi", label: "Materi" },
@@ -36,11 +37,11 @@ describe("SegmentedNav", () => {
 
   it("renders icons for options that provide one", () => {
     const withIcon = [
-      { value: "id", label: "ID", icon: <span>🌐</span> },
+      { value: "id", label: "ID", icon: <Icon name="globe" size={16} data-testid="icon" /> },
       { value: "en", label: "EN" },
     ];
     render(<SegmentedNav options={withIcon} value="id" onChange={vi.fn()} />);
-    expect(screen.getByText("🌐")).toBeInTheDocument();
+    expect(screen.getByTestId("icon")).toBeInTheDocument();
   });
 
   it("exposes an accessible group label", () => {

@@ -9,6 +9,7 @@ import { CodeEditor } from "@/components/codelab/code-editor";
 import { HintPanel } from "@/components/game/hint-panel";
 import { StatusChip } from "@/components/design/status-chip";
 import { BackButton } from "@/components/design/back-button";
+import { Icon } from "@/components/design/icon";
 
 export default function ChallengePage({
   params,
@@ -76,16 +77,16 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
               status={challenge.lang === "python" ? "info" : "neutral"}
               label={
                 challenge.kind === "fix-bug"
-                  ? "🔧 FIX BUG"
+                  ? "FIX BUG"
                   : challenge.kind === "preview"
-                    ? "👁 PREVIEW"
+                    ? "PREVIEW"
                     : challenge.lang === "python"
                       ? "PYTHON"
                       : "JAVASCRIPT"
               }
             />
-            {passed === true && <StatusChip status="success" label="✓ LULUS" />}
-            {passed === false && <StatusChip status="danger" label="✗ BELUM" />}
+            {passed === true && <StatusChip status="success" label="LULUS" />}
+            {passed === false && <StatusChip status="danger" label="BELUM" />}
           </div>
         </div>
         <p className="mt-2 text-sm text-foreground">{challenge.description.id}</p>
@@ -95,8 +96,9 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
         <div className="space-y-4">
           {challenge.kind === "fix-bug" && challenge.bugs && (
             <div className="rounded-xl border border-rose-400/30 bg-rose-400/5 p-4">
-              <h3 className="mb-2 font-display text-sm tracking-wide text-rose-300">
-                🐞 BUG YANG HARUS DIPERBAIKI
+              <h3 className="mb-2 flex items-center gap-1.5 font-display text-sm tracking-wide text-rose-300">
+                <Icon name="alert" size={18} />
+                BUG YANG HARUS DIPERBAIKI
               </h3>
               <ul className="list-inside list-disc space-y-1 text-sm text-foreground/90">
                 {challenge.bugs.map((bug, i) => (
@@ -123,7 +125,10 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
                   onClick={() => setCode(challenge.starterCode)}
                   className="rounded-lg border border-border px-3 py-1 text-xs transition hover:bg-muted"
                 >
-                  ⟲ Reset
+                  <span className="inline-flex items-center gap-1">
+                    <Icon name="refresh" size={14} />
+                    Reset
+                  </span>
                 </button>
                 <button
                   type="button"
@@ -131,7 +136,14 @@ function ChallengeInner({ challengeId }: { challengeId: string }) {
                   disabled={running}
                   className="rounded-lg bg-accent px-4 py-1 text-sm font-semibold text-accent-foreground transition hover:brightness-110 disabled:opacity-50"
                 >
-                  {running ? "Menjalankan..." : "▶ Jalankan"}
+                  {running ? (
+                    "Menjalankan..."
+                  ) : (
+                    <span className="inline-flex items-center gap-1">
+                      <Icon name="play" size={14} />
+                      Jalankan
+                    </span>
+                  )}
                 </button>
               </div>
             </div>
