@@ -35,6 +35,14 @@ export default async function CurriculumModulePage({
   const moduleDone = progress?.some((p) => p.item_type === "module") ?? false;
   const quizDone = progress?.some((p) => p.item_type === "quiz") ?? false;
 
+  const moduleIndex = stack.modules.findIndex((m) => m.id === mod.id);
+  const nextModule =
+    moduleIndex >= 0 && moduleIndex < stack.modules.length - 1
+      ? stack.modules[moduleIndex + 1]
+      : undefined;
+  const nextHref = nextModule ? `/learn/${stack.id}/${nextModule.id}` : undefined;
+  const backHref = `/learn/${stack.id}`;
+
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
       <div className="mb-2">
@@ -84,6 +92,9 @@ export default async function CurriculumModulePage({
           itemType="module"
           itemId={itemId}
           initialDone={moduleDone}
+          nextHref={nextHref}
+          isLast={!nextModule}
+          backHref={backHref}
         />
       </div>
     </main>

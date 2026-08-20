@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { StatusChip } from "@/components/design/status-chip";
 import { Icon } from "@/components/design/icon";
 
@@ -11,6 +12,11 @@ interface ModuleCompleteProps {
   itemId: string;
   initialDone: boolean;
   quizPassed?: boolean;
+  nextHref?: string;
+  nextLabel?: string;
+  isLast?: boolean;
+  backHref?: string;
+  backLabel?: string;
 }
 
 export function ModuleComplete({
@@ -18,6 +24,11 @@ export function ModuleComplete({
   itemId,
   initialDone,
   quizPassed,
+  nextHref,
+  nextLabel,
+  isLast = false,
+  backHref,
+  backLabel,
 }: ModuleCompleteProps) {
   const [done, setDone] = useState(initialDone);
   const [busy, setBusy] = useState(false);
@@ -46,9 +57,13 @@ export function ModuleComplete({
         stars?: number;
         leveled_up?: boolean;
         error?: string;
+        detail?: string;
       };
       if (!response.ok || !data.ok) {
-        setMessage({ tone: "danger", text: `Gagal: ${data.error ?? "unknown"}` });
+        setMessage({
+          tone: "danger",
+          text: `Gagal: ${data.error ?? "unknown"}${data.detail ? ` (${data.detail})` : ""}`,
+        });
         return;
       }
       setDone(true);
@@ -122,6 +137,32 @@ export function ModuleComplete({
           </button>
         </div>
       </div>
+      {done && (nextHref || isLast || backHref) ? (
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-accent/20 pt-4">
+          {nextHref ? (
+            <Link
+              href={nextHref}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:brightness-110"
+            >
+              {nextLabel ?? "Lanjut ke Materi Berikutnya"}
+              <Icon name="arrowRight" size={15} />
+            </Link>
+          ) : isLast ? (
+            <span className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300">
+              <Icon name="check" size={15} /> Semua materi selesai!
+            </span>
+          ) : null}
+          {backHref ? (
+            <Link
+              href={backHref}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-muted-foreground transition hover:border-accent/50 hover:text-foreground"
+            >
+              <Icon name="book" size={15} />
+              {backLabel ?? "Kembali ke Daftar Modul"}
+            </Link>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

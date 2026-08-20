@@ -76,7 +76,10 @@ export async function POST(request: Request) {
       item_id: itemId,
     });
   if (progressError) {
-    return Response.json({ error: "progress_failed" }, { status: 500 });
+    return Response.json(
+      { error: "progress_failed", detail: progressError.message },
+      { status: 500 },
+    );
   }
 
   const { data: wallet } = await supabase
