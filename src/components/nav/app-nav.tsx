@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon, type IconName } from "@/components/design/icon";
+import { isFlagEnabled } from "@/lib/flags";
 import { cn } from "@/lib/utils";
 
 const MOBILE_NAV: { href: string; label: string; icon: IconName }[] = [
@@ -23,9 +24,10 @@ const MORE_ITEMS: { href: string; label: string; icon: IconName }[] = [
   { href: "/profile", label: "Profil", icon: "user" },
 ];
 
-const DESKTOP_NAV: { href: string; label: string }[] = [
+const DESKTOP_NAV_BASE: { href: string; label: string }[] = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/world/world-1", label: "Kode Quest" },
+  { href: "/world/world-2", label: "Distrik Gerbang" },
   { href: "/learn", label: "Belajar" },
   { href: "/codelab", label: "CodeLab" },
   { href: "/codelab/studio", label: "Studio" },
@@ -43,6 +45,9 @@ function isActive(pathname: string, href: string): boolean {
 export function AppNav() {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
+  const desktopNav = isFlagEnabled("newAdventure")
+    ? DESKTOP_NAV_BASE
+    : DESKTOP_NAV_BASE.filter((i) => i.href !== "/world/world-2");
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -59,7 +64,7 @@ export function AppNav() {
         aria-label="Navigasi utama"
         className="hidden items-center gap-4 text-sm text-muted-foreground md:flex"
       >
-        {DESKTOP_NAV.map((item) => {
+        {desktopNav.map((item) => {
           const active = isActive(pathname, item.href);
           return (
             <Link

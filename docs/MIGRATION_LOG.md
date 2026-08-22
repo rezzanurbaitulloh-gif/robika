@@ -79,3 +79,10 @@
 - **Risks:** Rendah — jalur legacy utuh; world-2 hanya aktif via konten baru
 - **Rollback:** Revert commit tunggal
 - **Next:** Feature flag newAdventure di halaman dunia + asset pixel nyata (Phase 8) atau lanjut NPC/dialog (Phase 9-10)
+
+### Milestone 3.1 — Wiring pintu masuk world-2 (flag newAdventure)
+- Nav desktop: item "Distrik Gerbang" hanya muncul saat NEXT_PUBLIC_FLAG_NEW_ADVENTURE=true
+- Halaman /world/world-1: kartu "DISTRIK BERIKUTNYA" (flag-gated) menuju /world/world-2
+- Mobile bottom-nav tidak diubah (grid 5 slot); akses mobile lewat kartu di halaman world-1
+- Known limitation: URL /level/world-2-* masih bisa diakses langsung tanpa flag (soft gate) — hard gate menyusul bila dibutuhkan
+- Verifikasi: tsc/eslint bersih, `next build` sukses penuh
