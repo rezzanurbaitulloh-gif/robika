@@ -75,7 +75,7 @@ export function OnboardingClient() {
 
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-4 py-16 text-center">
-      <h1 className="font-display text-3xl tracking-wide text-foreground">
+      <h1 className="font-display text-2xl tracking-wide sm:text-3xl text-foreground">
         ANALISIS SELESAI
       </h1>
       <p className="mt-3 text-sm text-muted-foreground">

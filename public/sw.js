@@ -1,4 +1,4 @@
-const CACHE = "robika-v1";
+const CACHE = "robika-v2";
 const APP_SHELL = ["/", "/dashboard", "/login", "/icon-192.png", "/icon-512.png", "/manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {
@@ -27,27 +27,17 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== location.origin) return;
   if (url.pathname.startsWith("/api/")) return;
 
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE).then((cache) => cache.put("/", copy));
-          return response;
-        })
-        .catch(() => caches.match("/")),
-    );
-    return;
-  }
-
   event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) return cached;
-      return fetch(request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE).then((cache) => cache.put(request, copy));
+    fetch(request)
+      .then((response) => {
+        if (response.ok && request.mode !== "navigate") {
+          const copy = response.clone();
+          caches.open(CACHE).then((cache) => cache.put(request, copy));
+        }
         return response;
-      });
-    }),
+      })
+      .catch(() =>
+        caches.match(request).then((cached) => cached ?? caches.match("/")),
+      ),
   );
 });

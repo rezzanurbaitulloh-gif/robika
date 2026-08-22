@@ -21,7 +21,7 @@ export default async function WorldPage({
         <BackButton fallbackHref="/dashboard" />
       </div>
       <div className="mb-8">
-        <h1 className="font-display text-3xl tracking-wide text-foreground">
+        <h1 className="font-display text-2xl tracking-wide sm:text-3xl text-foreground">
           {world.name.id.toUpperCase()}
         </h1>
         <p className="text-sm text-muted-foreground">

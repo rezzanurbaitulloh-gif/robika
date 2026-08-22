@@ -91,7 +91,7 @@ export default function LandingPage() {
       <main className="mx-auto w-full max-w-6xl flex-1 px-4">
         <section className="py-20 text-center">
           <StatusChip status="info" label="● AI CODING ACADEMY" className="mb-6" />
-          <h1 className="font-display text-4xl tracking-wide text-foreground md:text-6xl">
+          <h1 className="font-display text-3xl tracking-wide text-foreground sm:text-4xl md:text-6xl">
             Belajar Coding
             <br />
             <span className="glow-text text-accent">Jadi Game.</span>

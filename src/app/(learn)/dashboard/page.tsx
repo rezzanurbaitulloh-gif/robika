@@ -113,7 +113,7 @@ export default async function DashboardPage() {
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl tracking-wide text-foreground">
+          <h1 className="font-display text-2xl tracking-wide sm:text-3xl text-foreground">
             SELAMAT DATANG,{" "}
             <span className="text-accent">
               {(profile?.username ?? "PELAJAR").toUpperCase()}

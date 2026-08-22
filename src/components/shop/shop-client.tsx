@@ -200,7 +200,7 @@ export function ShopClient() {
       </div>
       <div className="mb-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="font-display text-3xl tracking-wide text-foreground">
+          <h1 className="font-display text-2xl tracking-wide sm:text-3xl text-foreground">
             SHOP KOSMETIK
           </h1>
           {balance && (

@@ -20,7 +20,7 @@ export default async function CurriculumStackPage({
         <BackButton fallbackHref="/learn" />
       </div>
       <div className="mb-8">
-        <h1 className="flex items-center gap-3 font-display text-3xl tracking-wide text-foreground">
+        <h1 className="flex items-center gap-3 font-display text-2xl tracking-wide sm:text-3xl text-foreground">
           <Icon name={stack.icon} size={20} />
           {stack.name.toUpperCase()}
         </h1>

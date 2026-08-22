@@ -30,7 +30,7 @@ export default function LearnLayout({ children }: { children: ReactNode }) {
           </div>
         </div>
       </header>
-      <div className="flex flex-1 flex-col pb-16 md:pb-0">{children}</div>
+      <div className="flex flex-1 flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">{children}</div>
     </div>
   );
 }

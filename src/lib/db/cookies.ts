@@ -1,0 +1,7 @@
+const THIRTY_DAYS_SECONDS = 60 * 60 * 24 * 30;
+
+export const SESSION_COOKIE_MAX_AGE = THIRTY_DAYS_SECONDS;
+
+export const SUPABASE_COOKIE_OPTIONS = {
+  maxAge: SESSION_COOKIE_MAX_AGE,
+} as const;

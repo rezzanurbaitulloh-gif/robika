@@ -11,7 +11,7 @@ export default function LearnPage() {
         <BackButton />
       </div>
       <div className="mb-8">
-        <h1 className="font-display text-3xl tracking-wide text-foreground">
+        <h1 className="font-display text-2xl tracking-wide sm:text-3xl text-foreground">
           KURIKULUM MULTI-STACK
         </h1>
         <p className="text-sm text-muted-foreground">

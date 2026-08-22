@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fira_Code, Share_Tech_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
@@ -13,6 +13,12 @@ const shareTechMono = Share_Tech_Mono({
   weight: "400",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "Robika",
