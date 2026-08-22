@@ -35,3 +35,25 @@
 - **Risks:** Rendah — murni aditif; registry konsep akan bertambah saat Academy/CodeLab terintegrasi
 - **Rollback:** Revert commit tunggal
 - **Next:** Phase 2 Asset Pipeline (Pixel Art Bible → Manifest → sample PixelLab MCP)
+
+---
+
+## Milestone 2 — PHASE 3 GAME FOUNDATION (interpreter deterministik)
+
+- **Date:** 2026-08-22
+- **Milestone:** Engine game baru — subset JS aman tanpa eval
+- **Changes:**
+  - `src/lib/game/interpreter.ts` (baru, ~870 baris): tokenizer → parser recursive-descent → evaluator AST
+    - Mendukung: moveForward/turnLeft/turnRight, sensor blockedAhead/canMove/atGoal, openGate(), variabel numerik+aritmetika, if/else, while, for, fungsi tanpa parameter, return, Math.abs/min/max/floor, komentar
+    - Tile baru: `D` = gerbang terkunci (solid; terbuka via openGate())
+    - Keamanan: TANPA eval/new Function; perintah tak dikenal = error fail-closed; string literal ditolak; step budget 100k + iterasi guard 10k + call-depth 32; deterministik penuh (client & server hasil identik)
+    - Error ramah bahasa Indonesia untuk anak
+  - Simulator lama (`simulator.ts`) TIDAK diubah — world-1 existing tetap jalan lewat jalur lama (zero regression)
+  - `src/lib/game/interpreter.test.ts`: 16 test (perintah dasar, loop, if/else sensor, variabel, fungsi, gate, koin, sintaks error, fail-closed API asing, window.location ditolak, infinite loop, rekursi, string ditolak, div-nol, return liar, determinisme)
+- **Files:** 2 baru — nol modifikasi file existing
+- **Database:** Tidak ada
+- **Assets:** Tidak ada
+- **Tests:** 306/306 pass (+16); tsc & eslint bersih
+- **Risks:** Sedang — engine belum terhubung ke UI/API (isolated). Integrasi di vertical slice.
+- **Rollback:** Revert commit tunggal
+- **Next:** Phase 4-5 — vertical slice "Broken Power Gate": dunia JSON baru + routing engine + UI terminal
