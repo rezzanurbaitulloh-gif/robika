@@ -3,7 +3,7 @@ import { getLevel, getWorld } from "@/content";
 import { applyLevelUp, computeCompletionRewards } from "@/lib/game/rewards";
 import { errorRecoveryBonus, starsForHints } from "@/lib/game/stars";
 import { updateStreak } from "@/lib/game/streak";
-import { parseProgram, simulate } from "@/lib/game/simulator";
+import { runLevel } from "@/lib/game/engine";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
   if (!body.code) {
     return Response.json({ error: "solution_missing" }, { status: 400 });
   }
-  const simulation = simulate(level, parseProgram(body.code));
+  const simulation = runLevel(level, body.code);
   if (!simulation.won) {
     return Response.json({ error: "solution_invalid" }, { status: 400 });
   }

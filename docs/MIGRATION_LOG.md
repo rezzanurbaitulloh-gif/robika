@@ -57,3 +57,25 @@
 - **Risks:** Sedang — engine belum terhubung ke UI/API (isolated). Integrasi di vertical slice.
 - **Rollback:** Revert commit tunggal
 - **Next:** Phase 4-5 — vertical slice "Broken Power Gate": dunia JSON baru + routing engine + UI terminal
+
+---
+
+## Milestone 3 — PHASE 4-7 VERTICAL SLICE "Broken Power Gate"
+
+- **Date:** 2026-08-22
+- **Milestone:** Slice end-to-end pertama: kode → interpreter → dunia berubah (gerbang terbuka)
+- **Changes:**
+  - `src/lib/game/validate.ts`: tile `D` resmi + field `engine?: "legacy"|"js"` + aturan solusi gerbang wajib openGate()
+  - `src/lib/game/interpreter.ts`: event log (move/turn/openGate) untuk animasi UI deterministik
+  - `src/lib/game/engine.ts`: router engine — auto-detect via tile D / field engine; legacy world-1 tak tersentuh
+  - `src/content/world-2/world-2.json` (baru): 2 level — "Gerbang Daya Putus" & "Koridor Koin Terkunci", lengkap lesson+quiz+hints, self-solvable
+  - `src/components/game/adventure-board.tsx` (baru): board js-engine — replay event log, render gerbang terkunci/terbuka, banner error ramah
+  - `level-client.tsx`: routing board per engine (legacy → GameBoard, js → AdventureBoard); parseCommands di-guard agar kode JS tidak menyentuh parser lama
+  - `/api/game/complete`: validasi server kini via runLevel() — server-authoritative tetap terjaga
+- **Files:** 5 baru, 4 modifikasi
+- **Database:** Tidak ada
+- **Assets:** Tidak ada (board masih CSS; sprite menyusul Phase 8)
+- **Tests:** 315/315 pass (+9: routing 5, slice 4 termasuk self-solve guardrail & starter-code-tidak-menang)
+- **Risks:** Rendah — jalur legacy utuh; world-2 hanya aktif via konten baru
+- **Rollback:** Revert commit tunggal
+- **Next:** Feature flag newAdventure di halaman dunia + asset pixel nyata (Phase 8) atau lanjut NPC/dialog (Phase 9-10)

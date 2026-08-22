@@ -1,14 +1,18 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { GameBoard, type GameBoardHandle } from "@/components/game/game-board";
+import {
+  AdventureBoard,
+} from "@/components/game/adventure-board";
 import { HintPanel } from "@/components/game/hint-panel";
 import { QuizPanel } from "@/components/game/quiz-panel";
 import { BossPanel } from "@/components/game/boss-panel";
 import { CodeEditor } from "@/components/codelab/code-editor";
 import { AiChat } from "@/components/ai/ai-chat";
 import { parseCommands, type SimulationResult } from "@/lib/game/simulator";
+import { levelEngine, type AnySimResult } from "@/lib/game/engine";
 import { starsForHints } from "@/lib/game/stars";
 import { StatusChip } from "@/components/design/status-chip";
 import { Icon, type IconName } from "@/components/design/icon";
@@ -50,10 +54,14 @@ export function LevelClient({
   const startRef = useRef<number | null>(null);
   const boardRef = useRef<GameBoardHandle>(null);
 
-  const commands = parseCommands(code);
+  const usesJsEngine = useMemo(() => levelEngine(level) === "js", [level]);
+  const commands = useMemo(
+    () => (usesJsEngine ? [] : parseCommands(code)),
+    [code, usesJsEngine],
+  );
   const canRun = !result?.won;
 
-  const onResult = (res: SimulationResult) => {
+  const onResult = (res: SimulationResult | AnySimResult) => {
     setResult(res);
     if (!res.won) {
       if (res.crashed) setHadError(true);
@@ -182,15 +190,29 @@ export function LevelClient({
       {tab === "game" && (
         <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <div className="space-y-6">
-            <GameBoard
-              level={level}
-              commands={commands}
-              onResult={onResult}
-              onRunStart={() => {
-                startRef.current = performance.now();
-              }}
-              disabled={canRun === false}
-            />
+            {usesJsEngine ? (
+              <AdventureBoard
+                ref={boardRef}
+                level={level}
+                code={code}
+                onResult={onResult}
+                onRunStart={() => {
+                  startRef.current = performance.now();
+                }}
+                disabled={canRun === false}
+              />
+            ) : (
+              <GameBoard
+                ref={boardRef}
+                level={level}
+                commands={commands}
+                onResult={onResult}
+                onRunStart={() => {
+                  startRef.current = performance.now();
+                }}
+                disabled={canRun === false}
+              />
+            )}
 
             <div className="overflow-hidden rounded-xl border border-border">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-muted/60 px-3 py-2">

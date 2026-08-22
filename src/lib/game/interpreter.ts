@@ -1,5 +1,12 @@
 import type { GameLevel } from "./validate";
 
+export type SimDir = "N" | "E" | "S" | "W";
+
+export type SimEvent =
+  | { kind: "move"; from: { x: number; y: number }; to: { x: number; y: number }; crashed?: boolean; won?: boolean }
+  | { kind: "turn"; dir: SimDir }
+  | { kind: "openGate"; count: number };
+
 export interface JsSimulationResult {
   status: "ok" | "error" | "timeout";
   error?: string;
@@ -9,6 +16,7 @@ export interface JsSimulationResult {
   steps: number;
   position: { x: number; y: number };
   gatesOpened: number;
+  events: SimEvent[];
 }
 
 export class InterpreterError extends Error {}
@@ -480,6 +488,7 @@ export class JsWorldSimulator {
   private crashed = false;
   private won = false;
   private gatesOpened = 0;
+  private events: SimEvent[] = [];
   private goalType: "reach" | "collect";
   private coinsNeeded: number;
   private ctx: RunContext;
@@ -490,6 +499,8 @@ export class JsWorldSimulator {
     { dx: 0, dy: 1 },
     { dx: -1, dy: 0 },
   ];
+
+  private static DIR_NAMES: SimDir[] = ["N", "E", "S", "W"];
 
   constructor(level: GameLevel, maxSteps: number) {
     this.grid = [...level.grid];
@@ -531,10 +542,17 @@ export class JsWorldSimulator {
 
   private moveForward(): void {
     this.tick();
+    const from = { x: this.px, y: this.py };
     const vec = JsWorldSimulator.DIRS[this.dirIndex];
     const tile = this.ahead();
     if (this.solid(tile)) {
       this.crashed = true;
+      this.events.push({
+        kind: "move",
+        from,
+        to: { x: this.px + vec.dx, y: this.py + vec.dy },
+        crashed: true,
+      });
       throw new InterpreterError(
         tile === "D"
           ? "BOT-1 menabrak gerbang yang masih terkunci"
@@ -547,11 +565,18 @@ export class JsWorldSimulator {
     if (tile === "G") {
       this.won = this.goalType === "reach" || this.coins >= this.coinsNeeded;
     }
+    this.events.push({
+      kind: "move",
+      from,
+      to: { x: this.px, y: this.py },
+      won: this.won || undefined,
+    });
   }
 
   private turn(delta: number): void {
     this.tick();
     this.dirIndex = (this.dirIndex + delta + 4) % 4;
+    this.events.push({ kind: "turn", dir: JsWorldSimulator.DIR_NAMES[this.dirIndex] });
   }
 
   private openGate(): Value {
@@ -564,6 +589,7 @@ export class JsWorldSimulator {
         }
       }
     }
+    this.events.push({ kind: "openGate", count: this.gatesOpened });
     return true;
   }
 
@@ -642,6 +668,7 @@ export class JsWorldSimulator {
       steps: this.ctx.steps,
       position: { x: this.px, y: this.py },
       gatesOpened: this.gatesOpened,
+      events: [...this.events],
     };
   }
 
@@ -869,6 +896,7 @@ export function simulateWithJs(level: GameLevel, code: string, options?: { maxSt
         steps: 0,
         position: { x: 0, y: 0 },
         gatesOpened: 0,
+        events: [],
       };
     }
     throw err;

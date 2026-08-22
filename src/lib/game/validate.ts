@@ -1,4 +1,4 @@
-export const TILE_CHARS = [".", "#", "P", "G", "C", "S", "E", "^"] as const;
+export const TILE_CHARS = [".", "#", "P", "G", "C", "S", "E", "^", "D"] as const;
 export type TileChar = (typeof TILE_CHARS)[number];
 
 export interface LevelText {
@@ -35,6 +35,7 @@ export interface GameLevel {
   hints: string[][];
   starterCode: string;
   solution: string;
+  engine?: "legacy" | "js";
   xpReward: number;
   parMs?: number;
   lesson?: LessonContent;
@@ -106,6 +107,12 @@ export function validateLevel(level: GameLevel, existingIds: string[] = []): Val
   }
   if (!level.solution || level.solution.trim() === "") {
     errors.push("solution must not be empty");
+  }
+  if (countChar(level.grid, "D") > 0 && !level.solution.includes("openGate()")) {
+    errors.push("level with gate 'D' must use openGate() in its solution");
+  }
+  if (level.engine !== undefined && !["legacy", "js"].includes(level.engine)) {
+    errors.push("engine must be \"legacy\" or \"js\"");
   }
   if (!level.xpReward || level.xpReward <= 0) {
     errors.push("xpReward must be > 0");

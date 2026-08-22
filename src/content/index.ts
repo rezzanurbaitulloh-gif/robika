@@ -1,4 +1,5 @@
 import world1Json from "./world-1/world-1.json";
+import world2Json from "./world-2/world-2.json";
 import type { GameLevel } from "@/lib/game/validate";
 import { validateWorld } from "@/lib/game/validate";
 
@@ -10,6 +11,7 @@ export interface World {
 
 export const worlds: World[] = [
   { ...world1Json, levels: world1Json.levels as GameLevel[] },
+  { ...world2Json, levels: world2Json.levels as GameLevel[] },
 ];
 
 export function getWorld(worldId: string): World | undefined {

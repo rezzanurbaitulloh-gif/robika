@@ -1,0 +1,168 @@
+{
+  "world": "world-2",
+  "name": {
+    "id": "Distrik Gerbang",
+    "en": "Gate District"
+  },
+  "levels": [
+    {
+      "id": "world-2-level-1",
+      "order": 1,
+      "title": {
+        "id": "Gerbang Daya Putus",
+        "en": "Broken Power Gate"
+      },
+      "topic": "API dunia (world API)",
+      "concept": "openGate()",
+      "objective": {
+        "id": "Gerbang listrik di jalur utama mati. Nyalakan lewat terminal BOT-1 lalu capai stasiun tujuan.",
+        "en": "The power gate on the main path is dead. Reboot it via the BOT-1 terminal then reach the goal station."
+      },
+      "grid": [
+        "#######",
+        "#P.D.G#",
+        "#######"
+      ],
+      "goal": {
+        "type": "reach"
+      },
+      "hints": [
+        [
+          "Gerbang 'D' menghalangi jalan — maju terus akan membuat BOT-1 menabraknya."
+        ],
+        [
+          "Panggil openGate() untuk membuka SEMUA gerbang yang terkunci di peta."
+        ],
+        [
+          "Solusi: moveForward(); openGate(); lalu maju 3 kali sampai tujuan."
+        ]
+      ],
+      "starterCode": "// Gerbang 'D' bersifat solid seperti dinding.\n// Buka dulu dengan perintah baru dari API dunia!\nmoveForward();\n",
+      "solution": "moveForward(); openGate(); for (let i = 0; i < 3; i++) { moveForward(); }",
+      "engine": "js",
+      "xpReward": 60,
+      "lesson": {
+        "title": "API Dunia — openGate()",
+        "body": [
+          "Di distrik ini BOT-1 punya akses ke terminal kota: kode yang kamu tulis bisa mengubah peta, bukan hanya menggerakkan robot.",
+          "Perintah openGate() membuka semua gerbang bertanda 'D' di seluruh peta sekaligus.",
+          "Sebelum gerbang dibuka, 'D' berlaku seperti dinding — blockedAhead() bernilai true dan menabraknya berarti crash.",
+          "Urutan itu penting: kalau kamu maju sebelum memanggil openGate(), BOT-1 akan menabrak gerbang yang masih terkunci.",
+          "Ini contoh nyata pemrograman dunia nyata: satu panggilan fungsi bisa mengubah keadaan sistem, bukan cuma posisi."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Apa efek memanggil openGate()?",
+            "options": [
+              "Membuka satu gerbang terdekat saja",
+              "Membuka semua gerbang 'D' di peta",
+              "Menghapus semua dinding"
+            ],
+            "answer": 1,
+            "explain": "openGate() membuka semua tile gerbang 'D' di seluruh peta sekaligus."
+          },
+          {
+            "q": "Sebelum dibuka, bagaimana sifat tile 'D' bagi BOT-1?",
+            "options": [
+              "Seperti jalan biasa, bisa dilewati",
+              "Seperti dinding — menabraknya berarti crash"
+              ],
+            "answer": 1,
+            "explain": "Gerbang terkunci solid: blockedAhead() true dan menabraknya membuat BOT-1 crash."
+          },
+          {
+            "q": "Manakah urutan yang benar untuk melewati gerbang di depanmu?",
+            "options": [
+              "moveForward() lalu openGate()",
+              "openGate() lalu moveForward()"
+            ],
+            "answer": 1,
+            "explain": "Buka gerbangnya dulu; maju duluan artinya menabrak gerbang terkunci."
+          }
+        ]
+      }
+    },
+    {
+      "id": "world-2-level-2",
+      "order": 2,
+      "title": {
+        "id": "Koridor Koin Terkunci",
+        "en": "Locked Coin Corridor"
+      },
+      "topic": "API dunia + perulangan",
+      "concept": "openGate() + for loop",
+      "objective": {
+        "id": "Dua power cell tersebar di koridor yang ditutup dua segmen gerbang. Kumpulkan keduanya dan berhenti tepat di stasiun tujuan.",
+        "en": "Two power cells lie along a corridor sealed by gate segments. Collect both and stop exactly at the goal station."
+      },
+      "grid": [
+        "########",
+        "#PC.DCG#",
+        "########"
+      ],
+      "goal": {
+        "type": "collect",
+        "target": 2
+      },
+      "hints": [
+        [
+          "openGate() cukup dipanggil sekali — semua gerbang terbuka bersamaan."
+        ],
+        [
+          "Setelah koridor bebas, gabungkan dengan for loop agar kodenya pendek."
+        ],
+        [
+          "Solusi: openGate(); lalu maju 5 kali pakai for loop sampai tujuan."
+        ]
+      ],
+      "starterCode": "// Koridor ini dikunci. Buka pintunya,\n// lalu gunakan loop untuk menyapu semua power cell.\n",
+      "solution": "openGate(); for (let i = 0; i < 5; i++) { moveForward(); }",
+      "engine": "js",
+      "xpReward": 80,
+      "lesson": {
+        "title": "Menggabungkan API Dunia dengan Loop",
+        "body": [
+          "Kekuatan sesungguhnya muncul saat perintah dunia digabung dengan kontrol alur.",
+          "Satu openGate() membuka seluruh koridor — sisanya pekerjaan berulang yang cocok untuk for loop.",
+          "Tujuan level ini bertipe 'collect': BOT-1 harus mengumpulkan power cell secukupnya DAN berakhir di tile tujuan.",
+          "Coba bayangkan menulis ini tanpa loop: lima kali moveForward(); secara manual — bisa, tapi tidak elegan.",
+          "Prinsipnya: biarkan mesin melakukan pengulangan, kamu menulis niatnya sekali saja."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Berapa kali openGate() perlu dipanggil jika ada dua gerbang di peta?",
+            "options": [
+              "Sekali — semua gerbang langsung terbuka",
+              "Dua kali, satu per gerbang"
+            ],
+            "answer": 0,
+            "explain": "Satu panggilan openGate() membuka semua gerbang 'D' di seluruh peta."
+          },
+          {
+            "q": "Goal 'collect' dengan target 2 dianggap selesai jika…",
+            "options": [
+              "Koin terkumpul 2, di mana pun BOT-1 berhenti",
+              "Koin terkumpul 2 DAN BOT-1 berada di tile tujuan"
+            ],
+            "answer": 1,
+            "explain": "Level collect butuh jumlah koin terpenuhi plus bot berakhir di tile 'G'."
+          },
+          {
+            "q": "for (let i = 0; i < 5; i++) { moveForward(); } membuat BOT-1 maju…",
+            "options": [
+              "4 petak",
+              "5 petak",
+              "6 petak"
+            ],
+            "answer": 1,
+            "explain": "i bernilai 0..4 sehingga isi loop dieksekusi tepat 5 kali."
+          }
+        ]
+      }
+    }
+  ]
+}
