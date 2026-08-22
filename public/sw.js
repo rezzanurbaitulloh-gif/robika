@@ -1,4 +1,4 @@
-const CACHE = "robika-v2";
+const CACHE = "robika-v3";
 const APP_SHELL = ["/", "/dashboard", "/login", "/icon-192.png", "/icon-512.png", "/manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {

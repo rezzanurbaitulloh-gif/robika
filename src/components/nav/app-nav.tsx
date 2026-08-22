@@ -137,7 +137,7 @@ export function AppNav() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu fitur lainnya"
-          className="fixed inset-x-0 bottom-0 z-10 md:hidden"
+          className="fixed inset-0 z-50 flex items-end md:hidden"
         >
           <button
             type="button"
@@ -145,7 +145,7 @@ export function AppNav() {
             onClick={() => setMoreOpen(false)}
             className="absolute inset-0 h-full w-full bg-black/60 backdrop-blur-sm"
           />
-          <div className="relative mx-auto max-w-lg rounded-t-2xl border-t border-x border-border bg-card p-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-2xl">
+          <div className="relative mx-auto w-full max-w-lg rounded-t-2xl border-t border-x border-border bg-card p-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-2xl">
             <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-muted" />
             <p className="mb-3 px-1 font-display text-xs tracking-widest text-muted-foreground">
               SEMUA FITUR
