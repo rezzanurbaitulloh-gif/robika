@@ -5,7 +5,8 @@ export type SimDir = "N" | "E" | "S" | "W";
 export type SimEvent =
   | { kind: "move"; from: { x: number; y: number }; to: { x: number; y: number }; crashed?: boolean; won?: boolean }
   | { kind: "turn"; dir: SimDir }
-  | { kind: "openGate"; count: number };
+  | { kind: "openGate"; count: number }
+  | { kind: "npcTalk"; x: number; y: number };
 
 export interface JsSimulationResult {
   status: "ok" | "error" | "timeout";
@@ -16,6 +17,8 @@ export interface JsSimulationResult {
   steps: number;
   position: { x: number; y: number };
   gatesOpened: number;
+  npcsTotal: number;
+  npcsTalked: number;
   events: SimEvent[];
 }
 
@@ -489,8 +492,10 @@ export class JsWorldSimulator {
   private won = false;
   private gatesOpened = 0;
   private events: SimEvent[] = [];
-  private goalType: "reach" | "collect";
+  private goalType: "reach" | "collect" | "quest";
   private coinsNeeded: number;
+  private npcsTotal = 0;
+  private npcsTalkedSet = new Set<string>();
   private ctx: RunContext;
 
   private static DIRS: Array<{ dx: number; dy: number }> = [
@@ -506,7 +511,7 @@ export class JsWorldSimulator {
     this.grid = [...level.grid];
     this.height = level.grid.length;
     this.width = level.grid[0]?.length ?? 0;
-    this.goalType = level.goal.type === "collect" ? "collect" : "reach";
+    this.goalType = level.goal.type;
     this.coinsNeeded = level.goal.type === "collect" ? (level.goal.target ?? 1) : 0;
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
@@ -514,6 +519,7 @@ export class JsWorldSimulator {
           this.px = x;
           this.py = y;
         }
+        if (this.grid[y][x] === "N") this.npcsTotal += 1;
       }
     }
     this.ctx = { steps: 0, maxSteps, depth: 0, functions: new Map() };
@@ -562,8 +568,18 @@ export class JsWorldSimulator {
     this.px += vec.dx;
     this.py += vec.dy;
     if (tile === "C") this.coins += 1;
+    if (tile === "N") {
+      const key = `${this.px},${this.py}`;
+      if (!this.npcsTalkedSet.has(key)) {
+        this.npcsTalkedSet.add(key);
+        this.events.push({ kind: "npcTalk", x: this.px, y: this.py });
+      }
+    }
     if (tile === "G") {
-      this.won = this.goalType === "reach" || this.coins >= this.coinsNeeded;
+      this.won =
+        this.goalType === "reach" ||
+        (this.goalType === "collect" && this.coins >= this.coinsNeeded) ||
+        (this.goalType === "quest" && this.npcsTalkedSet.size >= this.npcsTotal);
     }
     this.events.push({
       kind: "move",
@@ -653,7 +669,9 @@ export class JsWorldSimulator {
     if (!this.won && !this.crashed) {
       this.won =
         this.tileAt(this.px, this.py) === "G" &&
-        (this.goalType === "reach" || this.coins >= this.coinsNeeded);
+        (this.goalType === "reach" ||
+          (this.goalType === "collect" && this.coins >= this.coinsNeeded) ||
+          (this.goalType === "quest" && this.npcsTalkedSet.size >= this.npcsTotal));
     }
     return this.result("ok", undefined);
   }
@@ -668,6 +686,8 @@ export class JsWorldSimulator {
       steps: this.ctx.steps,
       position: { x: this.px, y: this.py },
       gatesOpened: this.gatesOpened,
+      npcsTotal: this.npcsTotal,
+      npcsTalked: this.npcsTalkedSet.size,
       events: [...this.events],
     };
   }
@@ -896,6 +916,8 @@ export function simulateWithJs(level: GameLevel, code: string, options?: { maxSt
         steps: 0,
         position: { x: 0, y: 0 },
         gatesOpened: 0,
+        npcsTotal: 0,
+        npcsTalked: 0,
         events: [],
       };
     }

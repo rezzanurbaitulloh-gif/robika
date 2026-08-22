@@ -246,6 +246,86 @@
           }
         ]
       }
+    },
+    {
+      "id": "world-2-level-4",
+      "order": 4,
+      "title": {
+        "id": "Mekanik Gerbang",
+        "en": "The Gate Mechanic"
+      },
+      "topic": "misi & interaksi NPC",
+      "concept": "quest",
+      "objective": {
+        "id": "Seorang mekanik tua menjaga kunci daya gerbang. Misi hanya selesai jika BOT-1 sudah BICARA dengan mekanik DAN mencapai tujuan.",
+        "en": "An old mechanic guards the gate power key. The quest completes only if BOT-1 talks to the mechanic AND reaches the goal."
+      },
+      "grid": [
+        "########",
+        "#P.N.DG#",
+        "########"
+      ],
+      "goal": {
+        "type": "quest"
+      },
+      "hints": [
+        [
+          "Progres \"NPC 0/1\" baru berubah saat BOT-1 menginjak petak mekanik — bicara terjadi otomatis."
+        ],
+        [
+          "Urutan yang benar: maju sampai di petak mekanik, panggil openGate(), lalu lanjut sampai tujuan."
+        ],
+        [
+          "Solusi: lima moveForward() dengan openGate() tepat setelah langkah kedua."
+        ]
+      ],
+      "starterCode": "// Mekanik tua menunggu di jalur.\n// Berhentilah di petaknya untuk bicara, lalu buka gerbang.\nmoveForward();\n",
+      "solution": "moveForward(); moveForward(); openGate(); moveForward(); moveForward(); moveForward();",
+      "engine": "js",
+      "xpReward": 120,
+      "lesson": {
+        "title": "Misi & NPC",
+        "body": [
+          "Beberapa misi punya dua syarat sekaligus: kunjungi semua NPC dan capai tujuan. Chip \"NPC n/m\" di papan menunjukkan progres bicara.",
+          "BOT-1 bicara secara otomatis saat menginjak petak NPC — tidak ada perintah khusus yang perlu dipanggil.",
+          "Jika tujuan tercapai tetapi belum semua NPC disapa, misi BELUM selesai. Urutan tindakan jadi bagian dari logika programmu.",
+          "Pola ini persis seperti game sungguhan: ambil quest dari NPC, kerjakan objective, lalu kembali untuk reward."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Tile apa yang menandai posisi NPC di grid?",
+            "options": [
+              "N",
+              "C",
+              "G"
+            ],
+            "answer": 0,
+            "explain": "Huruf N adalah NPC; C koin, G tujuan."
+          },
+          {
+            "q": "Bagaimana BOT-1 berbicara dengan NPC?",
+            "options": [
+              "Memanggil talk()",
+              "Otomatis saat menginjak petak NPC",
+              "Mengetuk tiga kali"
+            ],
+            "answer": 1,
+            "explain": "Interaksi terjadi otomatis ketika BOT-1 masuk ke petak NPC."
+          },
+          {
+            "q": "Kapan misi bertipe quest dianggap selesai?",
+            "options": [
+              "Cukup sampai tujuan",
+              "Semua NPC disapa DAN sampai tujuan",
+              "Semua NPC disapa saja"
+            ],
+            "answer": 1,
+            "explain": "Quest menuntut dua hal: interaksi lengkap dan mencapai tujuan."
+          }
+        ]
+      }
     }
   ]
 }

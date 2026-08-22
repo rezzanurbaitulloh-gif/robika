@@ -1,4 +1,4 @@
-export const TILE_CHARS = [".", "#", "P", "G", "C", "S", "E", "^", "D"] as const;
+export const TILE_CHARS = [".", "#", "P", "G", "C", "S", "E", "^", "D", "N"] as const;
 export type TileChar = (typeof TILE_CHARS)[number];
 
 export interface LevelText {
@@ -31,7 +31,7 @@ export interface GameLevel {
   concept: string;
   objective: LevelText;
   grid: string[];
-  goal: { type: "reach" | "collect"; target?: number };
+  goal: { type: "reach" | "collect" | "quest"; target?: number };
   hints: string[][];
   starterCode: string;
   solution: string;
@@ -90,6 +90,10 @@ export function validateLevel(level: GameLevel, existingIds: string[] = []): Val
     if (target <= 0) errors.push("collect goal needs target > 0");
     const coins = countChar(level.grid, "C");
     if (coins < target) errors.push(`not enough coins: ${coins} < ${target}`);
+  }
+
+  if (level.goal.type === "quest" && countChar(level.grid, "N") === 0) {
+    errors.push("quest goal requires at least one NPC tile 'N'");
   }
 
   if (!Array.isArray(level.hints) || level.hints.length !== 3) {

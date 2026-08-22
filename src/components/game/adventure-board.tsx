@@ -37,6 +37,7 @@ interface ReplayState {
   won: boolean;
   coins: number;
   openGates: Set<string>;
+  npcsTalked: Set<string>;
 }
 
 const TILE_STYLE: Record<string, string> = {
@@ -46,6 +47,7 @@ const TILE_STYLE: Record<string, string> = {
   S: "bg-rose-500/20 border border-rose-500/50",
   G: "bg-emerald-400/40 border border-emerald-300 glow-box",
   D: "bg-amber-400/15 border border-amber-400/60",
+  N: "bg-violet-400/15 border border-violet-400/50",
 };
 
 function findStart(grid: string[]): { x: number; y: number } {
@@ -66,6 +68,7 @@ function initialState(level: GameLevel): ReplayState {
     won: false,
     coins: 0,
     openGates: new Set<string>(),
+    npcsTalked: new Set<string>(),
   };
 }
 
@@ -99,6 +102,10 @@ function foldEvents(base: ReplayState, events: SimEvent[], grid: string[]): Repl
         }),
       );
       state = { ...state, openGates: seen };
+    } else if (ev.kind === "npcTalk") {
+      const talked = new Set(state.npcsTalked);
+      talked.add(`${ev.x},${ev.y}`);
+      state = { ...state, npcsTalked: talked };
     }
   }
   return state;
@@ -182,6 +189,11 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
     );
 
     const robotFace = { N: "▲", E: "►", S: "▼", W: "◄" }[current.dir];
+    const npcsTotal = useMemo(
+      () =>
+        level.grid.reduce((n, row) => n + (row.match(/N/g)?.length ?? 0), 0),
+      [level.grid],
+    );
 
     return (
       <div className="flex flex-col gap-3">
@@ -199,6 +211,12 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
             }
           />
           <StatusChip status="info" label={`${current.coins}`} />
+          {npcsTotal > 0 && (
+            <StatusChip
+              status={current.npcsTalked.size >= npcsTotal ? "success" : "info"}
+              label={`NPC ${current.npcsTalked.size}/${npcsTotal}`}
+            />
+          )}
           {gatesOpenNow > 0 && (
             <StatusChip status="warning" label={`${gatesOpenNow} GERBANG TERBUKA`} />
           )}
@@ -239,6 +257,17 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
                   {effectiveTile === "C" && (
                     <span className="text-emerald-300">
                       <Icon name="bolt" size={14} />
+                    </span>
+                  )}
+                  {effectiveTile === "N" && (
+                    <span
+                      className={
+                        current.npcsTalked.has(gateKey)
+                          ? "text-violet-400/50"
+                          : "text-violet-300 drop-shadow-[0_0_5px_rgba(167,139,250,0.7)]"
+                      }
+                    >
+                      <Icon name="user" size={14} />
                     </span>
                   )}
                   {isPlayer && (

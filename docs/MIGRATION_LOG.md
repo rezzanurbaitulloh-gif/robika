@@ -92,3 +92,10 @@
 - Engine menghentikan eksekusi saat won — loop tak perlu kondisi keluar (diuji)
 - xpReward 100 sesuai spesifikasi slice PRD (+100 XP)
 - Verifikasi: self-solve guardrail 3/3, starter tidak menang, suite penuh 316/316
+
+### Milestone 3.3 — NPC & Quest (rantai PRD #67 lengkap)
+- Tile 'N' = NPC; BOT-1 bicara otomatis saat menginjak petaknya (event npcTalk, sekali per NPC)
+- Goal type baru "quest": semua NPC disapa DAN mencapai tujuan; validasi quest wajib punya tile N
+- Result baru npcsTotal/npcsTalked; UI chip progres + render ikon mekanik (dim setelah bicara)
+- world-2-level-4 "Mekanik Gerbang" (xp 120): bicara dulu → openGate() → tujuan
+- Suite penuh 317/317; build sukses

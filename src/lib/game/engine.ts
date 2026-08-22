@@ -27,6 +27,8 @@ export function runLevel(level: GameLevel, code: string): AnySimResult {
     status: result.status,
     error: result.error,
     gatesOpened: result.gatesOpened,
+    npcsTotal: result.npcsTotal,
+    npcsTalked: result.npcsTalked,
     events: result.events,
   };
 }
