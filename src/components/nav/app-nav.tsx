@@ -133,21 +133,17 @@ export function AppNav() {
 
       {moreOpen && (
         <div
-          id="nav-more-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu fitur lainnya"
-          className="fixed inset-0 z-50 flex items-end md:hidden"
+          className="fixed inset-0 z-50 md:hidden"
+          onClick={() => setMoreOpen(false)}
         >
-          <button
-            type="button"
-            aria-label="Tutup menu"
-            onClick={() => setMoreOpen(false)}
-            className="absolute inset-0 h-full w-full bg-black/60 backdrop-blur-sm"
-          />
-          <div className="relative mx-auto w-full max-w-lg rounded-t-2xl border-t border-x border-border bg-card p-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-2xl">
-            <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-muted" />
-            <p className="mb-3 px-1 font-display text-xs tracking-widest text-muted-foreground">
+          <div
+            id="nav-more-menu"
+            role="dialog"
+            aria-label="Menu fitur lainnya"
+            onClick={(e) => e.stopPropagation()}
+            className="absolute inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] mx-auto max-w-sm animate-pop rounded-2xl border border-border bg-card p-3 shadow-2xl"
+          >
+            <p className="mb-2 px-1 font-display text-xs tracking-widest text-muted-foreground">
               SEMUA FITUR
             </p>
             <div className="grid grid-cols-2 gap-2">
