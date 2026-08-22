@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { GameBoard } from "@/components/game/game-board";
+import { GameBoard, type GameBoardHandle } from "@/components/game/game-board";
 import { HintPanel } from "@/components/game/hint-panel";
 import { QuizPanel } from "@/components/game/quiz-panel";
 import { BossPanel } from "@/components/game/boss-panel";
@@ -48,6 +48,7 @@ export function LevelClient({
   const [parBonus, setParBonus] = useState(0);
   const [errorBonus, setErrorBonus] = useState(0);
   const startRef = useRef<number | null>(null);
+  const boardRef = useRef<GameBoardHandle>(null);
 
   const commands = parseCommands(code);
   const canRun = !result?.won;
@@ -192,13 +193,36 @@ export function LevelClient({
             />
 
             <div className="overflow-hidden rounded-xl border border-border">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-muted/60 px-4 py-2">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-muted/60 px-3 py-2">
                 <span className="font-display text-xs tracking-widest text-muted-foreground">
                   KODE BOT-1
                 </span>
-                <span className="text-xs text-muted-foreground">
-                  moveForward() · turnLeft() · turnRight()
-                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => boardRef.current?.reset()}
+                    disabled={!canRun}
+                    className="btn btn-secondary btn-sm"
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      <Icon name="refresh" size={14} /> Reset
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTab("game");
+                      boardRef.current?.run();
+                    }}
+                    disabled={!canRun}
+                    className="btn btn-accent btn-sm"
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      <Icon name="play" size={14} />
+                      {result?.won ? "Jalankan ulang" : "Jalankan"}
+                    </span>
+                  </button>
+                </div>
               </div>
               <CodeEditor
                 value={code}
@@ -237,8 +261,16 @@ export function LevelClient({
                     ))}
                   </span>
                 )}
-                {!isDaily && (
-                  <span className="mt-3 flex flex-wrap gap-2">
+                {result?.won && (
+              <span className="mt-3 flex flex-wrap gap-2">
+                {isDaily ? (
+                  <Link href="/daily" className="btn btn-accent btn-md">
+                    <span className="inline-flex items-center gap-1.5">
+                      <Icon name="check" size={15} /> Selesai
+                    </span>
+                  </Link>
+                ) : (
+                  <>
                     {nextLevelId && (
                       <Link
                         href={`/level/${nextLevelId}`}
@@ -251,10 +283,12 @@ export function LevelClient({
                       href={`/world/${level.world}`}
                       className="btn btn-outline btn-md"
                     >
-                      Kembali ke peta
+                      {nextLevelId ? "Kembali ke peta" : "Selesai — kembali ke peta"}
                     </Link>
-                  </span>
+                  </>
                 )}
+              </span>
+            )}
               </div>
             )}
           </div>

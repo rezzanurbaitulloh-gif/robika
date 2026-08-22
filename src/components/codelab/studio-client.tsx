@@ -186,7 +186,7 @@ export function StudioClient() {
               <div className="mb-1 font-display text-xs tracking-widest text-muted-foreground">
                 OUTPUT {tab.toUpperCase()}
               </div>
-              <pre className="min-h-[40px] whitespace-pre-wrap text-sm text-emerald-200">
+              <pre className="min-h-[40px] whitespace-pre-wrap break-words text-sm text-emerald-200">
                 {(tab === "js" ? jsError : pyError) ? (
                   <span className="text-rose-300">
                     {tab === "js" ? jsError : pyError}

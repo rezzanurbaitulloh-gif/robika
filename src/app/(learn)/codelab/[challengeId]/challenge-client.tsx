@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { challenges } from "@/content/codelab";
 import { checkOutput } from "@/lib/codelab/check";
 import { runChallenge } from "@/lib/codelab/runner";
@@ -18,6 +19,7 @@ export function ChallengeClient({
   alreadyDone: boolean;
 }) {
   const challenge = challenges.find((c) => c.id === challengeId)!;
+  const nextChallenge = challenges[challenges.findIndex((c) => c.id === challengeId) + 1];
   const [code, setCode] = useState(challenge.starterCode);
   const [stdout, setStdout] = useState("");
   const [error, setError] = useState<string | undefined>();
@@ -214,6 +216,30 @@ export function ChallengeClient({
             />
           </div>
 
+          {passed === true && (
+            <div className="flex flex-wrap gap-2">
+              {nextChallenge ? (
+                <Link
+                  href={`/codelab/${nextChallenge.id}`}
+                  className="btn btn-accent btn-md"
+                >
+                  <span className="inline-flex items-center gap-1.5">
+                    <Icon name="check" size={15} /> Selesai — lanjut tantangan
+                  </span>
+                </Link>
+              ) : (
+                <Link href="/codelab" className="btn btn-accent btn-md">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Icon name="check" size={15} /> Selesai
+                  </span>
+                </Link>
+              )}
+              <Link href="/codelab" className="btn btn-outline btn-md">
+                Daftar tantangan
+              </Link>
+            </div>
+          )}
+
           {reward && (
             <div className="animate-pop rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
               <span className="font-semibold">Tantangan selesai!</span> +{reward.xp} XP ·{" "}
@@ -258,7 +284,7 @@ export function ChallengeClient({
               <div className="mb-2 font-display text-xs tracking-widest text-muted-foreground">
                 OUTPUT
               </div>
-              <pre className="min-h-[48px] whitespace-pre-wrap text-sm text-emerald-200">
+              <pre className="min-h-[48px] whitespace-pre-wrap break-words text-sm text-emerald-200">
                 {error ? (
                   <span className="text-rose-300">{error}</span>
                 ) : (

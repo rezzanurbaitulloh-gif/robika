@@ -1,10 +1,23 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type { GameLevel } from "@/lib/game/validate";
 import { simulate, type Command, type SimulationResult } from "@/lib/game/simulator";
 import { StatusChip } from "@/components/design/status-chip";
 import { Icon, type IconName } from "@/components/design/icon";
+
+export interface GameBoardHandle {
+  run: () => void;
+  reset: () => void;
+}
 
 interface GameBoardProps {
   level: GameLevel;
@@ -60,58 +73,61 @@ const TURN_RIGHT_MAP: Record<string, "N" | "E" | "S" | "W"> = {
   W: "N",
 };
 
-export function GameBoard({
-  level,
-  commands,
-  speedMs = 350,
-  onResult,
-  onRunStart,
-  disabled = false,
-}: GameBoardProps) {
-  const width = level.grid[0].length;
-  const [step, setStep] = useState(0);
-  const [running, setRunning] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const startRef = useRef<{ x: number; y: number } | null>(null);
+export const GameBoard = forwardRef<GameBoardHandle, GameBoardProps>(
+  function GameBoard({
+    level,
+    commands,
+    speedMs = 350,
+    onResult,
+    onRunStart,
+    disabled = false,
+  }, ref) {
+    const width = level.grid[0].length;
+    const [step, setStep] = useState(0);
+    const [running, setRunning] = useState(false);
+    const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const startRef = useRef<{ x: number; y: number } | null>(null);
 
-  const startPos = useMemo(() => findStart(level.grid), [level]);
+    const startPos = useMemo(() => findStart(level.grid), [level]);
 
-  useEffect(() => {
-    startRef.current = startPos;
-    return () => {
+    useEffect(() => {
+      startRef.current = startPos;
+      return () => {
+        if (timerRef.current) clearInterval(timerRef.current);
+      };
+    }, [startPos]);
+
+    const stop = useCallback(() => {
       if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [startPos]);
+      timerRef.current = null;
+      setRunning(false);
+    }, []);
 
-  const stop = useCallback(() => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    timerRef.current = null;
-    setRunning(false);
-  }, []);
+    const run = useCallback(() => {
+      if (disabled || running) return;
+      stop();
+      onRunStart?.();
+      setStep(0);
+      setRunning(true);
+      let i = 0;
+      timerRef.current = setInterval(() => {
+        i += 1;
+        const program = commands.slice(0, i).map((cmd) => ({ type: "cmd" as const, cmd }));
+        const result = simulate(level, program);
+        setStep(i);
+        if (result.crashed || result.won || i >= commands.length) {
+          stop();
+          onResult?.(result);
+        }
+      }, speedMs);
+    }, [commands, disabled, level, onResult, onRunStart, running, speedMs, stop]);
 
-  const run = useCallback(() => {
-    if (disabled || running) return;
-    stop();
-    onRunStart?.();
-    setStep(0);
-    setRunning(true);
-    let i = 0;
-    timerRef.current = setInterval(() => {
-      i += 1;
-      const program = commands.slice(0, i).map((cmd) => ({ type: "cmd" as const, cmd }));
-      const result = simulate(level, program);
-      setStep(i);
-      if (result.crashed || result.won || i >= commands.length) {
-        stop();
-        onResult?.(result);
-      }
-    }, speedMs);
-  }, [commands, disabled, level, onResult, onRunStart, running, speedMs, stop]);
+    const reset = useCallback(() => {
+      stop();
+      setStep(0);
+    }, [stop]);
 
-  const reset = useCallback(() => {
-    stop();
-    setStep(0);
-  }, [stop]);
+    useImperativeHandle(ref, () => ({ run, reset }), [run, reset]);
 
   const current = simulate(
     level,
@@ -132,45 +148,20 @@ export function GameBoard({
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex flex-wrap items-center gap-3">
-        <button
-          type="button"
-          onClick={run}
-          disabled={disabled || running}
-          className="btn btn-accent btn-md"
-        >
-          {running ? (
-            "Menjalankan..."
-          ) : (
-            <span className="inline-flex items-center gap-1.5">
-              <Icon name="play" size={14} /> Jalankan
-            </span>
-          )}
-        </button>
-        <button
-          type="button"
-          onClick={reset}
-          className="btn btn-secondary btn-md"
-        >
-          <span className="inline-flex items-center gap-1.5">
-            <Icon name="refresh" size={14} /> Reset
-          </span>
-        </button>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <StatusChip
-            status={
-              current.won ? "success" : current.crashed ? "danger" : "neutral"
-            }
-            label={
-              current.won
-                ? "BERHASIL"
-                : current.crashed
-                  ? "CRASH"
-                  : `LANGKAH ${step}/${commands.length}`
-            }
-          />
-          <StatusChip status="info" label={`${current.coins}`} />
-        </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <StatusChip
+          status={
+            current.won ? "success" : current.crashed ? "danger" : "neutral"
+          }
+          label={
+            current.won
+              ? "BERHASIL"
+              : current.crashed
+                ? "CRASH"
+                : `LANGKAH ${step}/${commands.length}`
+          }
+        />
+        <StatusChip status="info" label={`${current.coins}`} />
       </div>
 
       <div
@@ -208,3 +199,4 @@ export function GameBoard({
     </div>
   );
 }
+);

@@ -192,7 +192,7 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
               }
             }}
             placeholder="Ketik pesan..."
-            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
+            className="min-w-0 flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
           />
           <button
             type="button"

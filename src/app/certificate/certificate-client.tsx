@@ -68,7 +68,7 @@ export function CertificateClient({
             penyelesaian Boss Battle Dunia 1.
           </p>
 
-          <div className="mt-8 grid grid-cols-3 gap-3 text-center">
+          <div className="mt-8 grid grid-cols-3 gap-2 text-center sm:gap-3">
             <div className="rounded-lg border border-border/60 bg-background/40 p-3 print:border-gray-300 print:bg-gray-50">
               <p className="text-lg font-bold text-accent print:text-black">{level}</p>
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground print:text-gray-500">
