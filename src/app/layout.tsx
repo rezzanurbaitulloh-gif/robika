@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Fira_Code, Share_Tech_Mono } from "next/font/google";
 import type { ReactNode } from "react";
+import { isFlagEnabled } from "@/lib/flags";
+import { SwRegistrar } from "@/components/system/sw-registrar";
 import "./globals.css";
 
 const firaCode = Fira_Code({
@@ -42,6 +44,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const offlineMode = isFlagEnabled("offlineMode");
   return (
     <html
       lang="id"
@@ -49,11 +52,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     >
       <body className="min-h-full flex flex-col">
         {children}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); }); } if (window.caches && caches.keys) { caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); }); }`,
-          }}
-        />
+        <SwRegistrar enabled={offlineMode} />
       </body>
     </html>
   );

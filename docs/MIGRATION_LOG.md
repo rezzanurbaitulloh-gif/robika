@@ -111,3 +111,10 @@
 - BUG FIX: field level.world hilang di kedua JSON (route /api/game/complete balik "unknown_world") — diinjeksi otomatis; validateWorld kini menerima worldId dan menolak level dengan world salah
 - Test integrasi route (7): anti-cheat js (kode kalah ditolak), timing guard, stars range, happy path reward+progress, legacy parity, injection komentar
 - Suite penuh 327/327; build sukses
+
+### Milestone 4 — Phase 11 OFFLINE (fondasi PWA flag-gated)
+- public/sw.js: cache robika-v1 — navigasi network-first + fallback /offline; _next/static & ikon cache-first; /api/* tidak pernah di-cache
+- SwRegistrar: flag offlineMode ON → register SW; OFF → perilaku lama (unregister + purge cache) dipertahankan
+- Halaman /offline sebagai fallback navigasi
+- Layout kini server-rendered flag, tanpa inline script
+- Suite 327/327; build sukses; rute /offline ter-generate
