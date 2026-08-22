@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { levelEngine, runLevel } from "@/lib/game/engine";
 import type { GameLevel } from "@/lib/game/validate";
 import { worlds, validateAllWorlds } from "@/content";
+import { validateLevel } from "@/lib/game/validate";
 
 describe("engine routing", () => {
   const legacyLevel: GameLevel = {
@@ -102,5 +103,35 @@ describe("world-2 vertical slice", () => {
       const r = runLevel(level, level.starterCode);
       expect(r.won).toBe(false);
     }
+  });
+
+  it("level-4 membawa dialog mekanik yang valid", () => {
+    const level = worlds.find((w) => w.world === "world-2")!.levels[3];
+    expect(level.npcs).toHaveLength(1);
+    const npc = level.npcs![0];
+    expect(npc.lines.length).toBeGreaterThanOrEqual(2);
+    expect(level.grid[npc.y][npc.x]).toBe("N");
+  });
+
+  it("validasi menolak npc yang tidak menunjuk tile N", () => {
+    const bad: GameLevel = {
+      id: "t-npc-bad",
+      world: "t",
+      order: 1,
+      title: { id: "a", en: "a" },
+      topic: "t",
+      concept: "c",
+      objective: { id: "o", en: "o" },
+      grid: ["#P#"],
+      goal: { type: "quest" },
+      hints: [["h1"], ["h2"], ["h3"]],
+      starterCode: "",
+      solution: "",
+      xpReward: 10,
+      npcs: [{ x: 1, y: 0, name: "X", lines: ["halo"] }],
+    };
+    const v = validateLevel(bad);
+    expect(v.ok).toBe(false);
+    expect(v.errors.some((e) => e.includes("'N'"))).toBe(true);
   });
 });

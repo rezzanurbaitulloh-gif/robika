@@ -194,6 +194,13 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
         level.grid.reduce((n, row) => n + (row.match(/N/g)?.length ?? 0), 0),
       [level.grid],
     );
+    const activeNpc = useMemo(() => {
+      const talked = [...current.npcsTalked];
+      const last = talked[talked.length - 1];
+      if (!last) return null;
+      const [nx, ny] = last.split(",").map(Number);
+      return level.npcs?.find((npc) => npc.x === nx && npc.y === ny) ?? null;
+    }, [current.npcsTalked, level.npcs]);
 
     return (
       <div className="flex flex-col gap-3">
@@ -225,6 +232,24 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
         {lastError && (
           <div className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
             <span className="font-semibold">Kesalahan kode:</span> {lastError}
+          </div>
+        )}
+
+        {activeNpc && (
+          <div className="flex items-start gap-3 rounded-lg border border-violet-400/40 bg-violet-400/10 px-4 py-3">
+            <span className="mt-0.5 shrink-0 text-violet-300">
+              <Icon name="chat" size={16} />
+            </span>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-violet-300">
+                {activeNpc.name}
+              </p>
+              {activeNpc.lines.map((line, i) => (
+                <p key={i} className="mt-1 text-sm text-foreground/90">
+                  {line}
+                </p>
+              ))}
+            </div>
           </div>
         )}
 

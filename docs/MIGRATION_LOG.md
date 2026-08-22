@@ -99,3 +99,9 @@
 - Result baru npcsTotal/npcsTalked; UI chip progres + render ikon mekanik (dim setelah bicara)
 - world-2-level-4 "Mekanik Gerbang" (xp 120): bicara dulu → openGate() → tujuan
 - Suite penuh 317/317; build sukses
+
+### Milestone 3.4 — Dialog NPC (skema LevelNpc)
+- GameLevel.npcs?: {x,y,name,lines[]} — posisi terikat ke tile N, divalidasi ketat
+- Panel dialog muncul di papan saat BOT-1 menginjak NPC (event npcTalk → lookup dialog)
+- Pak Kiwar si Mekanik punya 3 baris dialog yang menyisipkan petunjuk openGate()
+- Suite penuh 319/319; build sukses

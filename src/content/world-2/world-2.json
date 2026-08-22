@@ -268,6 +268,18 @@
       "goal": {
         "type": "quest"
       },
+      "npcs": [
+        {
+          "x": 3,
+          "y": 1,
+          "name": "Pak Kiwar, Mekanik Gerbang",
+          "lines": [
+            "\"Sst! Gerbang daya di depan mati total sejak badai kemarin.\"",
+            "\"Aku sudah membuka jalur kunci — panggil openGate() setelah lewat dariku!\"",
+            "\"Hati-hati, BOT. Kalau menabrak gerbang terkunci, rangkamu yang bayar biayanya…\""
+          ]
+        }
+      ],
       "hints": [
         [
           "Progres \"NPC 0/1\" baru berubah saat BOT-1 menginjak petak mekanik — bicara terjadi otomatis."

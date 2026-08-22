@@ -22,6 +22,13 @@ export interface QuizContent {
   questions: QuizQuestion[];
 }
 
+export interface LevelNpc {
+  x: number;
+  y: number;
+  name: string;
+  lines: string[];
+}
+
 export interface GameLevel {
   id: string;
   world: string;
@@ -36,6 +43,7 @@ export interface GameLevel {
   starterCode: string;
   solution: string;
   engine?: "legacy" | "js";
+  npcs?: LevelNpc[];
   xpReward: number;
   parMs?: number;
   lesson?: LessonContent;
@@ -94,6 +102,21 @@ export function validateLevel(level: GameLevel, existingIds: string[] = []): Val
 
   if (level.goal.type === "quest" && countChar(level.grid, "N") === 0) {
     errors.push("quest goal requires at least one NPC tile 'N'");
+  }
+
+  for (const npc of level.npcs ?? []) {
+    const onGrid =
+      npc.y >= 0 &&
+      npc.y < level.grid.length &&
+      npc.x >= 0 &&
+      npc.x < (level.grid[npc.y]?.length ?? 0);
+    if (!onGrid || level.grid[npc.y][npc.x] !== "N") {
+      errors.push(`npc "${npc.name}" must point to an 'N' tile`);
+    }
+    if (!npc.name.trim()) errors.push("npc name must not be empty");
+    if (!npc.lines.length || npc.lines.some((l) => !l.trim())) {
+      errors.push(`npc "${npc.name}" needs at least one non-empty line`);
+    }
   }
 
   if (!Array.isArray(level.hints) || level.hints.length !== 3) {
