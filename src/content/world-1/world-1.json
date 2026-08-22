@@ -86,7 +86,8 @@
           }
         ]
       },
-      "parMs": 15000
+      "parMs": 15000,
+      "world": "world-1"
     },
     {
       "id": "world-1-level-2",
@@ -169,7 +170,8 @@
           }
         ]
       },
-      "parMs": 20000
+      "parMs": 20000,
+      "world": "world-1"
     },
     {
       "id": "world-1-level-3",
@@ -255,7 +257,8 @@
           }
         ]
       },
-      "parMs": 30000
+      "parMs": 30000,
+      "world": "world-1"
     },
     {
       "id": "world-1-level-4",
@@ -338,7 +341,8 @@
           }
         ]
       },
-      "parMs": 30000
+      "parMs": 30000,
+      "world": "world-1"
     },
     {
       "id": "world-1-level-5",
@@ -423,7 +427,8 @@
           }
         ]
       },
-      "parMs": 30000
+      "parMs": 30000,
+      "world": "world-1"
     },
     {
       "id": "world-1-level-6",
@@ -507,7 +512,8 @@
           }
         ]
       },
-      "parMs": 45000
+      "parMs": 45000,
+      "world": "world-1"
     },
     {
       "id": "world-1-boss",
@@ -597,7 +603,8 @@
           }
         ]
       },
-      "parMs": 60000
+      "parMs": 60000,
+      "world": "world-1"
     }
   ]
 }

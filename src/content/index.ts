@@ -6,6 +6,7 @@ import { validateWorld } from "@/lib/game/validate";
 export interface World {
   world: string;
   name: { id: string; en: string };
+  flag?: string;
   levels: GameLevel[];
 }
 
@@ -41,7 +42,7 @@ export function validateAllWorlds(): ReturnType<typeof validateWorld> {
   if (validationCache.has(key)) return validationCache.get(key)!;
   const errors: string[] = [];
   for (const world of worlds) {
-    const result = validateWorld(world.levels);
+    const result = validateWorld(world.world, world.levels);
     errors.push(...result.errors.map((e) => `[${world.world}] ${e}`));
   }
   const result = { ok: errors.length === 0, errors };

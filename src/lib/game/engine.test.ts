@@ -59,6 +59,11 @@ describe("world-2 vertical slice", () => {
     expect(v.ok).toBe(true);
   });
 
+  it("world-2 terkunci di balik flag newAdventure", () => {
+    const world = worlds.find((w) => w.world === "world-2")!;
+    expect(world.flag).toBe("newAdventure");
+  });
+
   it("solution world-2-level-1 memenangkan levelnya sendiri", () => {
     const level = worlds.find((w) => w.world === "world-2")!.levels[0];
     const r = runLevel(level, level.solution);

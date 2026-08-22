@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getWorld, worlds } from "@/content";
-import { isFlagEnabled } from "@/lib/flags";
+import { isFlagEnabled, type FeatureFlags } from "@/lib/flags";
 import { StatusChip } from "@/components/design/status-chip";
 import { BentoCard } from "@/components/design/bento-card";
 import { BackButton } from "@/components/design/back-button";
@@ -15,6 +15,7 @@ export default async function WorldPage({
   const { worldId } = await params;
   const world = getWorld(worldId);
   if (!world) notFound();
+  if (world.flag && !isFlagEnabled(world.flag as keyof FeatureFlags)) notFound();
 
   const worldIndex = worlds.findIndex((w) => w.world === worldId);
   const nextWorld = worldIndex >= 0 ? worlds[worldIndex + 1] : undefined;

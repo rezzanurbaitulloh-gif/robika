@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getLevel, getWorld } from "@/content";
+import { isFlagEnabled, type FeatureFlags } from "@/lib/flags";
 import { LevelClient } from "./level-client";
 
 export default async function LevelPage({
@@ -15,6 +16,7 @@ export default async function LevelPage({
   if (!level) notFound();
 
   const world = getWorld(level.world);
+  if (world?.flag && !isFlagEnabled(world.flag as keyof FeatureFlags)) notFound();
   const nextLevel =
     world?.levels
       .filter((l) => !l.isBoss)

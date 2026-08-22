@@ -206,7 +206,7 @@ export function validateLevel(level: GameLevel, existingIds: string[] = []): Val
   return { ok: errors.length === 0, errors };
 }
 
-export function validateWorld(levels: GameLevel[]): ValidationResult {
+export function validateWorld(worldId: string, levels: GameLevel[]): ValidationResult {
   const errors: string[] = [];
   const ids = new Set<string>();
   const orders = new Set<number>();
@@ -218,6 +218,9 @@ export function validateWorld(levels: GameLevel[]): ValidationResult {
   for (const level of levels) {
     const result = validateLevel(level, [...ids]);
     errors.push(...result.errors);
+    if (level.world !== worldId) {
+      errors.push(`level "${level.id}" must declare world "${worldId}"`);
+    }
     ids.add(level.id);
     if (orders.has(level.order)) {
       errors.push(`duplicate order ${level.order}`);
