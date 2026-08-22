@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { worlds } from "@/content";
-import { dailyLevelId, dailyEndsAt } from "@/lib/game/daily";
+import { worlds, getLevel } from "@/content";
+import { dailyLevelId, dailyEndsAt, dailyPoolIds } from "@/lib/game/daily";
+import { isFlagEnabled, type FeatureFlags } from "@/lib/flags";
 import { createServerSupabase } from "@/lib/db/server";
 import { BackButton } from "@/components/design/back-button";
 import { Icon } from "@/components/design/icon";
@@ -15,10 +16,11 @@ export default async function DailyPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const world = worlds[0];
-  const regularLevels = world.levels.filter((l) => !l.isBoss);
-  const dailyId = dailyLevelId(new Date(), regularLevels.map((l) => l.id));
-  const level = world.levels.find((l) => l.id === dailyId);
+  const pool = dailyPoolIds(worlds, (flag) =>
+    isFlagEnabled(flag as keyof FeatureFlags),
+  );
+  const dailyId = dailyLevelId(new Date(), pool);
+  const level = getLevel(dailyId);
   const endsAt = dailyEndsAt(new Date());
 
   const { data: progress } = await supabase

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { dailyLevelId, dailyChallengeOf, dailyEndsAt, hashDate } from "./daily";
+import { dailyLevelId, dailyChallengeOf, dailyEndsAt, hashDate, dailyPoolIds } from "./daily";
 
 const levels = ["world-1-level-1", "world-1-level-2", "world-1-level-3", "world-1-level-4"];
 
@@ -47,5 +47,29 @@ describe("dailyEndsAt", () => {
   it("returns the next UTC midnight", () => {
     const end = dailyEndsAt(new Date("2026-08-20T15:00:00Z"));
     expect(end.toISOString()).toBe("2026-08-21T00:00:00.000Z");
+  });
+});
+describe("dailyPoolIds", () => {
+  const sample = [
+    { levels: [{ id: "w1-l1" }, { id: "w1-boss", isBoss: true }] },
+    { flag: "locked", levels: [{ id: "w2-l1" }] },
+    { flag: "open", levels: [{ id: "w3-l1" }] },
+  ];
+
+  it("hanya memasukkan world tanpa flag atau dengan flag aktif", () => {
+    const pool = dailyPoolIds(sample, (f) => f === "open");
+    expect(pool).toContain("w1-l1");
+    expect(pool).toContain("w3-l1");
+    expect(pool).not.toContain("w2-l1");
+  });
+
+  it("menyertakan world berflag saat flag dinyalakan", () => {
+    expect(dailyPoolIds(sample, () => true)).toContain("w2-l1");
+  });
+
+  it("boss level tidak pernah masuk pool harian", () => {
+    for (const flag of [true, false]) {
+      expect(dailyPoolIds(sample, () => flag)).not.toContain("w1-boss");
+    }
   });
 });

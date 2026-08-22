@@ -23,3 +23,17 @@ export function dailyChallengeOf(
 export function dailyEndsAt(date: Date): Date {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1));
 }
+
+export interface DailyWorldLike {
+  flag?: string;
+  levels: { id: string; isBoss?: boolean }[];
+}
+
+export function dailyPoolIds(
+  worldList: DailyWorldLike[],
+  flagOn: (flag: string) => boolean,
+): string[] {
+  return worldList
+    .filter((w) => !w.flag || flagOn(w.flag))
+    .flatMap((w) => w.levels.filter((l) => !l.isBoss).map((l) => l.id));
+}

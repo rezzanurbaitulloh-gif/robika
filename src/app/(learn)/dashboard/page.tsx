@@ -10,6 +10,7 @@ import { BadgeGrid } from "@/components/game/badge-grid";
 import { LevelProgressCard } from "@/components/dashboard/level-progress";
 import { NextSteps, type NextStepItem } from "@/components/dashboard/next-steps";
 import { createServerSupabase } from "@/lib/db/server";
+import { isFlagEnabled } from "@/lib/flags";
 
 export const dynamic = "force-dynamic";
 
@@ -144,6 +145,19 @@ export default async function DashboardPage() {
             </span>
           }
         />
+        {isFlagEnabled("newAdventure") && (
+          <BentoCard
+            title="Distrik Gerbang"
+            description="Dunia baru: gerbang daya, NPC, dan if/else."
+            icon={<Icon name="robot" size={22} />}
+            href="/world/world-2"
+            footer={
+              <span className="text-xs font-semibold text-amber-300">
+                Jelajahi distrik →
+              </span>
+            }
+          />
+        )}
         <BentoCard
           title="CodeLab"
           description="Latihan JavaScript & Python dengan preview."

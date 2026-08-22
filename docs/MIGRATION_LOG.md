@@ -118,3 +118,9 @@
 - Halaman /offline sebagai fallback navigasi
 - Layout kini server-rendered flag, tanpa inline script
 - Suite 327/327; build sukses; rute /offline ter-generate
+
+### Milestone 4.1 — Daily lintas dunia + akses mobile ke world-2
+- dailyPoolIds(worlds, flagOn): pool harian dari semua world yang tidak terkunci flag; boss selalu dikecualikan (3 test baru)
+- Halaman /daily kini memakai getLevel(dailyId) lintas dunia — level js bisa jadi tantangan harian saat flag aktif
+- Dashboard: kartu "Distrik Gerbang" (world-2) di belakang flag newAdventure — jalur akses utama di mobile
+- Suite 330/330; build sukses
