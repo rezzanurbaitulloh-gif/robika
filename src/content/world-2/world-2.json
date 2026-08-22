@@ -163,6 +163,89 @@
           }
         ]
       }
+    },
+    {
+      "id": "world-2-level-3",
+      "order": 3,
+      "title": {
+        "id": "Persimpangan Reaktor",
+        "en": "Reactor Junction"
+      },
+      "topic": "percabangan (if/else)",
+      "concept": "if / else",
+      "objective": {
+        "id": "Jalur pendingin reaktor berliku tanpa tanda jarak. Jangan menghitung langkah — biarkan sensor BOT-1 memutuskan kapan belok menggunakan if/else.",
+        "en": "The reactor coolant path winds without distance markers. Don't count steps — let BOT-1's sensors decide when to turn using if/else."
+      },
+      "grid": [
+        "#######",
+        "#P....#",
+        "#####.#",
+        "#G....#",
+        "#######"
+      ],
+      "goal": {
+        "type": "reach"
+      },
+      "hints": [
+        [
+          "Solusi hitungan (for loop) rapuh di jalur berliku — satu angka salah, BOT menabrak dinding."
+        ],
+        [
+          "Gunakan while (true) berisi: if (canMove()) { moveForward(); } else { turnRight(); }"
+        ],
+        [
+          "Misi otomatis selesai saat BOT menginjak tujuan — program dihentikan di tengah loop, tak perlu kondisi keluar manual."
+        ]
+      ],
+      "starterCode": "// Jalur ini berliku tanpa tanda.\n// Sensor canMove() menjawab \"bisa maju?\" dengan true/false.\n// Gabungkan dengan if/else agar BOT memutuskan sendiri!\nmoveForward();\n",
+      "solution": "while (true) { if (canMove()) { moveForward(); } else { turnRight(); } }",
+      "engine": "js",
+      "xpReward": 100,
+      "lesson": {
+        "title": "Percabangan — if / else",
+        "body": [
+          "Sensor seperti canMove() dan blockedAhead() mengembalikan boolean — nilai kebenaran yang bisa dipakai untuk memutuskan.",
+          "Bentuknya: if (kondisi) { ... } else { ... }. Isi blok if dijalankan saat kondisi true, blok else saat false.",
+          "Gabungan while (true) + if/else menciptakan pola kuat: teruslah bergerak, dan beloklah HANYA saat terhalang.",
+          "Perhatikan: program otomatis berhenti begitu BOT mencapai tujuan. Tidak perlu kondisi keluar dari loop — misi selesai adalah kondisi keluarnya.",
+          "Ini pola navigasi nyata di robotika dan game AI: sensor masuk, keputusan keluar, setiap frame."
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "q": "Tipe data apa yang dikembalikan canMove()?",
+            "options": [
+              "number",
+              "boolean",
+              "string"
+            ],
+            "answer": 1,
+            "explain": "Sensor menjawab pertanyaan ya/tidak, sehingga nilainya true atau false (boolean)."
+          },
+          {
+            "q": "Kapan blok else dieksekusi?",
+            "options": [
+              "Selalu, bersamaan dengan if",
+              "Ketika kondisi if bernilai false",
+              "Hanya jika tidak ada loop"
+            ],
+            "answer": 1,
+            "explain": "else adalah jalur cadangan: dijalankan tepat ketika kondisi if gagal (false)."
+          },
+          {
+            "q": "Apa yang terjadi pada while (true) saat BOT mencapai tujuan?",
+            "options": [
+              "Error karena loop tak berujung",
+              "Program berhenti otomatis — misi selesai",
+              "Loop tetap jalan sampai budget habis"
+            ],
+            "answer": 1,
+            "explain": "Engine menghentikan eksekusi segera setelah kondisi kemenangan tercapai, bahkan di tengah loop."
+          }
+        ]
+      }
     }
   ]
 }

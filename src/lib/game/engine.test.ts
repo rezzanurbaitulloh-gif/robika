@@ -74,6 +74,17 @@ describe("world-2 vertical slice", () => {
     expect(r.coins).toBe(2);
   });
 
+  it("solution world-2-level-3 (if/else + while) memenangkan level tanpa crash", () => {
+    const world = worlds.find((w) => w.world === "world-2")!;
+    expect(world.levels).toHaveLength(3);
+    const level = world.levels[2];
+    expect(levelEngine(level)).toBe("js");
+    const r = runLevel(level, level.solution);
+    expect(r.status).toBe("ok");
+    expect(r.won).toBe(true);
+    expect(r.crashed).toBe(false);
+  });
+
   it("starter code world-2 TIDAK langsung menang (masih ada tantangan)", () => {
     for (const level of worlds.find((w) => w.world === "world-2")!.levels) {
       const r = runLevel(level, level.starterCode);

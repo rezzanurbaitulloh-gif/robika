@@ -86,3 +86,9 @@
 - Mobile bottom-nav tidak diubah (grid 5 slot); akses mobile lewat kartu di halaman world-1
 - Known limitation: URL /level/world-2-* masih bisa diakses langsung tanpa flag (soft gate) — hard gate menyusul bila dibutuhkan
 - Verifikasi: tsc/eslint bersih, `next build` sukses penuh
+
+### Milestone 3.2 — Level "Persimpangan Reaktor" (konsep IF/ELSE sesuai PRD #67)
+- world-2-level-3: jalur berliku tanpa tanda jarak; solusi kanonik `while (true) { if (canMove()) moveForward(); else turnRight(); }`
+- Engine menghentikan eksekusi saat won — loop tak perlu kondisi keluar (diuji)
+- xpReward 100 sesuai spesifikasi slice PRD (+100 XP)
+- Verifikasi: self-solve guardrail 3/3, starter tidak menang, suite penuh 316/316
