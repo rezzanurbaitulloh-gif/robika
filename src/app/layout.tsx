@@ -51,7 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {children}
         <script
           dangerouslySetInnerHTML={{
-            __html: `if ('serviceWorker' in navigator && !location.hostname.startsWith('localhost')) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }`,
+            __html: `if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); }); } if (window.caches && caches.keys) { caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); }); }`,
           }}
         />
       </body>
