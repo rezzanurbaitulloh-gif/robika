@@ -140,7 +140,7 @@ export function ChallengeClient({
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <div className="space-y-4">
           {done && (
-            <div className="flex items-start gap-2 rounded-lg border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
+            <div className="flex items-start gap-2 rounded-sm border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
               <Icon name="info" size={16} className="mt-0.5 shrink-0" />
               <span>
                 Tantangan ini sudah kamu selesaikan. Kamu boleh mengulanginya,
@@ -149,14 +149,14 @@ export function ChallengeClient({
             </div>
           )}
           {repeatNotice && !done && (
-            <div className="flex items-start gap-2 rounded-lg border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
+            <div className="flex items-start gap-2 rounded-sm border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
               <Icon name="info" size={16} className="mt-0.5 shrink-0" />
               <span>Reward sudah pernah diklaim untuk tantangan ini.</span>
             </div>
           )}
 
           {challenge.kind === "fix-bug" && challenge.bugs && (
-            <div className="rounded-xl border border-rose-400/30 bg-rose-400/5 p-4">
+            <div className="rounded-sm border border-rose-400/30 bg-rose-400/5 p-4">
               <h3 className="mb-2 flex items-center gap-1.5 font-display text-sm tracking-wide text-rose-300">
                 <Icon name="alert" size={18} />
                 BUG YANG HARUS DIPERBAIKI
@@ -184,7 +184,7 @@ export function ChallengeClient({
                 <button
                   type="button"
                   onClick={() => setCode(challenge.starterCode)}
-                  className="btn btn-secondary btn-sm"
+                  className="inline-flex items-center rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition hover:border-cyan-400/30 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
                 >
                   <span className="inline-flex items-center gap-1">
                     <Icon name="refresh" size={14} />
@@ -195,7 +195,7 @@ export function ChallengeClient({
                   type="button"
                   onClick={() => void run()}
                   disabled={running}
-                  className="btn btn-accent btn-md"
+                  className="inline-flex items-center rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-4 py-1.5 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20 disabled:pointer-events-none disabled:opacity-40"
                 >
                   {running ? (
                     "Menjalankan..."
@@ -221,27 +221,33 @@ export function ChallengeClient({
               {nextChallenge ? (
                 <Link
                   href={`/codelab/${nextChallenge.id}`}
-                  className="btn btn-accent btn-md"
+                  className="inline-flex items-center gap-1.5 rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20"
                 >
                   <span className="inline-flex items-center gap-1.5">
                     <Icon name="check" size={15} /> Selesai — lanjut tantangan
                   </span>
                 </Link>
               ) : (
-                <Link href="/codelab" className="btn btn-accent btn-md">
+                <Link
+                  href="/codelab"
+                  className="inline-flex items-center gap-1.5 rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20"
+                >
                   <span className="inline-flex items-center gap-1.5">
                     <Icon name="check" size={15} /> Selesai
                   </span>
                 </Link>
               )}
-              <Link href="/codelab" className="btn btn-outline btn-md">
+              <Link
+                href="/codelab"
+                className="inline-flex items-center gap-1.5 rounded-sm border border-border px-5 py-2 font-display text-xs uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
+              >
                 Daftar tantangan
               </Link>
             </div>
           )}
 
           {reward && (
-            <div className="animate-pop rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
+            <div className="animate-pop rounded-sm border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
               <span className="font-semibold">Tantangan selesai!</span> +{reward.xp} XP ·{" "}
               {reward.stars} stars
               {reward.leveledUp && (
@@ -266,7 +272,7 @@ export function ChallengeClient({
           )}
 
           {previewHtml ? (
-            <div className="overflow-hidden rounded-xl border border-border">
+            <div className="overflow-hidden rounded-sm border border-border">
               <div className="border-b border-border bg-muted/60 px-4 py-2">
                 <span className="font-display text-xs tracking-widest text-muted-foreground">
                   PREVIEW LIVE
@@ -280,7 +286,7 @@ export function ChallengeClient({
               />
             </div>
           ) : (
-            <div className="rounded-xl border border-border bg-input p-4">
+            <div className="rounded-sm border border-border bg-input p-4">
               <div className="mb-2 font-display text-xs tracking-widest text-muted-foreground">
                 OUTPUT
               </div>

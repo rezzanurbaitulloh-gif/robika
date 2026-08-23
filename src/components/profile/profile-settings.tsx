@@ -111,7 +111,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
   };
 
   return (
-    <div className="rounded-xl border border-border bg-card/60 p-5">
+    <div className="rounded-sm border border-border bg-card/60 p-5">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="font-display text-sm tracking-wide text-foreground">
           PENGATURAN PROFIL
@@ -124,7 +124,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               type="button"
               onClick={() => void save()}
               disabled={saving}
-              className="btn btn-accent btn-md"
+              className="inline-flex items-center rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-4 py-1.5 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20 disabled:pointer-events-none disabled:opacity-40"
             >
               Simpan
             </button>
@@ -146,7 +146,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               value={displayName}
               maxLength={50}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
+              className="w-full rounded-sm border border-border bg-input px-3 py-2 text-sm outline-none focus:border-cyan-400/60"
               placeholder="Nama yang ditampilkan"
             />
           </div>
@@ -163,7 +163,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               maxLength={20}
               pattern="[a-zA-Z0-9_]{3,20}"
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
+              className="w-full rounded-sm border border-border bg-input px-3 py-2 text-sm outline-none focus:border-cyan-400/60"
             />
             <p className="mt-1 text-[10px] text-muted-foreground">
               3–20 karakter, huruf/angka/underscore.
@@ -182,7 +182,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               onChange={(e) =>
                 setSkillLevel(e.target.value as (typeof SKILL_OPTIONS)[number])
               }
-              className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
+              className="w-full rounded-sm border border-border bg-input px-3 py-2 text-sm outline-none focus:border-cyan-400/60"
             >
               {SKILL_OPTIONS.map((level) => (
                 <option key={level} value={level}>
@@ -196,18 +196,18 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
         <div>
           <span className="mb-1 block text-xs text-muted-foreground">AVATAR</span>
           <div className="flex items-start gap-4">
-                        <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-border bg-muted text-3xl">
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-sm border border-border bg-muted text-3xl">
               {avatarUrl.length > 8 ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={avatarUrl}
                   alt="Avatar"
-                  className="h-full w-full rounded-xl object-cover"
+                  className="h-full w-full rounded-sm object-cover"
                 />
               ) : avatarUrl ? (
                 avatarUrl
               ) : (
-                <Icon name="robot" size={28} className="text-accent" />
+                <Icon name="robot" size={28} className="text-cyan-300" />
               )}
             </span>
             <div className="space-y-2">
@@ -218,9 +218,9 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
                     type="button"
                     onClick={() => setAvatarUrl(emoji)}
                     aria-label={`Pilih avatar ${emoji}`}
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg border text-lg transition hover:border-accent ${
+                    className={`flex h-9 w-9 items-center justify-center rounded-sm border text-lg transition hover:border-cyan-400/50 ${
                       avatarUrl === emoji
-                        ? "border-accent bg-accent/20"
+                        ? "border-cyan-400/50 bg-cyan-400/20"
                         : "border-border bg-muted"
                     }`}
                   >
@@ -231,7 +231,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="btn btn-outline btn-sm"
+                className="inline-flex items-center gap-1.5 rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition hover:text-foreground"
               >
                 <Icon name="camera" size={14} /> Upload foto
               </button>
@@ -252,7 +252,7 @@ export function ProfileSettings({ initial, onUpdated }: ProfileSettingsProps) {
 
       {message && (
         <div
-          className={`mt-4 rounded-lg border px-4 py-2.5 text-sm ${
+          className={`mt-4 rounded-sm border px-4 py-2.5 text-sm ${
             message.tone === "success"
               ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
               : "border-rose-400/40 bg-rose-400/10 text-rose-300"

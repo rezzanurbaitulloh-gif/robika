@@ -158,10 +158,10 @@ export function StudioClient() {
           onClick={() => void handleRun()}
           disabled={execState === "running"}
           data-testid="studio-run"
-          className={`ml-auto rounded-lg border px-4 py-2 font-display text-sm tracking-wide transition disabled:opacity-60 ${
+          className={`ml-auto rounded-sm border px-4 py-2 font-display text-sm tracking-wide transition disabled:opacity-60 ${
             execState === "error"
               ? "border-rose-500/60 bg-rose-500/10 text-rose-300"
-              : "border-accent/60 bg-accent/15 text-accent hover:bg-accent/25"
+              : "border-cyan-400/60 bg-cyan-400/15 text-cyan-300 hover:bg-cyan-400/25"
           }`}
         >
           ▶ {execLabel}
@@ -169,7 +169,7 @@ export function StudioClient() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)_minmax(0,420px)]">
-        <aside className="overflow-hidden rounded-xl border border-border">
+        <aside className="overflow-hidden rounded-sm border border-border">
           <div className="border-b border-border bg-muted/60 px-3 py-2 font-display text-xs tracking-widest text-muted-foreground">
             EXPLORER
           </div>
@@ -185,7 +185,7 @@ export function StudioClient() {
                     aria-current={active}
                     className={`min-w-0 flex-1 truncate rounded-md px-2 py-1.5 text-left text-xs transition ${
                       active
-                        ? "bg-accent/15 font-semibold text-accent"
+                        ? "bg-cyan-400/15 font-semibold text-cyan-300"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -225,7 +225,7 @@ export function StudioClient() {
                 type="button"
                 onClick={() => setAddingFile(true)}
                 data-testid="studio-add-file"
-                className="w-full rounded-md px-2 py-1.5 text-left text-xs text-muted-foreground hover:text-accent"
+                className="w-full rounded-md px-2 py-1.5 text-left text-xs text-muted-foreground hover:text-cyan-300"
               >
                 + file baru
               </button>
@@ -233,7 +233,7 @@ export function StudioClient() {
           </div>
         </aside>
 
-        <section className="flex min-h-[480px] flex-col overflow-hidden rounded-xl border border-border">
+        <section className="flex min-h-[480px] flex-col overflow-hidden rounded-sm border border-border">
           <div className="flex items-center gap-2 border-b border-border bg-muted/60 px-3 py-2">
             <button
               type="button"
@@ -252,7 +252,7 @@ export function StudioClient() {
             >
               {current.name}
             </button>
-            <span className="rounded bg-accent/10 px-1.5 py-0.5 text-[10px] font-bold uppercase text-accent">
+            <span className="rounded bg-cyan-400/10 px-1.5 py-0.5 text-[10px] font-bold uppercase text-cyan-300">
               {spec.label}
             </span>
           </div>
@@ -304,7 +304,7 @@ export function StudioClient() {
           </div>
         </section>
 
-        <section className="flex min-h-[480px] flex-col overflow-hidden rounded-xl border border-border">
+        <section className="flex min-h-[480px] flex-col overflow-hidden rounded-sm border border-border">
           <div className="flex items-center justify-between border-b border-border bg-muted/60 px-3 py-2">
             <span className="font-display text-xs tracking-widest text-muted-foreground">
               PREVIEW LIVE
@@ -315,7 +315,7 @@ export function StudioClient() {
                 setPreviewDoc(buildPreviewDoc(project.files));
                 setPreviewKey((k) => k + 1);
               }}
-              className="text-[10px] font-semibold uppercase text-muted-foreground hover:text-accent"
+              className="text-[10px] font-semibold uppercase text-muted-foreground hover:text-cyan-300"
             >
               Muat ulang
             </button>

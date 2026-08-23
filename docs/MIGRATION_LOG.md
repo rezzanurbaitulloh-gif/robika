@@ -1,3 +1,12 @@
+## 2026-08-24 — PHASE 9 · CLEANUP 2: onboarding, codelab studio & challenge, profile settings
+- `onboarding-client.tsx`: progress bar fill → `bg-cyan-400`, opsi pilihan jadi panel outline netral hover cyan, teks highlight → `text-cyan-300`, tombol lanjut → blok chip cyan font-display.
+- `codelab/studio-client.tsx` (mode CodeLab professional): Run button split rose(error)/cyan, file aktif & lang chip & link hover → cyan tajam, container editor/preview/aside `rounded-xl` → `rounded-sm`.
+- `codelab/[challengeId]/challenge-client.tsx`: notice amber & box bug rose & reward emerald dipertajam ke `rounded-sm`; Reset → outline netral kecil; Jalankan → chip cyan; CTA selesai/lanjut → chip cyan + "Daftar tantangan" outline netral.
+- `profile-settings.tsx`: container `rounded-sm`, Simpan → chip cyan, semua input/select `focus:border-cyan-400/60` sudut tajam, frame avatar & preset picker → `rounded-sm` + tint cyan (robot icon cyan), Upload foto → outline netral, box pesan sukses/error tetap emerald/rose tapi sudut tajam.
+- Skip disengaja: `design/bento-card.tsx` — komponen mati di production (hanya direferensikan test sendiri).
+- Known remaining: primitif shadcn `ui/*` (dropdown-menu, select memakai accent bawaan).
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
 ## 2026-08-24 — PHASE 9 · CLEANUP: sisa §67 di auth, level view, dan komponen pendamping
 - Auth (`auth-form`, `forgot-password`, `reset-password`): input `focus:border-cyan-400/60` bersudut tajam, submit jadi blok cyan `w-full`, link & judul cyan, box error/sent emerald/rose tajam; logo diberi frame `rounded-sm border-cyan-400/40`. Grep `(auth)` bersih dari `btn btn-*` / accent biru.
 - Surface global: `not-found.tsx` (panel MISI TIDAK DITEMUKAN), `offline/page.tsx` (panel SIGNAL TERPUTUS), `error.tsx` (BOT-1 gangguan) — semua chip font-display + CTA blok cyan, logo frame tajam.

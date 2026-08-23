@@ -50,7 +50,7 @@ export function OnboardingClient() {
         </div>
         <div className="mb-6 h-1.5 overflow-hidden rounded-full bg-muted">
           <div
-            className="h-full rounded-full bg-accent transition-all duration-300"
+            className="h-full rounded-full bg-cyan-400 transition-all duration-300"
             style={{ width: `${((answered + 1) / QUESTIONS.length) * 100}%` }}
           />
         </div>
@@ -63,7 +63,7 @@ export function OnboardingClient() {
               key={option.score}
               type="button"
               onClick={() => answer(option.score)}
-              className="btn btn-secondary btn-lg w-full justify-start text-left"
+              className="w-full rounded-sm border border-border px-5 py-3 text-left text-sm text-muted-foreground transition hover:border-cyan-400/40 hover:text-foreground"
             >
               {option.label}
             </button>
@@ -80,7 +80,7 @@ export function OnboardingClient() {
       </h1>
       <p className="mt-3 text-sm text-muted-foreground">
         Kurikulummu akan disesuaikan dengan tingkat{" "}
-        <span className="text-accent">
+        <span className="text-cyan-300">
           {classifyAnswers(answers).toUpperCase()}
         </span>
         .
@@ -89,7 +89,7 @@ export function OnboardingClient() {
         type="button"
         onClick={() => void finish()}
         disabled={saving}
-        className="btn btn-accent btn-lg mt-8"
+        className="mt-8 inline-flex items-center justify-center gap-2 rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-6 py-2.5 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20 disabled:pointer-events-none disabled:opacity-40"
       >
         {saving ? "Menyimpan..." : <>Mulai Belajar <Icon name="rocket" size={16} /></>}
       </button>
