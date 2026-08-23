@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/db/client";
 import { StatusChip } from "@/components/design/status-chip";
-import { BentoCard } from "@/components/design/bento-card";
 import { BackButton } from "@/components/design/back-button";
 import { Icon, type IconName } from "@/components/design/icon";
 import { BotAvatar } from "@/components/design/bot-avatar";
@@ -222,28 +221,38 @@ export function ShopClient() {
     }
   };
 
+  const buyButtonClass =
+    "rounded-sm border border-cyan-400/40 px-2.5 py-1 font-display text-[11px] uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/15 disabled:cursor-not-allowed disabled:border-border disabled:text-muted-foreground disabled:hover:bg-transparent";
+
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
       <div className="mb-2">
         <BackButton fallbackHref="/dashboard" />
       </div>
-      <div className="mb-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="base-floor scanline relative mb-6 overflow-hidden rounded-md border border-border p-5">
+        <div className="absolute right-3 top-3 flex gap-1.5">
+          <span className="blink h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          <span className="h-1.5 w-1.5 rounded-full bg-amber-400/40" />
+        </div>
+        <p className="font-display text-[10px] uppercase tracking-widest text-cyan-300/70">
+          ▸ HANGAR PERDAGANGAN · MOD KOSMETIK
+        </p>
+        <div className="mt-1 flex flex-wrap items-center justify-between gap-3">
           <h1 className="font-display text-2xl tracking-wide sm:text-3xl text-foreground">
-            SHOP KOSMETIK
+            TOKO
           </h1>
           {balance && (
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
+              <span className="inline-flex items-center gap-1 rounded-sm border border-amber-400/40 bg-amber-400/10 px-2.5 py-1 font-display text-xs tracking-wide text-amber-300">
                 <Icon name="star" size={14} /> {balance.stars}
               </span>
-              <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia-400/40 bg-fuchsia-400/10 px-3 py-1 text-xs font-semibold text-fuchsia-300">
+              <span className="inline-flex items-center gap-1 rounded-sm border border-fuchsia-400/40 bg-fuchsia-400/10 px-2.5 py-1 font-display text-xs tracking-wide text-fuchsia-300">
                 <Icon name="gem" size={14} /> {balance.gems}
               </span>
             </div>
           )}
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 max-w-lg text-sm text-muted-foreground">
           Bintang dari belajar, gem dari top-up. Murni kosmetik — tidak ada
           pay-to-win.
         </p>
@@ -262,8 +271,8 @@ export function ShopClient() {
       )}
 
       <section className="mb-12">
-        <h2 className="mb-4 font-display text-xl tracking-wide text-foreground">
-          SKIN BOT-1
+        <h2 className="mb-4 font-display text-sm uppercase tracking-widest text-cyan-300/80">
+          ▸ INVENTARIS SKIN BOT-1
         </h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {SKIN_ITEMS.map((item) => {
@@ -272,66 +281,70 @@ export function ShopClient() {
             const rarity = RARITY_TONE[item.rarity];
             const afford = canAfford(item);
             return (
-              <BentoCard
+              <div
                 key={item.id}
-                title={item.name}
-                description={`Rarity: ${item.rarity}`}
-                icon={
-                  <span className="inline-block">
-                    <BotAvatar colors={item.colors} size={28} />
-                  </span>
-                }
-                footer={
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-display text-lg text-accent">
-                      {isOwned
-                        ? isEquipped
-                          ? "Terpakai"
-                          : "Dimiliki"
-                        : item.priceStars !== undefined
-                          ? `${item.priceStars} stars`
-                          : `${item.priceGems} gems`}
-                    </span>
-                    {isOwned ? (
-                      <button
-                        type="button"
-                        disabled={isEquipped || busy !== null}
-                        onClick={() => void equip(item)}
-                        className="btn btn-outline btn-sm"
-                      >
-                        {isEquipped ? "✓ Dipakai" : busy === item.id ? "..." : "Pakai"}
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        disabled={busy !== null || !afford}
-                        onClick={() => void buy(item)}
-                        className="btn btn-outline btn-sm"
-                      >
-                        {busy === item.id ? "..." : afford ? "Beli" : "Saldo kurang"}
-                      </button>
-                    )}
-                  </div>
-                }
+                className={`flex flex-col rounded-sm border bg-[#0c101d] p-4 transition ${
+                  isEquipped
+                    ? "border-cyan-400/50"
+                    : "border-border hover:border-cyan-400/40"
+                }`}
               >
-                <div className="flex items-center gap-3">
-                  <div
-                    className="rounded-md border border-border bg-background/60 p-2"
-                    style={{ boxShadow: `0 0 12px ${item.colors.glow}33` }}
-                  >
-                    <BotAvatar colors={item.colors} size={48} />
-                  </div>
+                <div className="flex items-center justify-between">
                   <StatusChip status={rarity} label={item.rarity.toUpperCase()} />
+                  {isEquipped && (
+                    <span className="font-display text-[9px] tracking-widest text-cyan-300">
+                      [DIPAKAI]
+                    </span>
+                  )}
                 </div>
-              </BentoCard>
+                <div
+                  className="mx-auto my-4 rounded-sm border border-border bg-background/60 p-3"
+                  style={{ boxShadow: `0 0 12px ${item.colors.glow}33` }}
+                >
+                  <BotAvatar colors={item.colors} size={48} />
+                </div>
+                <p className="font-display text-sm uppercase tracking-wider text-foreground">
+                  {item.name}
+                </p>
+                <p className="mt-0.5 font-display text-base text-amber-300">
+                  {isOwned
+                    ? isEquipped
+                      ? "TERPAKAI"
+                      : "DIMILIKI"
+                    : item.priceStars !== undefined
+                      ? `${item.priceStars} ★`
+                      : `${item.priceGems} ◆`}
+                </p>
+                <div className="mt-3 flex justify-end">
+                  {isOwned ? (
+                    <button
+                      type="button"
+                      disabled={isEquipped || busy !== null}
+                      onClick={() => void equip(item)}
+                      className={buyButtonClass}
+                    >
+                      {isEquipped ? "✓ Dipakai" : busy === item.id ? "..." : "Pakai"}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      disabled={busy !== null || !afford}
+                      onClick={() => void buy(item)}
+                      className={buyButtonClass}
+                    >
+                      {busy === item.id ? "..." : afford ? "Beli" : "Saldo kurang"}
+                    </button>
+                  )}
+                </div>
+              </div>
             );
           })}
         </div>
       </section>
 
       <section className="mb-12">
-        <h2 className="mb-1 font-display text-xl tracking-wide text-foreground">
-          TOP-UP (MIDTRANS SANDBOX)
+        <h2 className="mb-1 font-display text-sm uppercase tracking-widest text-cyan-300/80">
+          ▸ ISI ULANG SALDO (MIDTRANS SANDBOX)
         </h2>
         <p className="mb-4 text-xs text-muted-foreground">
           Mode uji coba — pakai kartu tes Midtrans: 4811 1111 1111 1114, CVV
@@ -339,74 +352,88 @@ export function ShopClient() {
         </p>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {PAYMENT_ITEMS.map((item) => (
-            <BentoCard
+            <div
               key={item.id}
-              title={item.name}
-              description={item.description}
-              icon={<Icon name={(TOPUP_ICON[item.id] ?? "cart") as IconName} size={22} />}
-              footer={
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-display text-lg text-accent">
-                    {formatPrice(item.price)}
-                  </span>
-                  <button
-                    type="button"
-                    disabled={busy !== null}
-                    onClick={() => void checkout(item)}
-                    className="btn btn-outline btn-sm"
-                  >
-                    {busy === item.id ? "..." : "Beli"}
-                  </button>
-                </div>
-              }
+              className="flex flex-col rounded-sm border border-border bg-[#0c101d] p-4 transition hover:border-cyan-400/40"
             >
-              <StatusChip
-                status={item.effect.type === "mentor" ? "info" : "neutral"}
-                label={item.effect.type.toUpperCase()}
-              />
-            </BentoCard>
+              <span className="grid h-10 w-10 place-items-center rounded-sm border border-border bg-input/30 text-cyan-300">
+                <Icon name={(TOPUP_ICON[item.id] ?? "cart") as IconName} size={20} />
+              </span>
+              <p className="mt-3 font-display text-sm uppercase tracking-wider text-foreground">
+                {item.name}
+              </p>
+              <p className="mt-1 flex-1 text-xs text-muted-foreground">
+                {item.description}
+              </p>
+              <div className="mt-3 flex items-center justify-between">
+                <StatusChip
+                  status={item.effect.type === "mentor" ? "info" : "neutral"}
+                  label={item.effect.type.toUpperCase()}
+                />
+                <span className="font-display text-base text-amber-300">
+                  {formatPrice(item.price)}
+                </span>
+              </div>
+              <div className="mt-3 flex justify-end">
+                <button
+                  type="button"
+                  disabled={busy !== null}
+                  onClick={() => void checkout(item)}
+                  className={buyButtonClass}
+                >
+                  {busy === item.id ? "..." : "Beli"}
+                </button>
+              </div>
+            </div>
           ))}
         </div>
       </section>
 
       <section className="mb-12">
-        <h2 className="mb-1 font-display text-xl tracking-wide text-foreground">
-          AI MENTOR
+        <h2 className="mb-1 font-display text-sm uppercase tracking-widest text-cyan-300/80">
+          ▸ AI MENTOR
         </h2>
         <p className="mb-4 text-xs text-muted-foreground">
           Satu kali kesempatan trial 7 hari, lalu paket bulanan via top-up.
         </p>
-        <BentoCard
-          title="Mentor Trial 7 Hari"
-          description={
-            trialEnds
-              ? `Aktif — berakhir ${new Date(trialEnds).toLocaleDateString("id-ID")}`
-              : "Akses penuh AI Mentor, gratis 7 hari pertama."
-          }
-          icon={<Icon name="brain" size={22} />}
-          footer={
-            <button
-              type="button"
-              disabled={busy !== null || trialEnds !== null}
-              onClick={() => void activateTrial()}
-              className="btn btn-outline btn-sm"
-            >
-              {trialEnds ? "Sudah Aktif" : busy === "trial" ? "..." : "Aktivasi Trial"}
-            </button>
-          }
-        >
-          <StatusChip
-            status={trialEnds ? "success" : "warning"}
-            label={trialEnds ? "TRIAL AKTIF" : "BELUM DIAKTIFKAN"}
-          />
-        </BentoCard>
+        <div className="rounded-sm border border-border bg-[#0c101d] p-5 transition hover:border-cyan-400/40 sm:flex sm:items-center sm:justify-between sm:gap-6">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="grid h-9 w-9 place-items-center rounded-sm border border-border bg-input/30 text-fuchsia-300">
+                <Icon name="brain" size={18} />
+              </span>
+              <p className="font-display text-sm uppercase tracking-wider text-foreground">
+                Mentor Trial 7 Hari
+              </p>
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {trialEnds
+                ? `Aktif — berakhir ${new Date(trialEnds).toLocaleDateString("id-ID")}`
+                : "Akses penuh AI Mentor, gratis 7 hari pertama."}
+            </p>
+            <div className="mt-3">
+              <StatusChip
+                status={trialEnds ? "success" : "warning"}
+                label={trialEnds ? "TRIAL AKTIF" : "BELUM DIAKTIFKAN"}
+              />
+            </div>
+          </div>
+          <button
+            type="button"
+            disabled={busy !== null || trialEnds !== null}
+            onClick={() => void activateTrial()}
+            className={`${buyButtonClass} mt-4 shrink-0 sm:mt-0`}
+          >
+            {trialEnds ? "Sudah Aktif" : busy === "trial" ? "..." : "Aktivasi Trial"}
+          </button>
+        </div>
       </section>
 
       <p className="mt-8 text-center text-xs text-muted-foreground">
         Pembelian skin bintang memakai saldo belajar (stars) — dikreditkan saat
         menyelesaikan level.{" "}
-        <Link href="/dashboard" className="text-accent hover:underline">
-          Kembali
+        <Link href="/dashboard" className="text-cyan-300 hover:underline">
+          Kembali ke base
         </Link>
       </p>
     </main>

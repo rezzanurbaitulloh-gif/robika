@@ -301,3 +301,9 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - Status node kini nyata dari tabel `progress` via `createServerSupabase` (pola sama seperti dashboard): done = emerald, misi aktif pertama = cyan pulse, siap = netral redup, boss mengikuti aturan NODE_STYLE fuchsia (terkunci / aktif saat semua level normal selesai / dikalahkan). Label state pakai font-display `[SELESAI]`, `[MISI AKTIF]`, dst.
 - Navigasi tidak berubah: semua node tetap bisa diklik ke `/level/:id`, gate flag `newAdventure` untuk strip "Distrik Berikutnya" dipertahankan; AdventureBoard di dalam level sudah bergaya game sehingga tidak disentuh.
 - Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
+## 2026-08-24 — PHASE 9 · SHOP: toko jadi hangar perdagangan
+- `ShopClient` berhenti menampilkan grid BentoCard + tombol `btn btn-outline` bergaya SaaS dan kini tampil sebagai toko in-game: panel header `base-floor scanline` dengan indikator blink ("▸ HANGAR PERDAGANGAN · MOD KOSMETIK"), saldo bintang pindah ke chip amber (bukan accent biru generik §67) dan gem tetap fuchsia.
+- Kartu skin diganti tile inventaris gelap (`#0c101d`, sudut tajam, hover cyan): avatar BOT-1 dalam frame glow, rarity chip, harga font-display `★`/`◆`; skin terpakai diberi border cyan + label `[DIPAKAI]`.
+- Top-up & Mentor Trial ikut di-restyle sebagai tile/baris mod dengan harga amber; semua aksi (equip, buy, checkout Midtrans Snap, aktivasi trial), state, dan copy fungsional dipertahankan identik.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
