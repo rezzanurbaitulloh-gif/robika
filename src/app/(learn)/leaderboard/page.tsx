@@ -40,7 +40,7 @@ export default async function LeaderboardPage() {
         </div>
         <Link
           href="/daily"
-          className="btn btn-outline btn-md"
+          className="rounded-sm border border-border px-3 py-1.5 font-display text-[11px] uppercase tracking-wider text-muted-foreground transition hover:border-cyan-400/40 hover:text-cyan-200"
         >
           <span className="inline-flex items-center gap-1.5">
             <Icon name="bolt" size={16} />
@@ -49,8 +49,8 @@ export default async function LeaderboardPage() {
         </Link>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-border bg-card/60">
-        <div className="grid grid-cols-[3rem_1fr_auto] gap-2 border-b border-border bg-muted/40 px-4 py-2 text-[11px] uppercase tracking-wider text-muted-foreground sm:grid-cols-[3rem_1fr_4rem_4rem_4rem]">
+      <div className="overflow-hidden rounded-sm border border-border bg-[#0c101d]">
+        <div className="grid grid-cols-[3rem_1fr_auto] gap-2 border-b border-border bg-input/30 px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-muted-foreground sm:grid-cols-[3rem_1fr_4rem_4rem_4rem]">
           <span>Rank</span>
           <span>Pelajar</span>
           <span className="hidden text-right sm:block">LV</span>
@@ -70,7 +70,7 @@ export default async function LeaderboardPage() {
               <div
                 key={row.id}
                 className={`grid grid-cols-[3rem_1fr_auto] items-center gap-2 border-b border-border/50 px-4 py-2.5 text-sm last:border-0 sm:grid-cols-[3rem_1fr_4rem_4rem_4rem] ${
-                  isMe ? "bg-accent/10" : ""
+                  isMe ? "bg-cyan-400/10" : ""
                 }`}
               >
                 <span
@@ -84,7 +84,7 @@ export default async function LeaderboardPage() {
                 </span>
                 <span className="truncate font-medium text-foreground">
                   {row.username}
-                  {isMe && <span className="ml-1 text-xs text-accent">(kamu)</span>}
+                  {isMe && <span className="ml-1 font-mono text-xs text-cyan-300">(kamu)</span>}
                 </span>
                 <span className="hidden text-right text-muted-foreground sm:block">
                   {row.level}
@@ -92,7 +92,7 @@ export default async function LeaderboardPage() {
                 <span className="hidden text-right text-muted-foreground sm:block">
                   {row.streak}
                 </span>
-                <span className="text-right font-semibold text-accent">{row.xp}</span>
+                <span className="text-right font-mono text-emerald-300">{row.xp}</span>
               </div>
             );
           })

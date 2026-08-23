@@ -48,17 +48,17 @@ export default async function DailyPage() {
       </div>
 
       {level ? (
-        <div className="rounded-xl border border-accent/40 bg-gradient-to-br from-accent/15 to-transparent p-6">
+        <div className="rounded-sm border border-cyan-400/40 bg-[#0c101d] p-6">
           <div className="mb-3 flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-accent px-3 py-1 text-xs font-bold text-accent-foreground">
+            <span className="rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-2.5 py-1 font-display text-[11px] uppercase tracking-wider text-cyan-200">
               TANTANGAN HARI INI
             </span>
             {progress ? (
-              <span className="rounded-full bg-emerald-400/20 px-3 py-1 text-xs text-emerald-300">
+              <span className="rounded-sm border border-emerald-400/40 bg-emerald-400/10 px-2.5 py-1 font-display text-[11px] uppercase tracking-wider text-emerald-300">
                 Selesai {progress.stars}
               </span>
             ) : (
-              <span className="rounded-full bg-amber-400/20 px-3 py-1 text-xs text-amber-300">
+              <span className="rounded-sm border border-amber-400/40 bg-amber-400/10 px-2.5 py-1 font-display text-[11px] uppercase tracking-wider text-amber-300">
                 Belum dicoba
               </span>
             )}
@@ -66,12 +66,12 @@ export default async function DailyPage() {
           <h2 className="font-display text-xl tracking-wide text-foreground">
             {level.title.id}
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 font-mono text-xs text-muted-foreground">
             {level.concept} · XP {level.xpReward}
           </p>
           <Link
             href={`/level/${level.id}?daily=1`}
-            className="btn btn-accent btn-lg mt-5"
+            className="mt-5 inline-flex items-center gap-2 rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-3 font-display text-sm uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20"
           >
             <span className="inline-flex items-center gap-1.5">
               {progress ? "Mainkan Lagi" : "Mulai Tantangan"}
@@ -80,7 +80,7 @@ export default async function DailyPage() {
           </Link>
         </div>
       ) : (
-        <p className="rounded-xl border border-border bg-card/60 p-6 text-sm text-muted-foreground">
+        <p className="rounded-sm border border-border bg-[#0c101d] p-6 font-mono text-xs text-muted-foreground">
           Tidak ada tantangan hari ini.
         </p>
       )}

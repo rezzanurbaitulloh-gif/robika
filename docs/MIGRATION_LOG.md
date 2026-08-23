@@ -329,3 +329,8 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - `learn/page.tsx` dan `learn/[stackId]/page.tsx` melepas `BentoCard` terakhir di surface belajar (glow accent biru generik §67) dan kini tampil sebagai papan modul game: eyebrow "▸ PAPAN KURIKULUM" / "▸ JALUR BELAJAR", tile gelap `#0c101d` bersudut tajam dengan ikon berbingkai, footer mono cyan ("N modul · Mulai →", "Baca materi →").
 - Chip tingkat kesulitan jadi chip outline cyan font-display; kartu modul diberi penanda urutan `MOD-01` mono. Data kurikulum, rute, dan struktur grid tidak berubah.
 - Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
+## 2026-08-24 — PHASE 9 · DAILY & LEADERBOARD: papan tantangan harian dan ranking
+- `daily/page.tsx` melepas kartu gradient accent biru §67: kini panel quest gelap `#0c101d` ber-border cyan dengan chip "TANTANGAN HARI INI" font-display, status selesai/belum jadi chip tajam emerald/amber, meta mono, CTA blok cyan menggantikan `btn-accent`.
+- `leaderboard/page.tsx`: tabel SaaS → papan ranking game (panel `#0c101d`, header kolom mono); highlight baris sendiri `bg-cyan-400/10`, penanda "(kamu)" mono cyan, kolom XP emerald mono; tombol Daily Challenge jadi chip outline. Query RPC `get_leaderboard` dan logika isMe tidak disentuh.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
