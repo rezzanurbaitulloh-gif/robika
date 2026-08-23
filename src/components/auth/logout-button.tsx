@@ -17,7 +17,7 @@ export function LogoutButton() {
     <button
       type="button"
       onClick={() => void logout()}
-      className="text-sm text-muted-foreground transition hover:text-foreground"
+      className="rounded-sm border border-border bg-input/40 px-2 py-1 font-display text-[11px] uppercase tracking-wider text-muted-foreground transition hover:border-cyan-400/50 hover:text-cyan-200"
     >
       Keluar
     </button>

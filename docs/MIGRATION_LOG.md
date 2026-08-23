@@ -289,3 +289,9 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - Seluruh copy konten lama dipertahankan verbatim (9 bahasa, harga Rp0/Rp10rb, trial mentor, PWA, dsb); tidak ada route/flag/logika baru — file statis server component.
 - BentoCard & StatusChip tetap ada (masih dipakai surface lain); ketergantungan baru hanya BotAvatar/NpcChip/SKIN_ITEMS yang sudah teruji.
 - Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
+## 2026-08-23 — PHASE 9 · NAVIGATION: header & nav jadi command bar game
+- Header `(learn)/layout` berhenti memakai gaya navbar SaaS (backdrop-blur putih + link teks accent biru generik #3b82f6 yang dilarang §67): kini strip gelap solid `#0c101d`, wordmark ROBIKA cyan, tombol profil & logout chip bergaris sudut-tajam dengan hover cyan (selaras NODE_STYLE game pages).
+- `AppNav`: label desktop diubah ke font-display uppercase chip (aktif = `border-cyan-400/50 bg-cyan-400/15 text-cyan-200` dengan penanda ▸), dock mobile diberi panel gelap + indikator garis atas cyan pada item aktif, menu "Lainnya" jadi kotak modul terminal (`#141a2e`, ikon dalam bingkai). Label disesuaikan ke dunia game (Dashboard→Base, Belajar→Akademi, Misi Harian, Peringkat, Toko).
+- Logika tidak berubah: rute, aria-current/haspopup, gate flag `newAdventure` untuk link world-2, dan perilaku Escape semuanya dipertahankan; tidak ada test lama yang menyentuh AppNav.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓

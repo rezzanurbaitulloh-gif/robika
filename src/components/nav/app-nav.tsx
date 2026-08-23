@@ -25,16 +25,16 @@ const MORE_ITEMS: { href: string; label: string; icon: IconName }[] = [
 ];
 
 const DESKTOP_NAV_BASE: { href: string; label: string }[] = [
-  { href: "/dashboard", label: "Dashboard" },
+  { href: "/dashboard", label: "Base" },
   { href: "/world/world-1", label: "Kode Quest" },
   { href: "/world/world-2", label: "Distrik Gerbang" },
-  { href: "/learn", label: "Belajar" },
+  { href: "/learn", label: "Akademi" },
   { href: "/codelab", label: "CodeLab" },
   { href: "/codelab/studio", label: "Studio" },
-  { href: "/daily", label: "Daily" },
-  { href: "/leaderboard", label: "Leaderboard" },
-  { href: "/mentor", label: "Mentor" },
-  { href: "/shop", label: "Shop" },
+  { href: "/daily", label: "Misi Harian" },
+  { href: "/leaderboard", label: "Peringkat" },
+  { href: "/mentor", label: "Mentor AI" },
+  { href: "/shop", label: "Toko" },
 ];
 
 function isActive(pathname: string, href: string): boolean {
@@ -62,7 +62,7 @@ export function AppNav() {
     <>
       <nav
         aria-label="Navigasi utama"
-        className="hidden items-center gap-4 text-sm text-muted-foreground md:flex"
+        className="hidden items-center gap-1 md:flex"
       >
         {desktopNav.map((item) => {
           const active = isActive(pathname, item.href);
@@ -72,11 +72,13 @@ export function AppNav() {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "rounded-md px-2 py-1 transition hover:text-foreground",
-                active &&
-                  "bg-accent/10 font-semibold text-accent",
+                "rounded-sm border px-2 py-1 font-display text-[11px] uppercase tracking-wider transition",
+                active
+                  ? "border-cyan-400/50 bg-cyan-400/15 text-cyan-200"
+                  : "border-transparent text-foreground/55 hover:border-cyan-400/30 hover:text-foreground",
               )}
             >
+              {active && <span className="mr-1 text-cyan-300">▸</span>}
               {item.label}
             </Link>
           );
@@ -85,7 +87,7 @@ export function AppNav() {
 
       <nav
         aria-label="Navigasi bawah"
-        className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-5 border-t border-border bg-background/90 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+        className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-5 border-t border-border bg-[#0c101d]/95 pb-[env(safe-area-inset-bottom)] md:hidden"
       >
         {MOBILE_NAV.map((item) => {
           const active = isActive(pathname, item.href);
@@ -95,21 +97,13 @@ export function AppNav() {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "flex flex-col items-center gap-1 py-2 text-[10px] transition hover:text-foreground",
-                active
-                  ? "text-accent"
-                  : "text-muted-foreground",
+                "relative flex flex-col items-center gap-0.5 py-2 font-display text-[9px] uppercase tracking-wider transition",
+                active ? "text-cyan-300" : "text-foreground/45 hover:text-foreground/75",
               )}
             >
-              <Icon name={item.icon} size={22} />
-              <span
-                className={cn(
-                  "rounded-full px-1.5 py-0.5",
-                  active && "bg-accent/10",
-                )}
-              >
-                {item.label}
-              </span>
+              {active && <span className="absolute inset-x-4 top-0 h-0.5 bg-cyan-300" />}
+              <Icon name={item.icon} size={20} />
+              <span>{item.label}</span>
             </Link>
           );
         })}
@@ -120,19 +114,13 @@ export function AppNav() {
           aria-controls="nav-more-menu"
           onClick={() => setMoreOpen((open) => !open)}
           className={cn(
-            "flex flex-col items-center gap-1 py-2 text-[10px] transition",
-            moreOpen ? "text-accent" : "text-muted-foreground hover:text-foreground",
+            "relative flex flex-col items-center gap-0.5 py-2 font-display text-[9px] uppercase tracking-wider transition",
+            moreOpen ? "text-cyan-300" : "text-foreground/45 hover:text-foreground/75",
           )}
         >
-          <Icon name={moreOpen ? "x" : "menu"} size={22} />
-          <span
-            className={cn(
-              "rounded-full px-1.5 py-0.5",
-              moreOpen && "bg-accent/10",
-            )}
-          >
-            Lainnya
-          </span>
+          {moreOpen && <span className="absolute inset-x-4 top-0 h-0.5 bg-cyan-300" />}
+          <Icon name={moreOpen ? "x" : "menu"} size={20} />
+          <span>Lainnya</span>
         </button>
       </nav>
 
@@ -146,10 +134,10 @@ export function AppNav() {
             role="dialog"
             aria-label="Menu fitur lainnya"
             onClick={(e) => e.stopPropagation()}
-            className="absolute inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] mx-auto max-w-sm animate-pop rounded-2xl border border-border bg-card p-3 shadow-2xl"
+            className="absolute inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] mx-auto max-w-sm animate-pop rounded-md border border-border bg-[#141a2e] p-3 shadow-2xl"
           >
-            <p className="mb-2 px-1 font-display text-xs tracking-widest text-muted-foreground">
-              SEMUA FITUR
+            <p className="mb-2 px-1 font-display text-[10px] uppercase tracking-widest text-cyan-300/70">
+              ▸ SEMUA MODUL
             </p>
             <div className="grid grid-cols-2 gap-2">
               {MORE_ITEMS.map((item) => {
@@ -161,21 +149,23 @@ export function AppNav() {
                     onClick={() => setMoreOpen(false)}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "flex items-center gap-2.5 rounded-lg border border-border bg-background/60 px-3 py-2.5 text-sm transition hover:border-accent/50",
+                      "flex items-center gap-2.5 rounded-sm border bg-[#0c101d] px-3 py-2.5 transition",
                       active
-                        ? "border-accent/60 text-accent"
-                        : "text-foreground",
+                        ? "border-cyan-400/50 text-cyan-200"
+                        : "border-border text-foreground hover:border-cyan-400/40",
                     )}
                   >
                     <span
                       className={cn(
-                        "rounded-md p-1.5",
-                        active ? "bg-accent/10 text-accent" : "bg-muted text-muted-foreground",
+                        "rounded-sm border border-border bg-input/40 p-1.5",
+                        active && "border-cyan-400/40 text-cyan-300",
                       )}
                     >
-                      <Icon name={item.icon} size={16} />
+                      <Icon name={item.icon} size={15} />
                     </span>
-                    <span className="truncate font-medium">{item.label}</span>
+                    <span className="truncate font-display text-xs uppercase tracking-wider">
+                      {item.label}
+                    </span>
                   </Link>
                 );
               })}
