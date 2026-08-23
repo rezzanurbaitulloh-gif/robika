@@ -4,6 +4,7 @@ import { LogoutButton } from "@/components/auth/logout-button";
 import { AppNav } from "@/components/nav/app-nav";
 import { Icon } from "@/components/design/icon";
 import { StatusIndicator } from "@/components/system/status-indicator";
+import { BotCompanion } from "@/components/companion/bot-companion";
 
 export default function LearnLayout({ children }: { children: ReactNode }) {
   return (
@@ -33,6 +34,7 @@ export default function LearnLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
       <div className="flex flex-1 flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">{children}</div>
+      <BotCompanion />
     </div>
   );
 }
