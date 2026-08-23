@@ -274,3 +274,11 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - Polish — BOT-1 companion: widget mengambang `bot-companion.tsx` (avatar BOT-1 + animasi float, hormati prefers-reduced-motion) terpasang di layout `(learn)`. Bubble idle line berganti tiap 8 detik dengan naskah kontekstual per seksi (adventure / codelab / base berdasarkan pathname), plus aksi `[ Ask BOT-1 ]` yang memakai ContextualAi (mode tutor, topic per seksi). Posisi fixed di atas bottom-nav mobile. 3 test baru; suite kini 44 file / 393 test.
 
 - Polish — Design Gate: NPC kini terasa hidup — chip NPC aktif beranimasi breathe (yang sudah dim redup tetap statis) dan panel dialog NPC aktif muncul dengan animate-pop. VFX combat (burst-pixel saat menang, shake saat CRASH), popup bermakna (popup-layer quest/unlock/level-up), dan success feedback animate-pop sebelumnya sudah ter-wire; item mobile landscape tetap di daftar verifikasi manual `docs/QA.md`.
+
+## 2026-08-23 — PHASE 9 · HOME: migrasi Dashboard ke game-shell
+- **Root cause keluhan "tampilan masih lama"**: sistem visual PHASE 2 hanya hidup di `/prototype` & `/base` yang terkunci flag off-by-default (`src/lib/flags.ts`, semua default `false`, `.env.local` tanpa override) — halaman nyata tidak pernah dimigrasi.
+- `/dashboard` ditulis ulang memakai bahasa game-shell `/base`: HUD bar (level/XP/gem/bintang/streak + misi aktif), panel hangar BOT-1 (avatar skin user, greeting, hitung lencana, tombol "Lanjut" ke level berikutnya), grid menu tiles 3×3 (World, Academy, CodeLab, Studio, Mentor AI, Shop, Misi Harian, Profil, Sertifikat), footer node.
+- `HudBar` diperluas prop opsional `stars` (+5 unit test baru).
+- Komponen mati dihapus: `components/dashboard/next-steps.tsx`, `level-progress.tsx`.
+- Flag & route tidak berubah; `/base` dan `/prototype` tetap apa adanya.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / **398 tests** ✓ · next build ✓

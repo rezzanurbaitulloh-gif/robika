@@ -1,18 +1,32 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { worlds } from "@/content";
-import { CURRICULUM_STACKS } from "@/content/curriculum/curriculum";
-import { challenges } from "@/content/codelab";
-import { BentoCard } from "@/components/design/bento-card";
-import { StatusChip } from "@/components/design/status-chip";
-import { Icon } from "@/components/design/icon";
-import { BadgeGrid } from "@/components/game/badge-grid";
-import { LevelProgressCard } from "@/components/dashboard/level-progress";
-import { NextSteps, type NextStepItem } from "@/components/dashboard/next-steps";
+import { BotAvatar } from "@/components/design/bot-avatar";
+import { Icon, type IconName } from "@/components/design/icon";
+import { HudBar } from "@/components/game/hud-bar";
+import { PopupLayer } from "@/components/system/popup-layer";
 import { createServerSupabase } from "@/lib/db/server";
-import { isFlagEnabled } from "@/lib/flags";
+import { getSkinItem, SKIN_ITEMS } from "@/lib/shop/catalog";
 
 export const dynamic = "force-dynamic";
+
+const MENU_TILES: {
+  href: string;
+  label: string;
+  hotkey: string;
+  icon: IconName;
+  tone: string;
+}[] = [
+  { href: "/world/world-1", label: "World", hotkey: "M", icon: "layers", tone: "text-cyan-300" },
+  { href: "/learn", label: "Academy", hotkey: "A", icon: "book", tone: "text-emerald-300" },
+  { href: "/codelab", label: "CodeLab", hotkey: "C", icon: "code", tone: "text-fuchsia-300" },
+  { href: "/codelab/studio", label: "Studio", hotkey: "B", icon: "pen", tone: "text-sky-300" },
+  { href: "/mentor", label: "Mentor AI", hotkey: "T", icon: "chat", tone: "text-violet-300" },
+  { href: "/shop", label: "Shop", hotkey: "S", icon: "cart", tone: "text-amber-300" },
+  { href: "/daily", label: "Misi Harian", hotkey: "Q", icon: "clock", tone: "text-orange-300" },
+  { href: "/profile", label: "Profil", hotkey: "I", icon: "user", tone: "text-rose-300" },
+  { href: "/certificate", label: "Sertifikat", hotkey: "P", icon: "certificate", tone: "text-lime-300" },
+];
 
 export default async function DashboardPage() {
   const supabase = await createServerSupabase();
@@ -21,22 +35,29 @@ export default async function DashboardPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("username, level, xp, streak")
-    .eq("id", user.id)
-    .maybeSingle<{ username: string; level: number; xp: number; streak: number }>();
-
-  const { data: wallet } = await supabase
-    .from("wallets")
-    .select("stars, gems")
-    .eq("profile_id", user.id)
-    .maybeSingle<{ stars: number; gems: number }>();
-
-  const { data: achievements } = await supabase
-    .from("achievements")
-    .select("badge_id, earned_at")
-    .eq("profile_id", user.id);
+  const [{ data: profile }, { data: wallet }, { data: achievements }] =
+    await Promise.all([
+      supabase
+        .from("profiles")
+        .select("username, level, xp, streak, skin_id")
+        .eq("id", user.id)
+        .maybeSingle<{
+          username: string;
+          level: number;
+          xp: number;
+          streak: number;
+          skin_id: string | null;
+        }>(),
+      supabase
+        .from("wallets")
+        .select("stars, gems")
+        .eq("profile_id", user.id)
+        .maybeSingle<{ stars: number; gems: number }>(),
+      supabase
+        .from("achievements")
+        .select("badge_id")
+        .eq("profile_id", user.id),
+    ]);
 
   const { data: progressRows } = await supabase
     .from("progress")
@@ -46,187 +67,89 @@ export default async function DashboardPage() {
     (progressRows ?? []).map((r: { level_id: string }) => r.level_id),
   );
 
-  const { data: learnRows } = await supabase
-    .from("learn_progress")
-    .select("item_id")
-    .eq("profile_id", user.id);
-  const doneLessons = new Set(
-    (learnRows ?? []).map((r: { item_id: string }) => r.item_id),
-  );
-
-  const { data: codelabRows } = await supabase
-    .from("codelab_progress")
-    .select("challenge_id")
-    .eq("profile_id", user.id);
-  const doneChallenges = new Set(
-    (codelabRows ?? []).map((r: { challenge_id: string }) => r.challenge_id),
-  );
-
   const allLevels = worlds.flatMap((w) => w.levels);
   const nextLevel = allLevels.find((l) => !doneLevels.has(l.id));
-  const nextStack = CURRICULUM_STACKS[0];
-  const nextModule = nextStack?.modules.find(
-    (m) => !doneLessons.has(`${nextStack.id}/${m.id}`),
-  );
-  const nextChallenge = challenges.find((c) => !doneChallenges.has(c.id));
+  const nextWorld = nextLevel
+    ? worlds.find((w) => w.levels.some((l) => l.id === nextLevel.id))
+    : undefined;
 
-  const nextSteps: NextStepItem[] = [];
-  if (nextLevel) {
-    nextSteps.push({
-      href: `/level/${nextLevel.id}`,
-      label: nextLevel.title.id,
-      hint: `Kode Quest · ${nextLevel.topic}`,
-      icon: "gamepad",
-      tone: "accent",
-      chip: "LANJUTKAN",
-    });
-  }
-  if (nextModule) {
-    nextSteps.push({
-      href: `/learn/${nextStack.id}/${nextModule.id}`,
-      label: nextModule.title,
-      hint: `Belajar · materi & kuis ${nextStack.name}`,
-      icon: "book",
-      tone: "muted",
-      chip: "BELAJAR",
-    });
-  }
-  if (nextChallenge) {
-    nextSteps.push({
-      href: `/codelab/${nextChallenge.id}`,
-      label: nextChallenge.title.id,
-      hint: `CodeLab · ${nextChallenge.lang.toUpperCase()}`,
-      icon: "bolt",
-      tone: "muted",
-      chip: "CODELAB",
-    });
-  }
-  nextSteps.push({
-    href: "/daily",
-    label: "Daily Quest",
-    hint: "Tantangan harian — hadiah setiap hari",
-    icon: "flame",
-    tone: "muted",
-    chip: "HARIAN",
-  });
+  const skin =
+    (profile?.skin_id ? getSkinItem(profile.skin_id) : undefined) ??
+    SKIN_ITEMS[0];
+  const badgeCount = achievements?.length ?? 0;
 
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
-      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="font-display text-2xl tracking-wide sm:text-3xl text-foreground">
-            SELAMAT DATANG,{" "}
-            <span className="text-accent">
-              {(profile?.username ?? "PELAJAR").toUpperCase()}
-            </span>
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Lanjutkan petualangan coding-mu.
+    <main className="relative mx-auto flex min-h-dvh max-w-3xl flex-col gap-4 px-4 py-4">
+      <PopupLayer />
+      <HudBar
+        level={profile?.level ?? 1}
+        xp={profile?.xp ?? 0}
+        gems={wallet?.gems ?? 0}
+        stars={wallet?.stars ?? 0}
+        streak={profile?.streak ?? 0}
+        questLabel={nextLevel ? nextLevel.title.id : null}
+        questHref={nextLevel ? `/level/${nextLevel.id}` : undefined}
+      />
+
+      <section className="base-floor relative overflow-hidden rounded-lg border border-border bg-[#0c101d] p-6">
+        <span className="blink absolute left-4 top-4 h-2 w-2 rounded-sm bg-cyan-400/80" />
+        <span className="blink absolute right-6 top-8 h-2 w-2 rounded-sm bg-amber-400/70 [animation-delay:400ms]" />
+        <span className="blink absolute bottom-5 left-10 h-2 w-2 rounded-sm bg-emerald-400/60 [animation-delay:900ms]" />
+        <span className="absolute inset-x-0 bottom-0 h-16 scanline opacity-30" />
+
+        <div className="relative flex flex-col items-center gap-3 pb-14 pt-6">
+          <span className="breathe">
+            <BotAvatar colors={skin.colors} size={72} />
+          </span>
+          <p className="font-display text-xs uppercase tracking-widest text-cyan-300">
+            BOT-1 · siap · lencana {badgeCount}/10
+          </p>
+          <p className="text-center text-sm text-foreground/60">
+            {profile?.username ?? "Operator"}, sistem menunggu perintahmu.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <StatusChip status="info" label={`LV ${profile?.level ?? 1}`} />
-          <StatusChip status="neutral" label={`XP ${profile?.xp ?? 0}`} />
-          <StatusChip status="warning" label={`Stars ${wallet?.stars ?? 0}`} />
-          <StatusChip status="success" label={`Gems ${wallet?.gems ?? 0}`} />
-        </div>
-      </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <BentoCard
-          title="Kode Quest"
-          description="Mainkan game 2D sambil belajar logika dasar."
-          icon={<Icon name="gamepad" size={22} />}
-          href={`/world/${worlds[0].world}`}
-          className="lg:col-span-2"
-          footer={
-            <span className="text-xs font-semibold text-accent">
-              Mulai bermain →
-            </span>
-          }
-        />
-        {isFlagEnabled("newAdventure") && (
-          <BentoCard
-            title="Distrik Gerbang"
-            description="Dunia baru: gerbang daya, NPC, dan if/else."
-            icon={<Icon name="robot" size={22} />}
-            href="/world/world-2"
-            footer={
-              <span className="text-xs font-semibold text-amber-300">
-                Jelajahi distrik →
-              </span>
-            }
-          />
-        )}
-        <BentoCard
-          title="CodeLab"
-          description="Latihan JavaScript & Python dengan preview."
-          icon={<Icon name="bolt" size={22} />}
-          href="/codelab"
-          footer={
-            <span className="text-xs font-semibold text-accent">
-              Pilih tantangan →
-            </span>
-          }
-        />
-        <BentoCard
-          title="CodeLab Studio"
-          description="Editor bebas — pilih bahasa (HTML, JS, Python), hasil live di samping."
-          icon={<Icon name="code" size={22} />}
-          href="/codelab/studio"
-          footer={
-            <span className="text-xs font-semibold text-accent">
-              Buka studio →
-            </span>
-          }
-        />
-        <BentoCard
-          title="AI Mentor"
-          description="Belajar mendalam dengan mentor AI pribadi."
-          icon={<Icon name="brain" size={22} />}
-          href="/mentor"
-          className="lg:col-span-2"
-          footer={
-            <span className="text-xs font-semibold text-accent">
-              Chat sekarang →
-            </span>
-          }
-        />
-      </div>
-
-      <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_320px]">
-        <BadgeGrid owned={(achievements ?? []).map((a) => a.badge_id)} />
-        <div className="flex flex-col gap-4">
-          <LevelProgressCard xp={profile?.xp ?? 0} />
-          <div className="rounded-xl border border-border bg-card/60 p-4">
-            <h3 className="mb-3 font-display text-sm tracking-wide">STATISTIK</h3>
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-muted-foreground"><Icon name="flame" size={14} /> Streak</span>
-                <span className="font-semibold text-foreground">
-                  {profile?.streak ?? 0} hari
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-muted-foreground"><Icon name="medal" size={14} /> Badge</span>
-                <span className="font-semibold text-foreground">
-                  {achievements?.length ?? 0} / 10
-                </span>
-              </div>
-              <Link
-                href="/certificate"
-                className="btn btn-outline btn-md mt-3 w-full"
-              >
-                Unduh Sertifikat
-              </Link>
+        {nextLevel && (
+          <Link
+            href={`/level/${nextLevel.id}`}
+            className="group absolute inset-x-6 bottom-4 flex items-center justify-between rounded-md border border-emerald-400/40 bg-[#141a2e]/90 px-4 py-3 transition group-hover:border-emerald-300"
+          >
+            <div className="min-w-0">
+              <p className="font-display text-[10px] uppercase tracking-widest text-emerald-300">
+                Misi Aktif · {nextWorld?.name.id ?? ""}
+              </p>
+              <p className="truncate text-sm font-semibold">{nextLevel.title.id}</p>
             </div>
-          </div>
-        </div>
-      </div>
+            <span className="ml-3 flex shrink-0 items-center gap-1.5 rounded-sm border border-emerald-400/50 bg-emerald-400/15 px-3 py-1.5 font-display text-xs uppercase tracking-wider text-emerald-300 transition group-hover:bg-emerald-400/25">
+              <Icon name="play" size={12} /> Lanjut
+            </span>
+          </Link>
+        )}
+      </section>
 
-      <div className="mt-4">
-        <NextSteps items={nextSteps} />
-      </div>
+      <nav aria-label="Menu markas" className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+        {MENU_TILES.map((tile) => (
+          <Link
+            key={tile.href}
+            href={tile.href}
+            className="flex flex-col items-center gap-1.5 rounded-md border border-border bg-card/70 px-2 py-3 transition hover:-translate-y-0.5 hover:border-cyan-400/50 hover:bg-card"
+          >
+            <span className={tile.tone}>
+              <Icon name={tile.icon} size={18} />
+            </span>
+            <span className="font-display text-[10px] uppercase tracking-wider text-foreground/80">
+              {tile.label}
+            </span>
+            <span className="rounded-sm border border-border bg-input/40 px-1 text-[9px] text-foreground/40">
+              {tile.hotkey}
+            </span>
+          </Link>
+        ))}
+      </nav>
+
+      <footer className="pb-2 text-center font-display text-[10px] uppercase tracking-widest text-foreground/30">
+        ROBIKA BASE · node stabil · koneksi aktif
+      </footer>
     </main>
   );
 }

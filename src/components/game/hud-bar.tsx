@@ -5,12 +5,13 @@ export interface HudBarProps {
   level: number;
   xp: number;
   gems: number;
+  stars?: number;
   streak: number;
   questLabel?: string | null;
   questHref?: string;
 }
 
-export function HudBar({ level, xp, gems, streak, questLabel, questHref }: HudBarProps) {
+export function HudBar({ level, xp, gems, stars, streak, questLabel, questHref }: HudBarProps) {
   const xpInLevel = xp % 100;
   return (
     <div className="flex items-center gap-3 rounded-md border border-border bg-[#141a2e]/90 px-3 py-2 font-display text-xs uppercase tracking-wider text-foreground/90">
@@ -30,6 +31,12 @@ export function HudBar({ level, xp, gems, streak, questLabel, questHref }: HudBa
         <Icon name="gem" size={13} />
         {gems}
       </span>
+      {stars !== undefined && (
+        <span className="flex items-center gap-1 text-amber-300">
+          <Icon name="star" size={13} />
+          {stars}
+        </span>
+      )}
       <span className="flex items-center gap-1 text-amber-300">
         <Icon name="flame" size={13} />
         {streak}
