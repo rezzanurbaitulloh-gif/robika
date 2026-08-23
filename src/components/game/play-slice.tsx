@@ -8,13 +8,17 @@ import { getLevel } from "@/content";
 import { simulateWithJs } from "@/lib/game/interpreter";
 import { Icon } from "@/components/design/icon";
 
-const LEVEL_ID = "world-1-level-1";
+const LEVELS = [
+  { id: "world-1-level-1", label: "Pabrik" },
+  { id: "world-2-level-4", label: "Gerbang" },
+];
 
 export function PlaySlice() {
-  const level = getLevel(LEVEL_ID);
+  const [levelId, setLevelId] = useState(LEVELS[0].id);
+  const level = getLevel(levelId);
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SliceHandle | null>(null);
-  const introPushed = useRef(false);
+  const pushedLevels = useRef(new Set<string>());
   const push = usePopups((s) => s.push);
   const [code, setCode] = useState(level?.starterCode ?? "");
   const [running, setRunning] = useState(false);
@@ -36,8 +40,8 @@ export function PlaySlice() {
       sceneRef.current = h;
     });
 
-    if (!introPushed.current) {
-      introPushed.current = true;
+    if (!pushedLevels.current.has(level.id)) {
+      pushedLevels.current.add(level.id);
       push({
         type: "quest-started",
         title: level.title.id,
@@ -74,7 +78,7 @@ export function PlaySlice() {
         push({
           type: "quest-complete",
           title: level.title.id,
-          body: "BOT-1 mencapai tujuan. Pabrik kembali menyala.",
+          body: `${level.title.id} selesai. Misi BOT-1 berhasil.`,
           rewards: [
             { label: "XP", amount: `+${level.xpReward}` },
             { label: "Gems", amount: "+5" },
@@ -93,6 +97,30 @@ export function PlaySlice() {
     <main className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-4 px-4 py-6">
       <HudBar level={1} xp={0} gems={0} streak={0} questLabel={level.title.id} />
       <header>
+        <div className="mb-2 flex gap-2">
+          {LEVELS.map((l) => {
+            const active = l.id === levelId;
+            return (
+              <button
+                key={l.id}
+                type="button"
+                onClick={() => {
+                  if (l.id === levelId) return;
+                  setLevelId(l.id);
+                  setCode(getLevel(l.id)?.starterCode ?? "");
+                  setFeedback(null);
+                }}
+                className={
+                  active
+                    ? "rounded-sm border border-cyan-400/70 bg-cyan-400/20 px-3 py-1 font-display text-xs uppercase tracking-wider text-cyan-200"
+                    : "rounded-sm border border-border px-3 py-1 font-display text-xs uppercase tracking-wider text-foreground/50 transition hover:border-cyan-400/40 hover:text-cyan-300"
+                }
+              >
+                {l.label}
+              </button>
+            );
+          })}
+        </div>
         <h1 className="font-display text-lg uppercase tracking-widest text-cyan-300">
           {level.title.id}
         </h1>

@@ -8,6 +8,7 @@ const COLORS = {
   goal: 0x34d399,
   coin: 0xfbbf24,
   bg: 0x0f1220,
+  gate: 0xf59e0b,
 };
 
 const DIR_TEX: Record<SimDir, string> = {
@@ -62,6 +63,7 @@ export async function createSliceScene(
 
   class SliceScene extends Phaser.Scene {
     private player!: Phaser.GameObjects.Image;
+    private gates = new Map<string, Phaser.GameObjects.Rectangle>();
     private moving = false;
     private walkTick = 0;
     private walkTimer?: Phaser.Time.TimerEvent;
@@ -82,6 +84,10 @@ export async function createSliceScene(
           this.load.image(`walk-${d}-${i}`, `${base}/walk-${DIR_FILE[d]}/${i}.png`);
         }
       }
+      this.load.image(
+        "npc-pak-kiwar",
+        "/assets/pixel/v2/npc/pak-kiwar-south.png"
+      );
     }
 
     create() {
@@ -97,6 +103,25 @@ export async function createSliceScene(
           if (ch === "C") {
             gfx.fillStyle(COLORS.coin, 1);
             gfx.fillCircle(x * TILE + TILE / 2 - 1, y * TILE + TILE / 2 - 1, 6);
+          }
+          if (ch === "D") {
+            const gate = this.add.rectangle(
+              x * TILE + TILE / 2 - 1,
+              y * TILE + TILE / 2 - 1,
+              TILE - 8,
+              TILE - 8
+            );
+            gate.setFillStyle(COLORS.gate, 0.95);
+            gate.setStrokeStyle(2, 0xfff7ed, 0.9);
+            this.gates.set(`${x},${y}`, gate);
+          }
+          if (ch === "N") {
+            const npc = this.add.image(
+              x * TILE + TILE / 2,
+              y * TILE + TILE / 2 - 4,
+              "npc-pak-kiwar"
+            );
+            npc.setDisplaySize(TILE + 8, TILE + 8);
           }
         }
       }
@@ -165,6 +190,42 @@ export async function createSliceScene(
             this.time.delayedCall(80, step);
             return;
           }
+          if (ev.kind === "openGate") {
+            const gates = [...this.gates.values()];
+            gates.forEach((g) => g.setFillStyle(COLORS.goal, 0.4));
+            this.tweens.add({
+              targets: gates,
+              alpha: 0.12,
+              scaleY: 0.25,
+              duration: 260,
+              ease: "Sine.easeOut",
+            });
+            this.time.delayedCall(300, step);
+            return;
+          }
+          if (ev.kind === "npcTalk") {
+            const cx = ev.x * TILE + TILE / 2;
+            const cy = ev.y * TILE - 14;
+            const bubble = this.add
+              .text(cx, cy, "!", {
+                fontFamily: "monospace",
+                fontSize: "20px",
+                color: "#34d399",
+                fontStyle: "bold",
+              })
+              .setOrigin(0.5)
+              .setDepth(5);
+            this.tweens.add({
+              targets: bubble,
+              y: cy - 10,
+              alpha: 0,
+              duration: 520,
+              ease: "Sine.easeOut",
+              onComplete: () => bubble.destroy(),
+            });
+            this.time.delayedCall(350, step);
+            return;
+          }
           if (ev.kind !== "move") {
             this.time.delayedCall(60, step);
             return;
@@ -176,7 +237,7 @@ export async function createSliceScene(
             y: ev.to.y * TILE + TILE / 2,
             duration: 170,
             onComplete: () => {
-              if (goal && ev.to.x === goal.x && ev.to.y === goal.y) {
+              if (ev.won) {
                 this.won = true;
                 onWin();
               }

@@ -211,3 +211,10 @@ Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/play dynamic).
 - Saldo PixelLab pasca-batch: 10 generasi. Sisa rencana Batch 1: tileset.world1, vfx.spark; hud.frame diganti pendekatan murah (create_ui_asset 20-40 gen tidak muat).
 
 Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓.
+
+### Phase 3 — Mekanik Gerbang + NPC di Slice (2026-08-23)
+
+- `slice-scene.ts`: tile `D` dirender sebagai gate rect amber (disimpan di map `gates`); event `openGate` → tween buka (fade+scaleY, tint hijau); tile `N` menampilkan sprite `pak-kiwar-south` (68×68, TILE+8); event `npcTalk` → gelembung "!" melayang di atas NPC.
+- Deteksi menang kini memakai flag `ev.won` dari interpreter (semantik goal reach/collect/quest benar), menggantikan perbandingan koordinat G yang salah untuk goal quest.
+- `play-slice.tsx`: picker level (Pabrik = world-1-level-1, Gerbang = world-2-level-4) — ganti level me-recreate scene, reset starterCode; popup quest-started dijaga unik per level via Set ref.
+- Checklist Phase 3: BASE ✓ WORLD ✓ NPC ✓ QUEST ✓ GATE ✓ TERMINAL ✓ CODE ✓ RUN ✓ WORLD REACTS ✓ QUEST COMPLETE ✓ REWARD ✓ — vertical slice lengkap.
