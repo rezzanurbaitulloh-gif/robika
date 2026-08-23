@@ -256,7 +256,7 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
         )}
 
         {activeNpc && (
-          <div className="flex items-start gap-3 rounded-lg border border-violet-400/40 bg-violet-400/10 px-4 py-3">
+          <div className="animate-pop flex items-start gap-3 rounded-lg border border-violet-400/40 bg-violet-400/10 px-4 py-3">
             <NpcChip name={activeNpc.name} size={28} />
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-violet-300">

@@ -19,7 +19,7 @@ export function NpcChip({
   const initial = name.trim().charAt(0).toUpperCase() || "?";
   return (
     <span
-      className="inline-flex items-center justify-center rounded-md border font-display font-bold"
+      className={`inline-flex items-center justify-center rounded-md border font-display font-bold${dim ? "" : " breathe"}`}
       style={{
         width: size,
         height: size,
