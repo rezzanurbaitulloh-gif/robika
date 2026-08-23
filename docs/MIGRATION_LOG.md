@@ -324,3 +324,8 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - Baris status diganti chip font-display: LV cyan, XP netral, stars amber (ikon star), gems fuchsia (ikon gem) — konsisten dengan toko; grid statistik jadi tile gelap `#0c101d` berlabel mono uppercase.
 - State, props, `isImageAvatar`, dan `ProfileSettings` tidak diubah.
 - Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
+## 2026-08-24 — PHASE 9 · LEARN: papan kurikulum & jalur belajar jadi papan modul
+- `learn/page.tsx` dan `learn/[stackId]/page.tsx` melepas `BentoCard` terakhir di surface belajar (glow accent biru generik §67) dan kini tampil sebagai papan modul game: eyebrow "▸ PAPAN KURIKULUM" / "▸ JALUR BELAJAR", tile gelap `#0c101d` bersudut tajam dengan ikon berbingkai, footer mono cyan ("N modul · Mulai →", "Baca materi →").
+- Chip tingkat kesulitan jadi chip outline cyan font-display; kartu modul diberi penanda urutan `MOD-01` mono. Data kurikulum, rute, dan struktur grid tidak berubah.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓

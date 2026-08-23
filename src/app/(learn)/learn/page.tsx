@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { CURRICULUM_STACKS } from "@/content/curriculum/curriculum";
-import { BentoCard } from "@/components/design/bento-card";
 import { BackButton } from "@/components/design/back-button";
 import { Icon } from "@/components/design/icon";
 
@@ -11,6 +10,9 @@ export default function LearnPage() {
         <BackButton />
       </div>
       <div className="mb-8">
+        <p className="font-display text-[10px] uppercase tracking-widest text-cyan-300/70">
+          ▸ PAPAN KURIKULUM
+        </p>
         <h1 className="font-display text-2xl tracking-wide sm:text-3xl text-foreground">
           KURIKULUM MULTI-STACK
         </h1>
@@ -21,19 +23,23 @@ export default function LearnPage() {
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {CURRICULUM_STACKS.map((stack) => (
-          <Link key={stack.id} href={`/learn/${stack.id}`} className="h-full">
-            <BentoCard
-              title={stack.name}
-              description={stack.description}
-              descriptionClassName="hidden sm:block"
-              icon={<Icon name={stack.icon} size={18} />}
-              className="h-full gap-2 transition hover:border-accent/60 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] sm:gap-3"
-              footer={
-                <span className="text-[11px] font-semibold text-accent sm:text-xs">
-                  {stack.modules.length} modul · Mulai →
-                </span>
-              }
-            />
+          <Link
+            key={stack.id}
+            href={`/learn/${stack.id}`}
+            className="group flex h-full flex-col gap-3 rounded-sm border border-border bg-[#0c101d] p-4 transition hover:border-cyan-400/40"
+          >
+            <span className="grid h-9 w-9 place-items-center rounded-sm border border-border bg-input/30 text-cyan-300">
+              <Icon name={stack.icon} size={18} />
+            </span>
+            <span className="font-display text-sm uppercase tracking-wider text-foreground">
+              {stack.name}
+            </span>
+            <span className="hidden text-xs leading-relaxed text-muted-foreground sm:block">
+              {stack.description}
+            </span>
+            <span className="mt-auto font-mono text-[11px] uppercase tracking-wider text-cyan-400">
+              {stack.modules.length} modul · Mulai →
+            </span>
           </Link>
         ))}
       </div>
