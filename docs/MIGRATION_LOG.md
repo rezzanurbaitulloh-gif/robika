@@ -200,3 +200,14 @@ Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/prototype dynamic)
 - `play-slice.tsx`: mount scene + HudBar + PopupLayer; terminal textarea starterCode → `simulateWithJs` → replay animasi; popup quest-started saat masuk, quest-complete + reward XP/Gems saat won; feedback error/crash inline.
 
 Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/play dynamic).
+
+### Phase 3 — Batch 1 Asset + Walk 4 Arah (2026-08-23)
+
+- Design gate Phase 2 disetujui user → Batch 1 dibuka (saldo awal 17 gen).
+- `anim.bot1.walk-4dir`: walk east/north/west di-append ke group `afecfd92…` ("walking-4-frames", 4 job total, 3 gen) → `public/assets/pixel/v2/bot1/walk-{east,north,west}/{0..3}.png`.
+- NPC hub set: Pak Kiwar `7db50301…` (mekanik gerbang, world-2-level-4), Bu Laras `08e92c4f…` (guru robotika), Raka `19903e93…` (siswa) — standard 1 gen each, 8 arah, canvas 68×68 → `public/assets/pixel/v2/npc/`.
+- Enemy: Glitchling `4410a6ca…` (glitch magenta, persiapan combat) → `public/assets/pixel/v2/enemy/`.
+- `slice-scene.ts`: startWalk/stopWalk kini menganimasikan KEEMPAT arah (frame `walk-{N,E,S,W}-{0..3}`); timer walk disimpan per-event (`walkTimer.remove()`) menggantikan `time.removeAllEvents()` yang rapuh.
+- Saldo PixelLab pasca-batch: 10 generasi. Sisa rencana Batch 1: tileset.world1, vfx.spark; hud.frame diganti pendekatan murah (create_ui_asset 20-40 gen tidak muat).
+
+Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓.

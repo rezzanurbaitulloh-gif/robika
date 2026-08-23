@@ -17,6 +17,13 @@ const DIR_TEX: Record<SimDir, string> = {
   W: "bot-west",
 };
 
+const DIR_FILE: Record<SimDir, string> = {
+  N: "north",
+  E: "east",
+  S: "south",
+  W: "west",
+};
+
 export interface SliceHandle {
   destroy(): void;
   runEvents(events: SimEvent[]): Promise<boolean>;
@@ -57,6 +64,7 @@ export async function createSliceScene(
     private player!: Phaser.GameObjects.Image;
     private moving = false;
     private walkTick = 0;
+    private walkTimer?: Phaser.Time.TimerEvent;
     private won = false;
 
     constructor() {
@@ -69,8 +77,10 @@ export async function createSliceScene(
       this.load.image("bot-north", `${base}/bot1-north.png`);
       this.load.image("bot-east", `${base}/bot1-east.png`);
       this.load.image("bot-west", `${base}/bot1-west.png`);
-      for (let i = 0; i < 4; i++) {
-        this.load.image(`walk-${i}`, `${base}/walk-south/${i}.png`);
+      for (const d of Object.keys(DIR_FILE) as SimDir[]) {
+        for (let i = 0; i < 4; i++) {
+          this.load.image(`walk-${d}-${i}`, `${base}/walk-${DIR_FILE[d]}/${i}.png`);
+        }
       }
     }
 
@@ -122,24 +132,22 @@ export async function createSliceScene(
 
     private startWalk(dir: SimDir) {
       this.moving = true;
-      if (dir !== "S") {
-        this.player.setTexture(DIR_TEX[dir]);
-        return;
-      }
       this.walkTick = 0;
-      this.time.addEvent({
+      this.player.setTexture(`walk-${dir}-0`);
+      this.walkTimer = this.time.addEvent({
         delay: 90,
         loop: true,
         callback: () => {
           this.walkTick = (this.walkTick + 1) % 4;
-          this.player.setTexture(`walk-${this.walkTick}`);
+          this.player.setTexture(`walk-${dir}-${this.walkTick}`);
         },
       });
     }
 
     private stopWalk(dir: SimDir) {
       this.moving = false;
-      this.time.removeAllEvents();
+      this.walkTimer?.remove();
+      this.walkTimer = undefined;
       this.player.setTexture(DIR_TEX[dir]);
     }
 
