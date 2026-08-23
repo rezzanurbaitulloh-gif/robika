@@ -169,7 +169,7 @@ export function ChallengeClient({
             </div>
           )}
 
-          <div className="overflow-hidden rounded-xl border border-border">
+          <div className="overflow-hidden rounded-sm border border-border">
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-muted/60 px-4 py-2">
               <span className="font-display text-xs tracking-widest text-muted-foreground">
                 {challenge.kind === "output"

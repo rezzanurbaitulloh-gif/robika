@@ -1,3 +1,9 @@
+## 2026-08-24 — PHASE 9 · CLEANUP 3: straggler sudut besar di module view & challenge editor
+- `learn/[stackId]/[moduleId]/page.tsx`: tiga panel section `rounded-xl` → `rounded-sm`; blok kode contoh `rounded-lg` → `rounded-sm`.
+- `codelab/[challengeId]/challenge-client.tsx`: container editor yang terlewat `rounded-xl` → `rounded-sm`.
+- Sisa sweep radius besar kini hanya `design/bento-card.tsx` (dead component) dan primitif `ui/*`.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
 ## 2026-08-24 — PHASE 9 · CLEANUP 2: onboarding, codelab studio & challenge, profile settings
 - `onboarding-client.tsx`: progress bar fill → `bg-cyan-400`, opsi pilihan jadi panel outline netral hover cyan, teks highlight → `text-cyan-300`, tombol lanjut → blok chip cyan font-display.
 - `codelab/studio-client.tsx` (mode CodeLab professional): Run button split rose(error)/cyan, file aktif & lang chip & link hover → cyan tajam, container editor/preview/aside `rounded-xl` → `rounded-sm`.
