@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { AppNav } from "@/components/nav/app-nav";
 import { Icon } from "@/components/design/icon";
+import { StatusIndicator } from "@/components/system/status-indicator";
 
 export default function LearnLayout({ children }: { children: ReactNode }) {
   return (
@@ -18,6 +19,7 @@ export default function LearnLayout({ children }: { children: ReactNode }) {
           </Link>
           <AppNav />
           <div className="flex items-center gap-2">
+            <StatusIndicator />
             <Link
               href="/profile"
               className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition hover:border-accent hover:text-foreground"

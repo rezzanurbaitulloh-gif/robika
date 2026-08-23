@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { StatusChip } from "@/components/design/status-chip";
 import { Icon } from "@/components/design/icon";
+import { enqueueOfflineMutation, getSnapshot } from "@/lib/offline/queue";
 
 export type LearnItemType = "module" | "quiz";
 
@@ -76,7 +77,14 @@ export function ModuleComplete({
         });
       }
     } catch {
-      setMessage({ tone: "danger", text: "Koneksi bermasalah. Coba lagi." });
+      enqueueOfflineMutation("/api/learn/complete", {
+        item_type: itemType,
+        item_id: itemId,
+      });
+      setMessage({
+        tone: "info",
+        text: `Offline — progres disimpan lokal (${getSnapshot()} tertunda) dan akan disinkronkan otomatis saat online.`,
+      });
     } finally {
       setBusy(false);
     }

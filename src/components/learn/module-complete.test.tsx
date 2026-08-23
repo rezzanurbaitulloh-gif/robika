@@ -1,6 +1,7 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ModuleComplete } from "./module-complete";
+import { getSnapshot } from "@/lib/offline/queue";
 
 describe("ModuleComplete", () => {
   it("renders continue + back links when already done with a next module", () => {
@@ -55,5 +56,29 @@ describe("ModuleComplete", () => {
     expect(
       screen.queryByRole("link", { name: /Kembali ke Daftar Modul/ }),
     ).not.toBeInTheDocument();
+  });
+
+  it("queues the completion locally when offline instead of losing it", async () => {
+    const store = new Map<string, string>();
+    vi.stubGlobal("localStorage", {
+      getItem: (k: string) => store.get(k) ?? null,
+      setItem: (k: string, v: string) => void store.set(k, v),
+      removeItem: (k: string) => void store.delete(k),
+    });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => {
+        throw new TypeError("Failed to fetch");
+      }),
+    );
+
+    render(<ModuleComplete itemType="module" itemId="js/off1" initialDone={false} />);
+    fireEvent.click(screen.getByRole("button", { name: /Tandai Selesai/i }));
+
+    await waitFor(() =>
+      expect(screen.getByText(/disimpan lokal/)).toBeInTheDocument(),
+    );
+    expect(getSnapshot()).toBe(1);
+    vi.unstubAllGlobals();
   });
 });

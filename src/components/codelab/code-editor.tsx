@@ -2,6 +2,25 @@
 
 import dynamic from "next/dynamic";
 import { useSyncExternalStore } from "react";
+import { loader } from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
+
+const monacoSelf = self as unknown as {
+  MonacoEnvironment?: {
+    getWorker?: () => Worker;
+  };
+};
+
+monacoSelf.MonacoEnvironment = {
+  getWorker() {
+    return new Worker(
+      new URL("../../lib/codelab/monaco-editor-worker.ts", import.meta.url),
+      { type: "module" },
+    );
+  },
+};
+
+loader.config({ monaco });
 
 const MonacoEditor = dynamic(
   () => import("@monaco-editor/react").then((m) => m.default),
@@ -46,6 +65,11 @@ export function CodeEditor({
       language={language}
       theme="vs-dark"
       value={value}
+      loading={
+        <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+          Memuat editor...
+        </div>
+      }
       onChange={(next) => onChange(next ?? "")}
       options={{
         minimap: { enabled: false },
