@@ -174,3 +174,11 @@ Pipeline asset:
 
 Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/base dynamic).
 Gate berikutnya: Phase 2 — design review dokumen sebelum Batch 1 asset & Phaser shell.
+
+### Phase 1b — Prototype Gallery (2026-08-23)
+
+- Rute `/prototype` (flag-gated newVisualSystem/newHome): mock statis Game Shell+HUD+Quest Log, Terminal Overlay, World Map node, NPC Dialogue; tautan Academy/CodeLab eksisting.
+- prdlengkap.md (PRD V2 dari user) ikut tersinkron ke repo pada commit Phase 1 — file sebelumnya versi lama yang belum pernah di-commit.
+- Checklist prototipe PRD: Home=/base · Base ✓ · Game shell ✓(mock) · World ✓(map) · HUD ✓ · Quest ✓ · Dialogue ✓ · Terminal ✓ · Academy/CodeLab = layar hidup eksisting.
+
+Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/prototype dynamic).
