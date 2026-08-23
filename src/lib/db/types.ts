@@ -157,6 +157,10 @@ export type Database = {
           streak: number;
         }>;
       };
+      buy_skin: {
+        Args: { p_item_id: string };
+        Returns: Record<string, unknown>;
+      };
     };
     Enums: Record<string, never>;
   };

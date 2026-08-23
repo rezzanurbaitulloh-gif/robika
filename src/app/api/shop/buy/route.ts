@@ -24,52 +24,31 @@ export async function POST(request: Request) {
     return Response.json({ error: "unknown_item" }, { status: 400 });
   }
 
-  const price = item.priceStars ?? item.priceGems ?? 0;
-  const { data: owned } = await supabase
-    .from("inventory")
-    .select("item_id")
-    .eq("profile_id", user.id)
-    .eq("item_id", item.id)
-    .maybeSingle<{ item_id: string }>();
-  if (owned) {
-    return Response.json({ error: "already_owned" }, { status: 409 });
-  }
-
-  const { data: wallet } = await supabase
-    .from("wallets")
-    .select("stars, gems")
-    .eq("profile_id", user.id)
-    .maybeSingle<{ stars: number; gems: number }>();
-  const balance =
-    item.priceStars !== undefined ? (wallet?.stars ?? 0) : (wallet?.gems ?? 0);
-  if (balance < price) {
-    return Response.json(
-      { error: "insufficient_balance", balance, price },
-      { status: 402 },
-    );
-  }
-
-  const update =
-    item.priceStars !== undefined
-      ? { stars: balance - price }
-      : { gems: balance - price };
-  const [{ error: updateError }, { error: insertError }] = await Promise.all([
-    supabase
-      .from("wallets")
-      .update(update)
-      .eq("profile_id", user.id),
-    supabase.from("inventory").insert({
-      profile_id: user.id,
-      item_id: item.id,
-    }),
-  ]);
-  if (updateError || insertError) {
+  const { data, error } = await supabase.rpc("buy_skin", {
+    p_item_id: item.id,
+  });
+  if (error) {
     return Response.json({ error: "transaction_failed" }, { status: 500 });
   }
+  const result = data as { error?: string; balance?: number; price?: number };
 
-  return Response.json({
-    ok: true,
-    item_id: item.id,
-    balance,
-  });
+  switch (result.error) {
+    case "unauthorized":
+      return Response.json({ error: result.error }, { status: 401 });
+    case "unknown_item":
+      return Response.json({ error: result.error }, { status: 400 });
+    case "already_owned":
+      return Response.json({ error: result.error }, { status: 409 });
+    case "insufficient_balance":
+      return Response.json(
+        { error: result.error, balance: result.balance, price: result.price },
+        { status: 402 },
+      );
+    default:
+      return Response.json({
+        ok: true,
+        item_id: item.id,
+        balance: result.balance,
+      });
+  }
 }
