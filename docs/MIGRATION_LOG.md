@@ -282,3 +282,10 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - Komponen mati dihapus: `components/dashboard/next-steps.tsx`, `level-progress.tsx`.
 - Flag & route tidak berubah; `/base` dan `/prototype` tetap apa adanya.
 - Gates: tsc ✓ · eslint ✓ · vitest 45 files / **398 tests** ✓ · next build ✓
+
+## 2026-08-23 — PHASE 9 · LANDING: re-skin halaman publik ke title-screen game
+- **Root cause**: landing `/` masih pola SaaS generik (sticky navbar + hero + grid BentoCard + pricing + FAQ) yang dilarang eksplisit oleh PRD §67 Anti-Generic Rule — sesuatu yang bisa direpresentasikan sebagai world/map/quest/inventory/dialogue wajib memakai bentuk tersebut.
+- Halaman ditulis ulang penuh sebagai **title screen** dengan bahasa visual `/base` & `/prototype` (tanpa flag): strip judul minimal (bukan navbar SaaS), panel hangar BOT-1 (base-floor + scanline + blink dots, avatar breathe, boot-sequence terminal), CTA "MULAI MISI GRATIS", strip Peta Dunia berupa 4 node map (Kode Quest / Akademi / Toko & Mentor / FAQ) sebagai anchor scroll, Quest Log menggantikan kartu "kenapa ada", grid Inventaris menggantikan kartu manfaat, Terminal Sistem MOD-01…06 menggantikan feature cards, Toko Perlengkapan menggantikan pricing, dan FAQ menjadi kotak dialog NPC "Tanya BOT-1" (NpcChip).
+- Seluruh copy konten lama dipertahankan verbatim (9 bahasa, harga Rp0/Rp10rb, trial mentor, PWA, dsb); tidak ada route/flag/logika baru — file statis server component.
+- BentoCard & StatusChip tetap ada (masih dipakai surface lain); ketergantungan baru hanya BotAvatar/NpcChip/SKIN_ITEMS yang sudah teruji.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
