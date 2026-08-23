@@ -88,19 +88,26 @@ export async function createSliceScene(
         "npc-pak-kiwar",
         "/assets/pixel/v2/npc/pak-kiwar-south.png"
       );
+      this.load.image("tile-floor", "/assets/pixel/v2/tiles/floor.png");
+      this.load.image("tile-wall", "/assets/pixel/v2/tiles/wall.png");
+      for (let i = 0; i < 4; i++) {
+        this.load.image(`spark-${i}`, `/assets/pixel/v2/vfx/spark-${i}.png`);
+      }
     }
 
     create() {
-      const gfx = this.add.graphics();
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
           const ch = grid[y][x];
-          let color = COLORS.floor;
-          if (ch === "#") color = COLORS.wall;
-          else if (ch === "G") color = COLORS.goal;
-          gfx.fillStyle(color, 1);
-          gfx.fillRect(x * TILE, y * TILE, TILE - 2, TILE - 2);
+          this.add
+            .image(
+              x * TILE + TILE / 2 - 1,
+              y * TILE + TILE / 2 - 1,
+              ch === "#" ? "tile-wall" : "tile-floor"
+            )
+            .setDisplaySize(TILE - 2, TILE - 2);
           if (ch === "C") {
+            const gfx = this.add.graphics();
             gfx.fillStyle(COLORS.coin, 1);
             gfx.fillCircle(x * TILE + TILE / 2 - 1, y * TILE + TILE / 2 - 1, 6);
           }
@@ -149,6 +156,31 @@ export async function createSliceScene(
         "bot-south"
       );
       this.player.setDisplaySize(TILE + 12, TILE + 12);
+    }
+
+    private burst(atX: number, atY: number) {
+      const fx = this.add.image(atX, atY, "spark-0");
+      fx.setDepth(6);
+      let tick = 0;
+      const timer = this.time.addEvent({
+        delay: 80,
+        loop: true,
+        callback: () => {
+          tick = (tick + 1) % 4;
+          fx.setTexture(`spark-${tick}`);
+        },
+      });
+      this.tweens.add({
+        targets: fx,
+        scale: { from: 1, to: 2.4 },
+        alpha: { from: 1, to: 0 },
+        duration: 520,
+        ease: "Sine.easeOut",
+        onComplete: () => {
+          timer.remove();
+          fx.destroy();
+        },
+      });
     }
 
     private setFacing(dir: SimDir) {
@@ -238,6 +270,7 @@ export async function createSliceScene(
             duration: 170,
             onComplete: () => {
               if (ev.won) {
+                this.burst(ev.to.x * TILE + TILE / 2, ev.to.y * TILE + TILE / 2);
                 this.won = true;
                 onWin();
               }

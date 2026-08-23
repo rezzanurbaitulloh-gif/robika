@@ -81,6 +81,8 @@ planned: player.bot1.walk-4dir · npc.set-hub (3 NPC) · enemy.glitch · tileset
 | char.npc.bu-laras | character 08e92c4f-e09a-4bdb-8e6c-549ea0aa8ff9 | NPC guru robotika (hub set #2), standard 1 gen, 8 arah | generated |
 | char.npc.raka | character 19903e93-bd6e-46fb-b661-1b6211ad90c4 | NPC siswa (hub set #3), standard 1 gen, 8 arah | generated |
 | char.enemy.glitchling | character 4410a6ca-4129-43c5-a138-83b185a4604d | musuh glitch magenta (persiapan level combat), standard 1 gen, 8 arah | generated |
+| tileset.world1.floor+wall | pixen backup 4e5771cf-35bc-4bef-b325-fd0c008d1721 / f0f7c367-f1f4-47e5-ab5d-248e26592450 | tile lantai pabrik + dinding baja 48×48 (building_kit/tiles_pro ter-gate Tier 1 di kedua akun → fallback pixen per-tile) | generated |
+| vfx.spark-4f | pixen utama 9577d5a9-df75-41a6-9e04-80f058640468 · animate_image 399e5380-ed02-40fd-9a8a-6422008d85b8 | percikan energi 32×32, 4 frame flicker untuk burst kemenangan | generated |
 
 Detail:
 
@@ -99,6 +101,20 @@ dim: canvas 68x68 (sprite ~48) · directions: 8
 file(s): public/assets/pixel/v2/npc/pak-kiwar-<dir>.png
 used_by: WorldScene NPC stand-in — Phase 3 lanjutan (world-2-level-4)
 style_version: v2 · status: generated 2026-08-23
+
+asset_id · tileset.world1.floor+wall
+pixellab pixen jobs (SERVER CADANGAN): floor 4e5771cf-35bc-4bef-b325-fd0c008d1721 · wall f0f7c367-f1f4-47e5-ab5d-248e26592450
+dim: 48×48 per tile (match TILE slice) · opaque
+file(s): public/assets/pixel/v2/tiles/floor.png · wall.png
+used_by: src/components/game/slice-scene.ts (render grid, menggantikan rect programatik)
+status: generated 2026-08-23 (catatan: create_building_kit & create_tiles_pro butuh Tier 1 — tidak tersedia di akun utama maupun cadangan)
+
+asset_id · vfx.spark-4f
+pixellab: pixen utama 9577d5a9-df75-41a6-9e04-80f058640468 (sprite dasar) → animate_image utama 399e5380-ed02-40fd-9a8a-6422008d85b8 (4 frame flicker)
+dim: 32×32 · transparent RGBA
+file(s): public/assets/pixel/v2/vfx/spark-{0..3}.png
+used_by: src/components/game/slice-scene.ts burst() — burst kemenangan BOT-1
+status: generated 2026-08-23
 ```
 
 Aturan: 1 job PixelLab = 1 baris manifest. Gagal → cek job dulu sebelum retry (aturan #9 PRD).

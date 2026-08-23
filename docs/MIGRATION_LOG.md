@@ -218,3 +218,13 @@ Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓.
 - Deteksi menang kini memakai flag `ev.won` dari interpreter (semantik goal reach/collect/quest benar), menggantikan perbandingan koordinat G yang salah untuk goal quest.
 - `play-slice.tsx`: picker level (Pabrik = world-1-level-1, Gerbang = world-2-level-4) — ganti level me-recreate scene, reset starterCode; popup quest-started dijaga unik per level via Set ref.
 - Checklist Phase 3: BASE ✓ WORLD ✓ NPC ✓ QUEST ✓ GATE ✓ TERMINAL ✓ CODE ✓ RUN ✓ WORLD REACTS ✓ QUEST COMPLETE ✓ REWARD ✓ — vertical slice lengkap.
+
+### Phase 3 — Sisa Batch 1: Tileset + Spark VFX (2026-08-23)
+
+- Server utama menolak `create_building_kit` ("trial generations used up" meski balance tampil 10); server cadangan juga menolak `create_building_kit` dan `create_tiles_pro` ("Tier 1 is required") → kedua tool tileset ter-gate. Solusi: tile per-piece via `pixen` di cadangan (2 gen).
+- `tileset.world1.floor+wall`: lantai pabrik (metal gelap + trace cyan) & dinding baja berpaku (strip hazard amber) 48×48 → `public/assets/pixel/v2/tiles/{floor,wall}.png`; jobs `4e5771cf…` / `f0f7c367…` (cadangan).
+- `vfx.spark-4f`: sprite percikan 32×32 (pixen utama `9577d5a9…`, 1 gen) dianimasikan jadi 4 frame flicker (`animate_image` utama `399e5380…`) → `public/assets/pixel/v2/vfx/spark-{0..3}.png`.
+- `slice-scene.ts`: grid dirender pakai texture tile (floor/wall per sel) menggantikan rect programatik; method `burst()` memutar spark-{0..3} (80ms/frame) + tween scale 1→2.4 alpha→0 saat BOT-1 menang.
+- Pelajaran infrastruktur: generasi besar (>10 gen) tidak bisa di akun utama; tool tileset butuh Tier 1 di kedua akun — asset tile besar harus lewat pixen/pixflux per-potongan.
+
+Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓.
