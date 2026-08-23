@@ -124,3 +124,9 @@
 - Halaman /daily kini memakai getLevel(dailyId) lintas dunia — level js bisa jadi tantangan harian saat flag aktif
 - Dashboard: kartu "Distrik Gerbang" (world-2) di belakang flag newAdventure — jalur akses utama di mobile
 - Suite 330/330; build sukses
+
+### Milestone 4.2 — Boss world-2 "Reaktor Prime" (arc dunia baru tuntas)
+- world-2-level-5: boss battle engine js — hp 3, cooldown 30 mnt, xp 250, collect 4 inti daya
+- Solution terverifikasi via simulator (belokan akhir: kanan-dari-S = Barat, bukan Timur)
+- Test: solusi boss menang, coins=4, tanpa crash; jumlah level world-2 → 5
+- Suite 331/331; build sukses

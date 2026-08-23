@@ -82,7 +82,7 @@ describe("world-2 vertical slice", () => {
 
   it("solution world-2-level-3 (if/else + while) memenangkan level tanpa crash", () => {
     const world = worlds.find((w) => w.world === "world-2")!;
-    expect(world.levels).toHaveLength(4);
+    expect(world.levels).toHaveLength(5);
     const level = world.levels[2];
     expect(levelEngine(level)).toBe("js");
     const r = runLevel(level, level.solution);
@@ -93,7 +93,7 @@ describe("world-2 vertical slice", () => {
 
   it("solution world-2-level-4 (quest NPC) memenangkan level dan mencatat bicara NPC", () => {
     const world = worlds.find((w) => w.world === "world-2")!;
-    expect(world.levels).toHaveLength(4);
+    expect(world.levels).toHaveLength(5);
     const level = world.levels[3];
     const r = runLevel(level, level.solution);
     expect(r.status).toBe("ok");
@@ -101,6 +101,19 @@ describe("world-2 vertical slice", () => {
     expect(r.npcsTotal).toBe(1);
     expect(r.npcsTalked).toBe(1);
     expect((r.events ?? []).some((e) => e.kind === "npcTalk")).toBe(true);
+  });
+
+  it("solution boss world-2-level-5 (Reaktor Prime) memenangkan level", () => {
+    const world = worlds.find((w) => w.world === "world-2")!;
+    const level = world.levels[4];
+    expect(level.isBoss).toBe(true);
+    expect(levelEngine(level)).toBe("js");
+    expect(level.boss?.name).toBe("Reaktor Prime");
+    const r = runLevel(level, level.solution);
+    expect(r.status).toBe("ok");
+    expect(r.won).toBe(true);
+    expect(r.crashed).toBe(false);
+    expect(r.coins).toBe(4);
   });
 
   it("starter code world-2 TIDAK langsung menang (masih ada tantangan)", () => {

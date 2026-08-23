@@ -343,6 +343,56 @@
         ]
       },
       "world": "world-2"
+    },
+    {
+      "id": "world-2-level-5",
+      "order": 5,
+      "engine": "js",
+      "isBoss": true,
+      "boss": {
+        "name": "Reaktor Prime",
+        "hp": 3,
+        "cooldownMs": 1800000
+      },
+      "title": {
+        "id": "Boss: Reaktor Prime",
+        "en": "Boss: Reaktor Prime"
+      },
+      "topic": "boss battle",
+      "concept": "boss battle · loop & kondisi",
+      "objective": {
+        "id": "Kalahkan Reaktor Prime: kumpulkan 4 inti daya lalu capai stasiun pendingin dalam 90 detik.",
+        "en": "Defeat Reaktor Prime: collect 4 power cores then reach the cooling station within 90 seconds."
+      },
+      "grid": [
+        "################",
+        "#P.............#",
+        "#..C.......C...#",
+        "#......##......#",
+        "#..C.......C...#",
+        "#.............G#",
+        "################"
+      ],
+      "goal": {
+        "type": "collect",
+        "target": 4
+      },
+      "hints": [
+        [
+          "Reaktor Prime hanya bisa dimatikan dengan speed run — keempat inti daya wajib terkumpul."
+        ],
+        [
+          "Inti membentuk dua baris simetris: satu while loop per baris, sensor di depan menentukan kapan berhenti."
+        ],
+        [
+          "Baris atas: maju 2, belok turun tidak perlu — jalur lurus saja. Setelah baris bawah, menuju G di pojok kanan bawah."
+        ]
+      ],
+      "starterCode": "// Reaktor Prime aktif! Semua skill dunia baru dibutuhkan.\n// Kumpulkan 4 inti daya dengan while/if, lalu capai stasiun pendingin.\nmoveForward();\n",
+      "solution": "for (let i = 0; i < 2; i++) { moveForward(); }\nturnRight(); moveForward();\nturnLeft(); for (let i = 0; i < 8; i++) { moveForward(); }\nturnRight(); for (let i = 0; i < 2; i++) { moveForward(); }\nturnRight(); for (let i = 0; i < 8; i++) { moveForward(); }\nturnLeft(); moveForward();\nturnLeft(); for (let i = 0; i < 11; i++) { moveForward(); }",
+      "parMs": 90000,
+      "xpReward": 250,
+      "world": "world-2"
     }
   ]
 }
