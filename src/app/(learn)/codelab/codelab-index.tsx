@@ -66,8 +66,9 @@ export function CodelabIndex({ done }: { done: string[] }) {
             CodeLab Studio
           </span>
           <span className="block text-xs text-muted-foreground">
-            Editor bebas — pilih bahasa (HTML, CSS, JS, Python), hasil tampil
-            live di samping.
+            Studio proyek multi-file — HTML, CSS, JS & Python dengan editor
+            Monaco, explorer file, dan preview live tersandbox. Proyekmu
+            tersimpan otomatis.
           </span>
         </span>
         <span className="shrink-0 text-xs font-semibold text-accent">

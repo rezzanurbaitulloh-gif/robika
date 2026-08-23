@@ -11,7 +11,7 @@ const MonacoEditor = dynamic(
 interface CodeEditorProps {
   value: string;
   onChange: (value: string) => void;
-  language?: "javascript" | "python";
+  language?: "javascript" | "python" | "html" | "css";
   height?: string;
 }
 

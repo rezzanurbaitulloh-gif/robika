@@ -238,3 +238,15 @@ Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓.
 - Debug sementara `debug.test.tsx` dihapus sebelum commit.
 
 Verifikasi: tsc ✓ eslint ✓ vitest 359/359 ✓ build ✓ (/play dynamic).
+
+### Phase 5 — CodeLab Studio (2026-08-23)
+
+- `lib/codelab/languages.ts` (BARU): language registry deklaratif — `LANGUAGES{html,css,javascript,python}` berisi label, id Monaco, ekstensi, run kind (`web`/`console`), dan `defaultCode`; helper `languageByFile` (deteksi via ekstensi, case-insensitive) dan `languageById`.
+- `lib/codelab/projects.ts` (BARU): model proyek multi-file immutable — `LabProject{files,activeFileId}` + operasi murni `addFile/renameFile/deleteFile/setActive/setFileContent` (rename ikut memperbarui bahasa dari ekstensi; delete menolak menghapus file terakhir; nama duplikat diabaikan), `buildPreviewDoc` (gabung semua CSS → style, HTML pertama → body, semua JS → script), serta `localStorageProjectStore` untuk save/reopen proyek.
+- `studio-client.tsx` ditulis ulang sesuai §40: layout tiga kolom EXPLORER | EDITOR | PREVIEW — explorer CRUD file (+file baru inline, hapus per-file, rename via klik judul), editor kini **Monaco** (`code-editor.tsx` diperluas menerima `html`/`css`) menggantikan textarea, strip OUTPUT di bawah editor, preview live iframe `sandbox="allow-scripts allow-popups"` (tanpa allow-same-origin) dengan debounce 400ms.
+- Execution state machine pada tombol RUN: idle→running→done/error; file `.py` jalan via Pyodide runner, `.js` via sandbox Function+console proxy; RUN pada file web me-render ulang iframe. Proyek tersimpan otomatis ke localStorage (key `robika.codelab.project.v1`) dan dibuka kembali saat kunjungan berikutnya.
+- Monaco & Pyodide existing dipertahankan; playground `/codelab/playground` tetap redirect ke studio.
+- Test baru 16 kasus (`languages.test.ts`, `projects.test.ts`): integritas registry, deteksi ekstensi, seed proyek, seluruh operasi file (termasuk guard duplikat/file-terakhir/imutabilitas), rakitan preview doc, round-trip store + payload korup. Pelajaran: mock localStorage jsdom perlu menyediakan `removeItem`.
+- Copy kartu Studio di indeks CodeLab diperbarui (proyek multi-file + autosave).
+
+Verifikasi: tsc ✓ eslint ✓ vitest 375/375 ✓ build ✓.
