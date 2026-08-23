@@ -182,3 +182,13 @@ Gate berikutnya: Phase 2 — design review dokumen sebelum Batch 1 asset & Phase
 - Checklist prototipe PRD: Home=/base · Base ✓ · Game shell ✓(mock) · World ✓(map) · HUD ✓ · Quest ✓ · Dialogue ✓ · Terminal ✓ · Academy/CodeLab = layar hidup eksisting.
 
 Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/prototype dynamic).
+
+### Phase 2 — Visual Prototype (2026-08-23)
+
+- BOT-1 hero: PixelLab standard mode 1 gen → 8 arah 48×48 (`ac51d6d7…`) → repo `public/assets/pixel/v2/bot1/`.
+- Animasi walk south 4 frame (template, group `afecfd92…`) + demo siklus `walk-demo.tsx`.
+- `/prototype` §5 world reaction (themeFor world-1 vs world-2) + mock kamera paralaks; §6 strip asset pixel (next/image unoptimized + `.pixelated`).
+- Checklist validasi PRD: pixel art ✓ · animation ✓ · HUD ✓ · popup ✓ · VFX ✓ (burst/spark CSS) · world reaction ✓ · camera ✓ (mock paralaks).
+- Saldo PixelLab: 17 generasi tersisa. Batch 1 menunggu approve visual user.
+
+Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/prototype dynamic).

@@ -1,9 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { BotAvatar } from "@/components/design/bot-avatar";
 import { Icon } from "@/components/design/icon";
 import { HudBar } from "@/components/game/hud-bar";
 import { NpcChip } from "@/components/game/npc-chip";
+import { WalkDemo } from "@/components/game/walk-demo";
+import { themeFor } from "@/components/game/world-theme";
 import { SKIN_ITEMS } from "@/lib/shop/catalog";
 import { getFlags } from "@/lib/flags";
 
@@ -135,6 +138,75 @@ export default async function PrototypePage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="rounded-lg border border-border">
+        <h2 className="border-b border-border px-4 py-2 font-display text-xs uppercase tracking-widest text-foreground/60">
+          5 · World Reaction + Kamera Paralaks
+        </h2>
+        <div className="grid gap-4 bg-[#0c101d] p-4 sm:grid-cols-2">
+          {(["world-1", "world-2"] as const).map((wid) => {
+            const t = themeFor(wid);
+            return (
+              <div key={wid}>
+                <p className={`mb-2 font-display text-[10px] uppercase tracking-widest ${wid === "world-1" ? "text-cyan-300" : "text-amber-400"}`}>
+                  {wid} · {wid === "world-1" ? "Pabrik Kabel" : "Distrik Gerbang"}
+                </p>
+                <div className="grid grid-cols-5 gap-[2px] overflow-hidden rounded-md border border-border bg-[#0f1220] p-[2px]">
+                  {Array.from({ length: 15 }, (_, i) => {
+                    const kind = i % 7;
+                    const cls =
+                      kind === 0
+                        ? `${t.wallClass}`
+                        : kind === 2
+                          ? t.coinClass
+                          : kind === 4
+                            ? t.goalClass
+                            : kind === 6
+                              ? t.hazardClass
+                              : t.floorClass;
+                    return <span key={i} className={`aspect-square rounded-[2px] ${cls}`} />;
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="border-t border-border bg-[#0f1220] px-4 py-3">
+          <p className="font-display text-[10px] uppercase tracking-widest text-foreground/50">Kamera · paralaks 3 lapis</p>
+          <div className="mt-2 h-16 overflow-hidden rounded-md border border-border bg-gradient-to-b from-[#0b0e17] via-[#141a2e] to-[#0c101d] p-1">
+            <div className="ml-auto flex w-2/3 justify-end gap-6 opacity-40">lapisan belakang</div>
+            <div className="-mt-3 flex w-1/2 justify-end gap-8 opacity-70">lapisan tengah</div>
+            <div className="-mt-2 flex justify-start gap-10 opacity-100">lantai depan</div>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-lg border border-border">
+        <h2 className="border-b border-border px-4 py-2 font-display text-xs uppercase tracking-widest text-foreground/60">
+          6 · Asset Pixel Hasil Generasi (Batch Validasi)
+        </h2>
+        <div className="flex flex-wrap items-end gap-8 bg-[#0c101d] p-4">
+          <figure className="text-center">
+            <Image unoptimized src="/assets/pixel/v2/bot1/bot1-south.png" alt="BOT-1 menghadap selatan" width={48} height={48} style={{ width: 144, height: 144 }} className="pixelated" />
+            <figcaption className="mt-1 text-[10px] uppercase tracking-widest text-foreground/45">bot1 · south ×3</figcaption>
+          </figure>
+          <figure className="text-center">
+            <Image unoptimized src="/assets/pixel/v2/bot1/bot1-east.png" alt="BOT-1 menghadap timur" width={48} height={48} style={{ width: 96, height: 96 }} className="pixelated" />
+            <figcaption className="mt-1 text-[10px] uppercase tracking-widest text-foreground/45">bot1 · east ×2</figcaption>
+          </figure>
+          <figure className="text-center">
+            <Image unoptimized src="/assets/pixel/v2/prop-power-node-broken.png" alt="Node daya rusak" width={64} height={64} style={{ width: 128, height: 128 }} className="pixelated" />
+            <figcaption className="mt-1 text-[10px] uppercase tracking-widest text-foreground/45">prop · power-node ×2</figcaption>
+          </figure>
+          <figure className="text-center">
+            <WalkDemo />
+            <figcaption className="mt-1 text-[10px] uppercase tracking-widest text-foreground/45">bot1 · walk-south · 4f @ ~6,7fps</figcaption>
+          </figure>
+          <p className="max-w-52 self-center text-xs leading-relaxed text-foreground/55">
+            Sprite asli 48×48 / 64×64 dirender ×3 integer. Verifikasi visual: outline hitam selektif, flat shading, palet slate+cyan.
+          </p>
         </div>
       </section>
 
