@@ -313,3 +313,8 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - Tab filter bahasa jadi segmented control font-mono uppercase dengan state aktif cyan; kartu tantangan jadi tile editor gelap — ikon kind dalam kotak berbingkai, chip lang/LULUS dipertahankan, label kind + XP (+N XP hijau emerald ala diff) memakai mono.
 - Tantangan yang sudah lulus diberi border emerald halus sebagai penanda progress; logika filter, doneSet, route, aria tablist tidak berubah.
 - Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
+## 2026-08-24 — PHASE 9 · MENTOR: banner trial jadi panel in-game
+- Kartu trial `BentoCard` dengan pill "Segera hadir" ber-background accent biru generik §67 diganti panel gelap `#0c101d` bersudut tajam ber-aksen fuchsia (ikon brain dalam kotak berbingkai) — konsisten dengan warna boss/mentor di peta dunia.
+- Pill promo kini chip outline cyan font-display; logika cek subscription (plan/trial_ends_at/paid_until), StatusChip AKTIF/BELUM AKTIF, dan AiChat tidak diubah.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
