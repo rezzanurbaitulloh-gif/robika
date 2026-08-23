@@ -130,3 +130,8 @@
 - Solution terverifikasi via simulator (belokan akhir: kanan-dari-S = Barat, bukan Timur)
 - Test: solusi boss menang, coins=4, tanpa crash; jumlah level world-2 → 5
 - Suite 331/331; build sukses
+
+### Milestone 5 — Phase 14 QA: regresi jalur pembayaran Midtrans
+- Ditemukan sistem pembayaran produksi yang sudah ada (/api/payments create|webhook|trial, tabel purchases, Snap) — percobaan stack paralel dibatalkan & direvert bersih
+- 14 test integrasi baru: create (validasi item/auth/key, purchase pending, snap token, gagal→failed), webhook (signature sha512, 404 order asing, kredit gems/hints sekali, replay idempoten, deny→failed), trial (409 sudah bayar/pernah trial, aktif 7 hari)
+- Suite 345/345; build sukses
