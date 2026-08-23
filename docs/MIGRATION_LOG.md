@@ -157,3 +157,20 @@
 - Skin ikut ke AdventureBoard (story mode) lewat prop skinColors baru
 - Migrasi 0009 (profiles.skin_id) diterapkan langsung ke project Robika via Management API
 - Suite 356/356; build sukses
+
+## Phase 1 — Design Foundation (2026-08-23)
+
+Dokumen desain (10): PRODUCT_FLOW · UX_FLOW · SCREEN_MAP · GAMEPLAY_SPEC · DESIGN_SYSTEM · ART_BIBLE · ASSET_MANIFEST · MOTION_SPEC · POPUP_SPEC · VFX_SPEC.
+
+Kode prototipe:
+- flags.ts diperluas ke skema PRD §79: +9 flag baru (new_home/navigation/world/academy/codelab/ai/shop/profile/motion/visual_system), default mati; 5 flag lama tidak berubah.
+- Halaman `/base` (Player Base prototype): HUD bar, BOT-1 breathing idle dengan skin terpasang, quest aktif → level berikutnya, grid menu tile, floor grid + scanline CSS.
+- Komponen `HudBar` (lv/xp/gems/streak/quest chip) dan `PopupLayer` (store zustand + antrian popup per POPUP_SPEC).
+- globals.css: keyframes breathe, base-floor grid, scanline; guard reduced-motion diperluas.
+- .env.example: 10 flag baru didokumentasikan.
+
+Pipeline asset:
+- PixelLab MCP Batch 0 validasi end-to-end: prop.power-node.broken 64×64 (job 01bc74c2) → public/assets/pixel/v2/.
+
+Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/base dynamic).
+Gate berikutnya: Phase 2 — design review dokumen sebelum Batch 1 asset & Phaser shell.

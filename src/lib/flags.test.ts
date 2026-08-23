@@ -19,13 +19,18 @@ describe("parseFlag", () => {
 describe("getFlags", () => {
   it("default semua flag mati agar fitur unfinished tidak bocor ke produksi", () => {
     const flags = getFlags({});
-    expect(flags).toEqual({
-      newAdventure: false,
-      newWorldMap: false,
-      aiNpcDialogue: false,
-      codeLabProjects: false,
-      offlineMode: false,
+    expect(Object.values(flags).every((v) => v === false)).toBe(true);
+    expect(Object.keys(flags)).toHaveLength(15);
+  });
+
+  it("skema flag PRD V2 tersedia dan bisa dinyalakan dari env", () => {
+    const flags = getFlags({
+      NEXT_PUBLIC_FLAG_NEW_HOME: "1",
+      NEXT_PUBLIC_FLAG_NEW_MOTION: "true",
     });
+    expect(flags.newHome).toBe(true);
+    expect(flags.newMotion).toBe(true);
+    expect(flags.newVisualSystem).toBe(false);
   });
 
   it("membaca override dari env", () => {

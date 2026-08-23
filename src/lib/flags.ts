@@ -4,6 +4,16 @@ export interface FeatureFlags {
   aiNpcDialogue: boolean;
   codeLabProjects: boolean;
   offlineMode: boolean;
+  newHome: boolean;
+  newNavigation: boolean;
+  newWorld: boolean;
+  newAcademy: boolean;
+  newCodelab: boolean;
+  newAi: boolean;
+  newShop: boolean;
+  newProfile: boolean;
+  newMotion: boolean;
+  newVisualSystem: boolean;
 }
 
 const DEFAULT_FLAGS: FeatureFlags = {
@@ -12,6 +22,16 @@ const DEFAULT_FLAGS: FeatureFlags = {
   aiNpcDialogue: false,
   codeLabProjects: false,
   offlineMode: false,
+  newHome: false,
+  newNavigation: false,
+  newWorld: false,
+  newAcademy: false,
+  newCodelab: false,
+  newAi: false,
+  newShop: false,
+  newProfile: false,
+  newMotion: false,
+  newVisualSystem: false,
 };
 
 const ENV_KEYS: Record<keyof FeatureFlags, string> = {
@@ -20,6 +40,16 @@ const ENV_KEYS: Record<keyof FeatureFlags, string> = {
   aiNpcDialogue: "NEXT_PUBLIC_FLAG_AI_NPC",
   codeLabProjects: "NEXT_PUBLIC_FLAG_CODELAB_PROJECTS",
   offlineMode: "NEXT_PUBLIC_FLAG_OFFLINE_MODE",
+  newHome: "NEXT_PUBLIC_FLAG_NEW_HOME",
+  newNavigation: "NEXT_PUBLIC_FLAG_NEW_NAVIGATION",
+  newWorld: "NEXT_PUBLIC_FLAG_NEW_WORLD",
+  newAcademy: "NEXT_PUBLIC_FLAG_NEW_ACADEMY",
+  newCodelab: "NEXT_PUBLIC_FLAG_NEW_CODELAB",
+  newAi: "NEXT_PUBLIC_FLAG_NEW_AI",
+  newShop: "NEXT_PUBLIC_FLAG_NEW_SHOP",
+  newProfile: "NEXT_PUBLIC_FLAG_NEW_PROFILE",
+  newMotion: "NEXT_PUBLIC_FLAG_NEW_MOTION",
+  newVisualSystem: "NEXT_PUBLIC_FLAG_NEW_VISUAL_SYSTEM",
 };
 
 export function parseFlag(value: string | undefined): boolean {

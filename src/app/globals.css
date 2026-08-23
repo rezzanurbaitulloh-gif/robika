@@ -200,7 +200,8 @@
 @media (prefers-reduced-motion: reduce) {
   .blink,
   .animate-pop,
-  .animate-shake {
+  .animate-shake,
+  .breathe {
     animation: none;
   }
   .glow-text,
@@ -246,4 +247,35 @@
 
 .boss-ring {
   animation: robika-boss-pulse 2s ease-in-out infinite;
+}
+
+@keyframes robika-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+.breathe {
+  display: inline-block;
+  animation: robika-breathe 2.4s ease-in-out infinite;
+}
+
+.base-floor {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.scanline {
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 3px,
+    rgba(34, 211, 238, 0.05) 3px 4px
+  );
 }
