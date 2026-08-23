@@ -43,4 +43,46 @@ describe("PlaySlice academy bridge", () => {
     expect(screen.getByTestId("academy-bridge")).toBeInTheDocument();
     expect(screen.getByText(/Perintah Dasar/)).toBeInTheDocument();
   });
+
+  it("offers Debug with AI after a hard error and streams hints into the panel", async () => {
+    const fetchMock = vi.fn(async () => {
+      const encoder = new TextEncoder();
+      const stream = new ReadableStream<Uint8Array>({
+        start(controller) {
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify({ type: "token", token: "Hint: cek urutan." })}\n\n`)
+          );
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify({ type: "done" })}\n\n`)
+          );
+          controller.close();
+        },
+      });
+      return new Response(stream, { status: 200 });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<PlaySlice />);
+    await waitFor(() =>
+      expect(createSceneMock.mock.calls.length).toBeGreaterThan(0),
+    );
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "???" } });
+    fireEvent.click(screen.getAllByRole("button", { name: /Run/ }).at(-1)!);
+
+    const debugBtn = await screen.findByRole("button", { name: /\[ Debug with AI \]/ });
+    fireEvent.click(debugBtn);
+    await waitFor(() =>
+      expect(screen.getByTestId("debug-ai-panel")).toBeInTheDocument(),
+    );
+    await waitFor(() =>
+      expect(screen.getByTestId("debug-ai-panel")).toHaveTextContent("Hint: cek urutan."),
+    );
+    const body = JSON.parse(
+      (fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1]
+        .body as string
+    );
+    expect(body.context.error).toMatch(/^Error: /);
+    expect(body.context.level).toBe("world-1-level-1");
+    vi.unstubAllGlobals();
+  });
 });

@@ -9,6 +9,7 @@ import {
 } from "react";
 import { BackButton } from "@/components/design/back-button";
 import { Icon } from "@/components/design/icon";
+import { ContextualAi } from "@/components/ai/contextual-ai";
 import { CodeEditor } from "@/components/codelab/code-editor";
 import { runJavaScript, runPython } from "@/lib/codelab/runner";
 import {
@@ -264,8 +265,31 @@ export function StudioClient() {
             height="360px"
           />
           <div className="mt-auto border-t border-border bg-input p-3">
-            <div className="mb-1 font-display text-xs tracking-widest text-muted-foreground">
-              OUTPUT
+            <div className="mb-1 flex items-center justify-between gap-2">
+              <span className="font-display text-xs tracking-widest text-muted-foreground">
+                OUTPUT
+              </span>
+              <span className="flex flex-wrap items-center gap-2">
+                <ContextualAi
+                  mode="tutor"
+                  label="[ Explain ]"
+                  question={`Jelaskan isi file ${current.name} untuk pemula dan beri satu saran perbaikan singkat.`}
+                  context={{ topic: spec.label, code: current.content.slice(0, 2000) }}
+                  testId="studio-explain"
+                />
+                {execState === "error" && (
+                  <ContextualAi
+                    mode="debug"
+                    label="[ Debug with AI ]"
+                    question="Kode saya error saat dijalankan. Analisis penyebabnya dan beri langkah perbaikan bertahap."
+                    context={{
+                      code: current.content.slice(0, 2000),
+                      error: output.join("\n").slice(0, 1200),
+                    }}
+                    testId="studio-debug"
+                  />
+                )}
+              </span>
             </div>
             <pre
               data-testid="studio-output"

@@ -7,6 +7,7 @@ import { createSliceScene, type SliceHandle } from "@/components/game/slice-scen
 import { getLevel } from "@/content";
 import { simulateWithJs } from "@/lib/game/interpreter";
 import { Icon } from "@/components/design/icon";
+import { ContextualAi } from "@/components/ai/contextual-ai";
 
 const LEVELS = [
   { id: "world-1-level-1", label: "Pabrik" },
@@ -140,13 +141,24 @@ export function PlaySlice() {
           </button>
         </div>
         {feedback && feedback.tone !== "ok" && !lessonOpen && (
-          <button
-            type="button"
-            onClick={() => setLessonOpen(true)}
-            className="mt-2 rounded-sm border border-amber-400/50 px-2.5 py-1 font-display text-[11px] uppercase tracking-wider text-amber-300 transition hover:bg-amber-400/15"
-          >
-            Aku belum paham
-          </button>
+          <div className="mt-2 flex flex-wrap items-start gap-2">
+            <button
+              type="button"
+              onClick={() => setLessonOpen(true)}
+              className="rounded-sm border border-amber-400/50 px-2.5 py-1 font-display text-[11px] uppercase tracking-wider text-amber-300 transition hover:bg-amber-400/15"
+            >
+              Aku belum paham
+            </button>
+            {feedback.tone === "err" && level && (
+              <ContextualAi
+                mode="debug"
+                label="[ Debug with AI ]"
+                question="Analisis kenapa BOT-1 gagal. Jelaskan akar masalahnya dan beri hint bertingkat tanpa memberikan solusi lengkap."
+                context={{ level: level.id, code, error: feedback.text }}
+                testId="debug-ai"
+              />
+            )}
+          </div>
         )}
       </header>
 

@@ -250,3 +250,13 @@ Verifikasi: tsc ✓ eslint ✓ vitest 359/359 ✓ build ✓ (/play dynamic).
 - Copy kartu Studio di indeks CodeLab diperbarui (proyek multi-file + autosave).
 
 Verifikasi: tsc ✓ eslint ✓ vitest 375/375 ✓ build ✓.
+
+### Phase 6 — AI Kontekstual (2026-08-23)
+
+- `components/ai/contextual-ai.tsx` (BARU): komponen aksi kontekstual inline §45 — tombol pill cyan `[ ... ]` + panel jawaban collapsible yang streaming via `streamAiChat` (mode apa pun: tutor/debug/exercises/mentor); abort controller di-close saat unmount/tutup; error dipetakan ke copy Indonesia (`quota_exceeded` → kuota harian, `mentor_locked` → ajakan trial/langganan, sisanya → "AI sedang tidak tersedia"); kursor ▋ berkedip saat streaming.
+- `play-slice.tsx`: saat feedback tone `err`, tombol `[ Debug with AI ]` muncul di samping "Aku belum paham" — mode debug dengan context `{level, code, error}` dan prompt Socratic ("hint bertingkat tanpa solusi lengkap", selaras §46).
+- `studio-client.tsx`: strip OUTPUT kini punya `[ Explain ]` (tutor, konteks file aktif + topik) permanen dan `[ Debug with AI ]` (debug, konteks kode + output error) yang hanya tampil saat RUN error.
+- Test (+4 kasus → 379/379): `contextual-ai.test.tsx` (streaming SSE mock ReadableStream → teks terender, body POST `{lang:"id", question}` ke `/api/ai/{mode}`, pemetaan quota_exceeded & mentor_locked) dan kasus play-slice (kode tak valid → tombol debug muncul, klik → panel streaming, payload context berisi error parse & level id). Pelajaran pengujian: mock fetch tanpa parameter bernama menghindari warning unused-vars ESLint — ambil init lewat cast tuple.
+- Backend AI existing (`/api/ai/[mode]`, `/api/hints`) tidak diubah; halaman chat besar AiChat tetap untuk level & mentor page.
+
+Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
