@@ -192,3 +192,11 @@ Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/prototype dynamic)
 - Saldo PixelLab: 17 generasi tersisa. Batch 1 menunggu approve visual user.
 
 Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/prototype dynamic).
+
+### Phase 3 — Vertical Slice (mulai) (2026-08-23)
+
+- Rute `/play` (flag-gated newVisualSystem/newWorld): loop BASE→WORLD→QUEST→CODE→RUN→WORLD REACTS→REWARD pada level `world-1-level-1`.
+- `slice-scene.ts`: Phaser 4 scene via factory async (aman SSR) — grid digambar dari `level.grid` (#/./C/G/P), player BOT-1 pakai tekstur rotasi idle + frame walk-south, goal tile pulse, replay event `SimEvent` (move=tween 170ms, turn=ganti facing).
+- `play-slice.tsx`: mount scene + HudBar + PopupLayer; terminal textarea starterCode → `simulateWithJs` → replay animasi; popup quest-started saat masuk, quest-complete + reward XP/Gems saat won; feedback error/crash inline.
+
+Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓ (/play dynamic).
