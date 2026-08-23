@@ -149,3 +149,11 @@
 - Equip: migration 0009 profiles.skin_id + POST /api/profile/skin (cek ownership inventory) + tombol Pakai/Terpakai di shop dengan preview avatar berglow
 - In-game: warna panah BOT-1 & glow di GameBoard kini mengikuti skin terpasang (plumb server → LevelClient → GameBoard)
 - Suite 354/354; build sukses
+
+### Milestone 8 — Identitas dunia & momen dramatis
+- world-theme.ts: tema visual per dunia — Pabrik Kabel (slate/cyan) vs Distrik Gerbang (hijau industri/tembaga): dinding, lantai, power-cell, goal, hazard
+- NpcChip: avatar inisial ber-hue deterministik dari nama NPC (papan + panel dialog; redup setelah diajak bicara)
+- Boss battle: papan bergaris glow rose berdenyut (.boss-ring); menang = ledakan 12 pixel burst CSS murni
+- Skin ikut ke AdventureBoard (story mode) lewat prop skinColors baru
+- Migrasi 0009 (profiles.skin_id) diterapkan langsung ke project Robika via Management API
+- Suite 356/356; build sukses

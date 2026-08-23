@@ -12,7 +12,8 @@ import {
 import type { GameLevel } from "@/lib/game/validate";
 import { simulate, type Command, type SimulationResult } from "@/lib/game/simulator";
 import { StatusChip } from "@/components/design/status-chip";
-import { Icon, type IconName } from "@/components/design/icon";
+import { Icon } from "@/components/design/icon";
+import { themeFor } from "./world-theme";
 
 export interface GameBoardHandle {
   run: () => void;
@@ -29,26 +30,20 @@ interface GameBoardProps {
   skinColors?: { body: string; visor: string; glow: string };
 }
 
-const TILE_STYLE: Record<string, string> = {
-  "#": "bg-slate-800 border border-slate-700/60",
-  ".": "bg-input/40",
-  C: "bg-emerald-400/15 border border-emerald-400/40",
-  S: "bg-rose-500/20 border border-rose-500/50",
-  G: "bg-emerald-400/40 border border-emerald-300 glow-box",
-};
-
-function tileEmoji(tile: string): IconName | null {
-  switch (tile) {
-    case "C":
-      return "bolt";
-    case "S":
-      return "alert";
-    case "G":
-      return "target";
-    default:
-      return null;
-  }
-}
+const BURST_PIXELS = [
+  { i: 0, tx: -34, ty: -26 },
+  { i: 1, tx: 30, ty: -30 },
+  { i: 2, tx: -12, ty: -38 },
+  { i: 3, tx: 14, ty: 36 },
+  { i: 4, tx: -38, ty: 10 },
+  { i: 5, tx: 40, ty: 6 },
+  { i: 6, tx: -22, ty: 32 },
+  { i: 7, tx: 24, ty: -12 },
+  { i: 8, tx: -4, ty: 42 },
+  { i: 9, tx: 8, ty: -44 },
+  { i: 10, tx: -44, ty: -8 },
+  { i: 11, tx: 44, ty: 22 },
+];
 
 function findStart(grid: string[]): { x: number; y: number } {
   const width = grid[0].length;
@@ -85,6 +80,7 @@ export const GameBoard = forwardRef<GameBoardHandle, GameBoardProps>(
     skinColors,
   }, ref) {
     const width = level.grid[0].length;
+    const theme = themeFor(level.world);
     const [step, setStep] = useState(0);
     const [running, setRunning] = useState(false);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -167,7 +163,9 @@ export const GameBoard = forwardRef<GameBoardHandle, GameBoardProps>(
       </div>
 
       <div
-        className="grid w-full gap-[2px] rounded-lg border border-border bg-card/60 p-2"
+        className={`relative grid w-full gap-[2px] rounded-lg border border-border bg-card/60 p-2 ${
+          level.isBoss ? "boss-ring" : ""
+        }`}
         style={{
           gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
           maxWidth: `min(${width * 34}px, 100%)`,
@@ -176,13 +174,38 @@ export const GameBoard = forwardRef<GameBoardHandle, GameBoardProps>(
         {level.grid.map((row, y) =>
           row.split("").map((tile, x) => {
             const isPlayer = pos.x === x && pos.y === y && !current.won;
-            const tileIcon = tileEmoji(tile);
+            const tileClass =
+              tile === "#"
+                ? theme.wallClass
+                : tile === "."
+                  ? theme.floorClass
+                  : tile === "C"
+                    ? theme.coinClass
+                    : tile === "S"
+                      ? theme.hazardClass
+                      : tile === "G"
+                        ? theme.goalClass
+                        : "";
             return (
               <div
                 key={`${x}-${y}`}
-                className={`relative flex aspect-square items-center justify-center text-sm sm:text-base ${TILE_STYLE[tile] ?? ""}`}
+                className={`relative flex aspect-square items-center justify-center text-sm sm:text-base ${tileClass}`}
               >
-                {tileIcon ? <Icon name={tileIcon} size={14} /> : null}
+                {tile === "C" && (
+                  <span style={{ color: theme.coinColor, textShadow: `0 0 6px ${theme.coinGlow}` }}>
+                    <Icon name="bolt" size={14} />
+                  </span>
+                )}
+                {tile === "S" && (
+                  <span style={{ color: theme.hazardColor }}>
+                    <Icon name="alert" size={14} />
+                  </span>
+                )}
+                {tile === "G" && (
+                  <span style={{ color: theme.goalColor }}>
+                    <Icon name="target" size={14} />
+                  </span>
+                )}
                 {isPlayer && (
                   <span
                     className="absolute inset-0 flex items-center justify-center text-base"
@@ -195,9 +218,24 @@ export const GameBoard = forwardRef<GameBoardHandle, GameBoardProps>(
                   </span>
                 )}
                 {current.won && pos.x === x && pos.y === y && (
-                  <span className="absolute inset-0 flex items-center justify-center text-emerald-300">
-                    <Icon name="star" size={16} />
-                  </span>
+                  <>
+                    <span className="absolute inset-0 flex items-center justify-center text-emerald-300">
+                      <Icon name="star" size={16} />
+                    </span>
+                    {BURST_PIXELS.map((p, i) => (
+                      <span
+                        key={i}
+                        className="burst-pixel bg-amber-300"
+                        style={
+                          {
+                            "--tx": `${p.tx}px`,
+                            "--ty": `${p.ty}px`,
+                            "--d": `${600 + p.i * 40}ms`,
+                          } as React.CSSProperties
+                        }
+                      />
+                    ))}
+                  </>
                 )}
               </div>
             );

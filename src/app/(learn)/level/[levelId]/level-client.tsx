@@ -202,6 +202,7 @@ export function LevelClient({
                   startRef.current = performance.now();
                 }}
                 disabled={canRun === false}
+                skinColors={skin?.colors}
               />
             ) : (
               <GameBoard

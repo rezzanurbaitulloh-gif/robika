@@ -28,6 +28,7 @@ interface AdventureBoardProps {
   onResult?: (result: AnySimResult) => void;
   onRunStart?: () => void;
   disabled?: boolean;
+  skinColors?: { body: string; visor: string; glow: string };
 }
 
 interface ReplayState {
@@ -40,15 +41,32 @@ interface ReplayState {
   npcsTalked: Set<string>;
 }
 
-const TILE_STYLE: Record<string, string> = {
-  "#": "bg-slate-800 border border-slate-700/60",
-  ".": "bg-input/40",
-  C: "bg-emerald-400/15 border border-emerald-400/40",
-  S: "bg-rose-500/20 border border-rose-500/50",
-  G: "bg-emerald-400/40 border border-emerald-300 glow-box",
-  D: "bg-amber-400/15 border border-amber-400/60",
-  N: "bg-violet-400/15 border border-violet-400/50",
-};
+import { themeFor } from "./world-theme";
+import { NpcChip } from "./npc-chip";
+
+function tileClassFor(
+  theme: ReturnType<typeof themeFor>,
+  tile: string,
+): string {
+  switch (tile) {
+    case "#":
+      return theme.wallClass;
+    case ".":
+      return theme.floorClass;
+    case "C":
+      return theme.coinClass;
+    case "S":
+      return theme.hazardClass;
+    case "G":
+      return theme.goalClass;
+    case "D":
+      return "bg-amber-400/15 border border-amber-400/60";
+    case "N":
+      return "bg-violet-400/15 border border-violet-400/50";
+    default:
+      return "";
+  }
+}
 
 function findStart(grid: string[]): { x: number; y: number } {
   const width = grid[0].length;
@@ -120,10 +138,12 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
       onResult,
       onRunStart,
       disabled = false,
+      skinColors,
     },
     ref,
   ) {
     const width = level.grid[0].length;
+    const theme = themeFor(level.world);
     const [events, setEvents] = useState<SimEvent[]>([]);
     const [frame, setFrame] = useState(0);
     const [running, setRunning] = useState(false);
@@ -237,9 +257,7 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
 
         {activeNpc && (
           <div className="flex items-start gap-3 rounded-lg border border-violet-400/40 bg-violet-400/10 px-4 py-3">
-            <span className="mt-0.5 shrink-0 text-violet-300">
-              <Icon name="chat" size={16} />
-            </span>
+            <NpcChip name={activeNpc.name} size={28} />
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-violet-300">
                 {activeNpc.name}
@@ -270,9 +288,7 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
               return (
                 <div
                   key={gateKey}
-                  className={`relative flex aspect-square items-center justify-center text-sm sm:text-base ${
-                    TILE_STYLE[effectiveTile] ?? ""
-                  }`}
+                  className={`relative flex aspect-square items-center justify-center text-sm sm:text-base ${tileClassFor(theme, effectiveTile)}`}
                 >
                   {effectiveTile === "D" && (
                     <span className="text-amber-300">
@@ -280,23 +296,27 @@ export const AdventureBoard = forwardRef<AdventureBoardHandle, AdventureBoardPro
                     </span>
                   )}
                   {effectiveTile === "C" && (
-                    <span className="text-emerald-300">
+                    <span style={{ color: theme.coinColor, textShadow: `0 0 6px ${theme.coinGlow}` }}>
                       <Icon name="bolt" size={14} />
                     </span>
                   )}
                   {effectiveTile === "N" && (
-                    <span
-                      className={
-                        current.npcsTalked.has(gateKey)
-                          ? "text-violet-400/50"
-                          : "text-violet-300 drop-shadow-[0_0_5px_rgba(167,139,250,0.7)]"
+                    <NpcChip
+                      name={
+                        level.npcs?.find((n) => n.x === x && n.y === y)?.name ?? "?"
                       }
-                    >
-                      <Icon name="user" size={14} />
-                    </span>
+                      dim={current.npcsTalked.has(gateKey)}
+                      size={20}
+                    />
                   )}
                   {isPlayer && (
-                    <span className="absolute inset-0 flex items-center justify-center text-base text-cyan-300 drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]">
+                    <span
+                      className="absolute inset-0 flex items-center justify-center text-base"
+                      style={{
+                        color: skinColors?.body ?? "#67e8f9",
+                        textShadow: `0 0 6px ${skinColors?.glow ?? "rgba(34,211,238,0.9)"}`,
+                      }}
+                    >
                       {robotFace}
                     </span>
                   )}

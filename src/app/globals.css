@@ -209,3 +209,41 @@
     box-shadow: none;
   }
 }
+@keyframes robika-burst {
+  from {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--tx), var(--ty)) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.burst-pixel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  pointer-events: none;
+  animation: robika-burst var(--d, 900ms) ease-out forwards;
+}
+
+@keyframes robika-boss-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(244, 63, 94, 0.35),
+      0 0 22px rgba(244, 63, 94, 0.16);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(244, 63, 94, 0.6),
+      0 0 34px rgba(244, 63, 94, 0.3);
+  }
+}
+
+.boss-ring {
+  animation: robika-boss-pulse 2s ease-in-out infinite;
+}

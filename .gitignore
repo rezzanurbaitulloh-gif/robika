@@ -83,3 +83,6 @@ bower_components
 !.vscode/extensions.json
 # local env template
 /enp
+
+# supabase cli state (berisi project ref, bukan rahasia tapi tidak perlu di-commit)
+supabase/.temp/
