@@ -4,6 +4,7 @@ import { BackButton } from "@/components/design/back-button";
 import { Icon } from "@/components/design/icon";
 import { ModuleComplete } from "@/components/learn/module-complete";
 import { QuizCompletePanel } from "@/components/learn/quiz-complete-panel";
+import { ContextualAi } from "@/components/ai/contextual-ai";
 import { createServerSupabase } from "@/lib/db/server";
 
 export const dynamic = "force-dynamic";
@@ -75,6 +76,24 @@ export default async function CurriculumModulePage({
             )}
           </section>
         ))}
+
+        <section className="rounded-xl border border-border bg-card/60 p-4 sm:p-5">
+          <h2 className="mb-2 flex items-center gap-2 font-display text-base tracking-wide text-foreground">
+            <Icon name="target" size={18} />
+            Latihan Tambahan
+          </h2>
+          <p className="mb-3 text-sm leading-relaxed text-foreground/80">
+            Minta AI membuatkan satu latihan dari materi modul ini, lalu coba
+            kerjakan di CodeLab.
+          </p>
+          <ContextualAi
+            mode="exercises"
+            label="[ Latihan dari AI ]"
+            question={`Buat satu latihan singkat dari modul "${mod.title}" (${stack.name}). Sertakan judul, deskripsi tugas, dan contoh input/output.`}
+            context={{ topic: `${stack.name}: ${mod.title}` }}
+            testId="module-exercise"
+          />
+        </section>
 
         <section className="rounded-xl border border-border bg-card/60 p-4 sm:p-5">
           <h2 className="mb-3 flex items-center gap-2 font-display text-base tracking-wide text-foreground">

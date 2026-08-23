@@ -260,3 +260,5 @@ Verifikasi: tsc ✓ eslint ✓ vitest 375/375 ✓ build ✓.
 - Backend AI existing (`/api/ai/[mode]`, `/api/hints`) tidak diubah; halaman chat besar AiChat tetap untuk level & mentor page.
 
 Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
+
+- Lanjutan Phase 6 — AI Exercise Generator (§44): halaman modul Academy (`/learn/[stackId]/[moduleId]`) kini punya section "Latihan Tambahan" sebelum kuis — tombol `[ Latihan dari AI ]` (ContextualAi mode `exercises`, testId `module-exercise`) meminta satu latihan dari materi modul (judul, deskripsi, contoh input/output) dengan konteks `{topic: "<stack>: <module>"}`; backend `/api/ai/exercises` dipakai tanpa perubahan. Test +1 → 380/380.

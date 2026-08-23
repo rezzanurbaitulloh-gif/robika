@@ -82,4 +82,32 @@ describe("ContextualAi", () => {
       expect(screen.getByTestId("rev-panel")).toHaveTextContent(/langganan/)
     );
   });
+
+  it("hits the exercises endpoint for drill generation", async () => {
+    const fetchMock = vi.fn(async () =>
+      sseResponse([
+        { type: "token", token: "Latihan: buat fungsi sapa()." },
+        { type: "done" },
+      ])
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(
+      <ContextualAi
+        mode="exercises"
+        label="[ Latihan dari AI ]"
+        question="Buat latihan."
+        context={{ topic: "HTML dasar" }}
+        testId="ex"
+      />
+    );
+    fireEvent.click(screen.getByRole("button", { name: "[ Latihan dari AI ]" }));
+
+    await waitFor(() =>
+      expect(screen.getByTestId("ex-panel")).toHaveTextContent(
+        "Latihan: buat fungsi sapa()."
+      )
+    );
+    expect(fetchMock).toHaveBeenCalledWith("/api/ai/exercises", expect.anything());
+  });
 });
