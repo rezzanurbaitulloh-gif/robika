@@ -7,6 +7,7 @@ import { StatusChip } from "@/components/design/status-chip";
 import { BentoCard } from "@/components/design/bento-card";
 import { BackButton } from "@/components/design/back-button";
 import { Icon, type IconName } from "@/components/design/icon";
+import { BotAvatar } from "@/components/design/bot-avatar";
 import { PAYMENT_ITEMS, type PaymentItem } from "@/lib/payments/packages";
 import { SKIN_ITEMS, type SkinItem } from "@/lib/shop/catalog";
 
@@ -60,6 +61,7 @@ function loadSnap(baseUrl: string): Promise<{ pay: (token: string, handlers: obj
 
 export function ShopClient() {
   const [owned, setOwned] = useState<string[]>([]);
+  const [equipped, setEquipped] = useState<string | null>(null);
   const [balance, setBalance] = useState<{ stars: number; gems: number } | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [notice, setNotice] = useState<{ tone: "success" | "error"; text: string } | null>(null);
@@ -86,8 +88,35 @@ export function ShopClient() {
         .eq("profile_id", user.id)
         .maybeSingle();
       if (sub?.trial_ends_at) setTrialEnds(sub.trial_ends_at);
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("skin_id")
+        .eq("id", user.id)
+        .maybeSingle<{ skin_id: string | null }>();
+      setEquipped(profile?.skin_id ?? null);
     })();
   }, []);
+
+  const equip = async (item: SkinItem) => {
+    if (busy) return;
+    setBusy(item.id);
+    setNotice(null);
+    try {
+      const res = await fetch("/api/profile/skin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ itemId: item.id }),
+      });
+      if (res.ok) {
+        setEquipped(item.id);
+        setNotice({ tone: "success", text: `${item.name} dipakai — BOT-1 di game ikut berubah!` });
+      } else {
+        setNotice({ tone: "error", text: "Gagal memakai skin. Coba lagi." });
+      }
+    } finally {
+      setBusy(null);
+    }
+  };
 
   const buy = async (item: SkinItem) => {
     if (busy) return;
@@ -239,6 +268,7 @@ export function ShopClient() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {SKIN_ITEMS.map((item) => {
             const isOwned = owned.includes(item.id);
+            const isEquipped = equipped === item.id;
             const rarity = RARITY_TONE[item.rarity];
             const afford = canAfford(item);
             return (
@@ -246,32 +276,53 @@ export function ShopClient() {
                 key={item.id}
                 title={item.name}
                 description={`Rarity: ${item.rarity}`}
-                icon={<Icon name={item.icon as IconName} size={22} />}
+                icon={
+                  <span className="inline-block">
+                    <BotAvatar colors={item.colors} size={28} />
+                  </span>
+                }
                 footer={
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="font-display text-lg text-accent">
-                      {item.priceStars !== undefined
-                        ? `${item.priceStars} stars`
-                        : `${item.priceGems} gems`}
-                    </span>
-                    <button
-                      type="button"
-                      disabled={isOwned || busy !== null || !afford}
-                      onClick={() => void buy(item)}
-                      className="btn btn-outline btn-sm"
-                    >
                       {isOwned
-                        ? "Dimiliki"
-                        : busy === item.id
-                          ? "..."
-                          : afford
-                            ? "Beli"
-                            : "Saldo kurang"}
-                    </button>
+                        ? isEquipped
+                          ? "Terpakai"
+                          : "Dimiliki"
+                        : item.priceStars !== undefined
+                          ? `${item.priceStars} stars`
+                          : `${item.priceGems} gems`}
+                    </span>
+                    {isOwned ? (
+                      <button
+                        type="button"
+                        disabled={isEquipped || busy !== null}
+                        onClick={() => void equip(item)}
+                        className="btn btn-outline btn-sm"
+                      >
+                        {isEquipped ? "✓ Dipakai" : busy === item.id ? "..." : "Pakai"}
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={busy !== null || !afford}
+                        onClick={() => void buy(item)}
+                        className="btn btn-outline btn-sm"
+                      >
+                        {busy === item.id ? "..." : afford ? "Beli" : "Saldo kurang"}
+                      </button>
+                    )}
                   </div>
                 }
               >
-                <StatusChip status={rarity} label={item.rarity.toUpperCase()} />
+                <div className="flex items-center gap-3">
+                  <div
+                    className="rounded-md border border-border bg-background/60 p-2"
+                    style={{ boxShadow: `0 0 12px ${item.colors.glow}33` }}
+                  >
+                    <BotAvatar colors={item.colors} size={48} />
+                  </div>
+                  <StatusChip status={rarity} label={item.rarity.toUpperCase()} />
+                </div>
               </BentoCard>
             );
           })}

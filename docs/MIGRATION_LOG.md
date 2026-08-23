@@ -142,3 +142,10 @@
 - GET /api/health untuk uptime monitoring
 - .env.example: blok 5 feature flag didokumentasikan
 - Suite 345/345; build sukses
+
+### Milestone 7 — Skin v2: 16 skin, pixel-art nyata, sistem equip
+- Katalog 4→16 skin (4 per rarity) dengan palet {body, visor, glow} — tema pabrik, distrik, hingga boss Reaktor Prime; harga naik seiring kelangkaan (dikunci test)
+- BotAvatar: BOT-1 pixel-art SVG 16×16 crispEdges sesuai Pixel Art Bible (palet inti, outline gelap)
+- Equip: migration 0009 profiles.skin_id + POST /api/profile/skin (cek ownership inventory) + tombol Pakai/Terpakai di shop dengan preview avatar berglow
+- In-game: warna panah BOT-1 & glow di GameBoard kini mengikuti skin terpasang (plumb server → LevelClient → GameBoard)
+- Suite 354/354; build sukses

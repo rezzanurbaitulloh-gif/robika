@@ -26,6 +26,7 @@ interface GameBoardProps {
   onResult?: (result: SimulationResult) => void;
   onRunStart?: () => void;
   disabled?: boolean;
+  skinColors?: { body: string; visor: string; glow: string };
 }
 
 const TILE_STYLE: Record<string, string> = {
@@ -81,6 +82,7 @@ export const GameBoard = forwardRef<GameBoardHandle, GameBoardProps>(
     onResult,
     onRunStart,
     disabled = false,
+    skinColors,
   }, ref) {
     const width = level.grid[0].length;
     const [step, setStep] = useState(0);
@@ -182,7 +184,13 @@ export const GameBoard = forwardRef<GameBoardHandle, GameBoardProps>(
               >
                 {tileIcon ? <Icon name={tileIcon} size={14} /> : null}
                 {isPlayer && (
-                  <span className="absolute inset-0 flex items-center justify-center text-base text-cyan-300 drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]">
+                  <span
+                    className="absolute inset-0 flex items-center justify-center text-base"
+                    style={{
+                      color: skinColors?.body ?? "#67e8f9",
+                      textShadow: `0 0 6px ${skinColors?.glow ?? "rgba(34,211,238,0.9)"}`,
+                    }}
+                  >
                     {robotFace}
                   </span>
                 )}

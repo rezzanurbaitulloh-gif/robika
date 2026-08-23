@@ -19,6 +19,7 @@ export type Database = {
           skill_level: "pemula" | "menengah" | "lanjut";
           xp: number;
           streak: number;
+          skin_id: string | null;
           last_active_at: string | null;
           created_at: string;
           updated_at: string;

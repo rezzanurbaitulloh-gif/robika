@@ -32,10 +32,12 @@ export function LevelClient({
   level,
   isDaily = false,
   nextLevelId = null,
+  skin = null,
 }: {
   level: GameLevel;
   isDaily?: boolean;
   nextLevelId?: string | null;
+  skin?: { colors: { body: string; visor: string; glow: string }; name: string } | null;
 }) {
   const [tab, setTab] = useState<Tab>("materi");
   const [code, setCode] = useState(level.starterCode);
@@ -206,6 +208,7 @@ export function LevelClient({
                 ref={boardRef}
                 level={level}
                 commands={commands}
+                skinColors={skin?.colors}
                 onResult={onResult}
                 onRunStart={() => {
                   startRef.current = performance.now();
