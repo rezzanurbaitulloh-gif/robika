@@ -295,3 +295,9 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - `AppNav`: label desktop diubah ke font-display uppercase chip (aktif = `border-cyan-400/50 bg-cyan-400/15 text-cyan-200` dengan penanda ▸), dock mobile diberi panel gelap + indikator garis atas cyan pada item aktif, menu "Lainnya" jadi kotak modul terminal (`#141a2e`, ikon dalam bingkai). Label disesuaikan ke dunia game (Dashboard→Base, Belajar→Akademi, Misi Harian, Peringkat, Toko).
 - Logika tidak berubah: rute, aria-current/haspopup, gate flag `newAdventure` untuk link world-2, dan perilaku Escape semuanya dipertahankan; tidak ada test lama yang menyentuh AppNav.
 - Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
+## 2026-08-24 — PHASE 9 · WORLD MAP: halaman distrik jadi peta node
+- `/world/[worldId]` berhenti menampilkan grid kartu BentoCard generik (glow accent biru §67) dan kini tampil sebagai peta node bergaya hangar: header distrik memakai panel `base-floor` + `scanline` dengan indikator blink, daftar level menjadi jalur vertikal node terhubung garis (idiom MAP_NODES prototype).
+- Status node kini nyata dari tabel `progress` via `createServerSupabase` (pola sama seperti dashboard): done = emerald, misi aktif pertama = cyan pulse, siap = netral redup, boss mengikuti aturan NODE_STYLE fuchsia (terkunci / aktif saat semua level normal selesai / dikalahkan). Label state pakai font-display `[SELESAI]`, `[MISI AKTIF]`, dst.
+- Navigasi tidak berubah: semua node tetap bisa diklik ke `/level/:id`, gate flag `newAdventure` untuk strip "Distrik Berikutnya" dipertahankan; AdventureBoard di dalam level sudah bergaya game sehingga tidak disentuh.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
