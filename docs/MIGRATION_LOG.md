@@ -135,3 +135,10 @@
 - Ditemukan sistem pembayaran produksi yang sudah ada (/api/payments create|webhook|trial, tabel purchases, Snap) — percobaan stack paralel dibatalkan & direvert bersih
 - 14 test integrasi baru: create (validasi item/auth/key, purchase pending, snap token, gagal→failed), webhook (signature sha512, 404 order asing, kredit gems/hints sekali, replay idempoten, deny→failed), trial (409 sudah bayar/pernah trial, aktif 7 hari)
 - Suite 345/345; build sukses
+
+### Milestone 6 — Phase 17 PRODUCTION hardening
+- Security headers global: X-Frame-Options DENY, nosniff, Referrer-Policy, Permissions-Policy (kamera/mikro/lokasi off)
+- robots.txt (rute pribadi di-disallow) + sitemap.xml dinamis dari NEXT_PUBLIC_SITE_URL
+- GET /api/health untuk uptime monitoring
+- .env.example: blok 5 feature flag didokumentasikan
+- Suite 345/345; build sukses
