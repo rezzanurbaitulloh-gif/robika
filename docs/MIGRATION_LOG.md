@@ -1,3 +1,9 @@
+## 2026-08-24 — PHASE 9 · PENUTUPAN: full visual migration tuntas
+- Sweep penuh repo (`rounded-(xl|2xl|3xl)` / `btn btn-*` / accent biru) bersih di semua surface produksi.
+- Cakupan akhir sesuai prioritas PRD: Home, Adventure, World, Academy, CodeLab (hub/studio/challenge/playground), Profile (+settings), Shop, Daily, Progress (dashboard+leaderboard), Settings, auth & panel error/offline/not-found/sertifikat.
+- Pengecualian disengaja (terdokumentasi): landing `page.tsx` dua `text-accent` (brand title-screen), `adventure-board` & `game-board` (arah user), primitif shadcn `ui/*`, dead component `bento-card.tsx`. Surface "Community" belum ada route-nya di app (item PRD untuk fitur masa depan, bukan migrasi visual).
+- Gates terakhir: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓ @ be97839
+
 ## 2026-08-24 — PHASE 9 · CLEANUP 3: straggler sudut besar di module view & challenge editor
 - `learn/[stackId]/[moduleId]/page.tsx`: tiga panel section `rounded-xl` → `rounded-sm`; blok kode contoh `rounded-lg` → `rounded-sm`.
 - `codelab/[challengeId]/challenge-client.tsx`: container editor yang terlewat `rounded-xl` → `rounded-sm`.
