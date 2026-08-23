@@ -38,17 +38,20 @@ export function CodelabIndex({ done }: { done: string[] }) {
   );
 
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
       <div className="mb-2">
         <BackButton fallbackHref="/dashboard" />
       </div>
       <div className="mb-6">
+        <p className="font-mono text-[11px] uppercase tracking-widest text-cyan-300/70">
+          ▸ ~/robika/codelab
+        </p>
         <h1 className="flex items-center gap-2 font-display text-2xl tracking-wide text-foreground">
           <Icon name="bolt" size={22} />
           CODELAB
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Latihan singkat JavaScript & Python. Pilih bahasa, selesaikan
+          Latihan singkat JavaScript &amp; Python. Pilih bahasa, selesaikan
           tantangan, dapatkan XP dan stars. Tantangan yang lulus ditandai LULUS
           — mengulang tidak menambah reward.
         </p>
@@ -56,30 +59,29 @@ export function CodelabIndex({ done }: { done: string[] }) {
 
       <Link
         href="/codelab/studio"
-        className="group mb-6 flex items-center gap-4 rounded-xl border border-accent/40 bg-gradient-to-r from-accent/10 via-card to-card p-4 transition hover:border-accent/70 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]"
+        className="group mb-6 flex items-center gap-4 rounded-sm border border-cyan-400/30 bg-[#0c101d] p-4 transition hover:border-cyan-400/60"
       >
-        <span className="shrink-0 rounded-xl bg-accent/15 p-3 text-accent">
-          <Icon name="code" size={24} />
+        <span className="shrink-0 grid h-11 w-11 place-items-center rounded-sm border border-border bg-input/30 text-cyan-300">
+          <Icon name="code" size={22} />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-display text-sm uppercase tracking-wide text-foreground">
-            CodeLab Studio
+          <span className="block font-mono text-xs text-muted-foreground">
+            <span className="text-emerald-400">$</span> robika open{" "}
+            <span className="text-cyan-300 group-hover:underline">studio</span>
           </span>
-          <span className="block text-xs text-muted-foreground">
-            Studio proyek multi-file — HTML, CSS, JS & Python dengan editor
+          <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+            Studio proyek multi-file — HTML, CSS, JS &amp; Python dengan editor
             Monaco, explorer file, dan preview live tersandbox. Proyekmu
             tersimpan otomatis.
           </span>
         </span>
-        <span className="shrink-0 text-xs font-semibold text-accent">
-          Buka →
-        </span>
+        <Icon name="chevronRight" size={16} />
       </Link>
 
       <div
         role="tablist"
         aria-label="Filter bahasa"
-        className="mb-6 flex gap-1 overflow-x-auto rounded-xl border border-border bg-background/90 p-1"
+        className="mb-6 flex gap-1 overflow-x-auto rounded-sm border border-border bg-[#0c101d] p-1"
       >
         {FILTERS.map((f) => (
           <button
@@ -89,9 +91,9 @@ export function CodelabIndex({ done }: { done: string[] }) {
             aria-selected={filter === f.id}
             onClick={() => setFilter(f.id)}
             className={cn(
-              "whitespace-nowrap rounded-lg px-4 py-1.5 text-xs font-semibold transition sm:text-sm",
+              "whitespace-nowrap rounded-sm px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition sm:text-xs",
               filter === f.id
-                ? "bg-accent text-accent-foreground"
+                ? "bg-cyan-400/15 text-cyan-200"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
@@ -107,13 +109,18 @@ export function CodelabIndex({ done }: { done: string[] }) {
             <Link
               key={challenge.id}
               href={`/codelab/${challenge.id}`}
-              className="group flex flex-col gap-2.5 rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:border-accent/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]"
+              className={cn(
+                "group flex flex-col gap-2.5 rounded-sm border p-4 transition",
+                completed
+                  ? "border-emerald-400/25 bg-[#0c101d]"
+                  : "border-border bg-[#0c101d] hover:border-cyan-400/40",
+              )}
             >
               <div className="flex items-start justify-between gap-2">
-                <span className="shrink-0 rounded-lg bg-accent/10 p-2 text-accent">
+                <span className="shrink-0 grid h-8 w-8 place-items-center rounded-sm border border-border bg-input/30 text-cyan-300">
                   <Icon
                     name={KIND_ICON[challenge.kind] ?? "code"}
-                    size={20}
+                    size={16}
                   />
                 </span>
                 <div className="flex flex-wrap justify-end gap-1.5">
@@ -133,11 +140,13 @@ export function CodelabIndex({ done }: { done: string[] }) {
                 <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
                   {challenge.description.id}
                 </p>
-                <p className="flex items-center gap-2 pt-1 text-xs text-muted-foreground">
-                  <span className="rounded bg-muted px-1.5 py-0.5 font-semibold text-foreground/80">
+                <p className="flex items-center gap-2 pt-1 font-mono text-[11px]">
+                  <span className="rounded-sm bg-input/40 px-1.5 py-0.5 uppercase tracking-wider text-foreground/80">
                     {KIND_LABEL[challenge.kind] ?? challenge.kind.toUpperCase()}
                   </span>
-                  <span className="text-accent">+{challenge.xpReward} XP</span>
+                  <span className="text-emerald-400">
+                    +{challenge.xpReward} XP
+                  </span>
                 </p>
               </div>
             </Link>

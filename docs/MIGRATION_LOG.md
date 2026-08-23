@@ -307,3 +307,9 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - Kartu skin diganti tile inventaris gelap (`#0c101d`, sudut tajam, hover cyan): avatar BOT-1 dalam frame glow, rarity chip, harga font-display `★`/`◆`; skin terpakai diberi border cyan + label `[DIPAKAI]`.
 - Top-up & Mentor Trial ikut di-restyle sebagai tile/baris mod dengan harga amber; semua aksi (equip, buy, checkout Midtrans Snap, aktivasi trial), state, dan copy fungsional dipertahankan identik.
 - Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
+## 2026-08-24 — PHASE 9 · CODELAB HUB: index jadi antarmuka dev terminal
+- `CodelabIndex` berhenti memakai accent biru generik §67 (`bg-accent`, glow `rgba(59,130,246,…)`, rounded-xl SaaS) dan kini tampil sebagai workbench dev: eyebrow path mono `~/robika/codelab`, banner Studio menjadi command bar `$ robika open studio` di panel gelap `#0c101d` bersudut tajam.
+- Tab filter bahasa jadi segmented control font-mono uppercase dengan state aktif cyan; kartu tantangan jadi tile editor gelap — ikon kind dalam kotak berbingkai, chip lang/LULUS dipertahankan, label kind + XP (+N XP hijau emerald ala diff) memakai mono.
+- Tantangan yang sudah lulus diberi border emerald halus sebagai penanda progress; logika filter, doneSet, route, aria tablist tidak berubah.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
