@@ -318,3 +318,9 @@ Verifikasi: tsc ✓ eslint ✓ vitest 379/379 ✓ build ✓.
 - Kartu trial `BentoCard` dengan pill "Segera hadir" ber-background accent biru generik §67 diganti panel gelap `#0c101d` bersudut tajam ber-aksen fuchsia (ikon brain dalam kotak berbingkai) — konsisten dengan warna boss/mentor di peta dunia.
 - Pill promo kini chip outline cyan font-display; logika cek subscription (plan/trial_ends_at/paid_until), StatusChip AKTIF/BELUM AKTIF, dan AiChat tidak diubah.
 - Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
+## 2026-08-24 — PHASE 9 · PROFILE: kartu profil jadi kartu operatur
+- `ProfileView` berhenti memakai kartu SaaS (banner gradient accent biru §67, rounded-2xl, shadow) dan kini tampil sebagai "KARTU OPERATUR": panel `base-floor scanline`, avatar berbingkai sudut tajam dengan fallback robot cyan, identitas mono.
+- Baris status diganti chip font-display: LV cyan, XP netral, stars amber (ikon star), gems fuchsia (ikon gem) — konsisten dengan toko; grid statistik jadi tile gelap `#0c101d` berlabel mono uppercase.
+- State, props, `isImageAvatar`, dan `ProfileSettings` tidak diubah.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓

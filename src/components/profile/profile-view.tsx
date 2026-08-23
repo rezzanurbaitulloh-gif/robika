@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { StatusChip } from "@/components/design/status-chip";
 import { Icon, type IconName } from "@/components/design/icon";
 import { ProfileSettings } from "@/components/profile/profile-settings";
 
@@ -46,7 +45,7 @@ export function Avatar({
   }
   return (
     <span
-      className={`flex items-center justify-center bg-gradient-to-br from-accent/40 via-accent/10 to-transparent text-accent ${className ?? ""}`}
+      className={`flex items-center justify-center bg-[#141a2e] text-cyan-300 ${className ?? ""}`}
       aria-hidden="true"
     >
       <Icon name="robot" size={40} />
@@ -80,42 +79,52 @@ export function ProfileView({ initial }: { initial: ProfileViewInitial }) {
 
   return (
     <>
-      <div className="overflow-hidden rounded-xl border border-border bg-card/60">
-        <div className="h-20 bg-gradient-to-r from-accent/30 via-accent/10 to-transparent" />
-        <div className="px-5 pb-5">
-          <div className="-mt-10 flex flex-wrap items-end justify-between gap-3">
+      <div className="base-floor scanline overflow-hidden rounded-md border border-border">
+        <div className="px-5 pb-5 pt-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
             <div className="flex items-end gap-4">
-              <span className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-background bg-muted text-4xl shadow-lg">
+              <span className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-sm border-2 border-border bg-[#141a2e] text-4xl">
                 <Avatar value={avatarUrl} className="h-full w-full" />
               </span>
               <div className="min-w-0 pb-1">
+                <p className="font-display text-[10px] uppercase tracking-widest text-cyan-300/70">
+                  ▸ KARTU OPERATUR
+                </p>
                 <h1 className="truncate font-display text-xl tracking-wide text-foreground">
                   {shownName}
                 </h1>
-                <p className="truncate text-xs text-muted-foreground">
+                <p className="truncate font-mono text-xs text-muted-foreground">
                   @{username} · {initial.email}
                 </p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2 pb-1">
-              <StatusChip status="info" label={`LV ${initial.level}`} />
-              <StatusChip status="neutral" label={`XP ${initial.xp}`} />
-              <StatusChip status="warning" label={`Stars ${initial.stars}`} />
-              <StatusChip status="success" label={`Gems ${initial.gems}`} />
+              <span className="rounded-sm border border-cyan-400/40 bg-cyan-400/10 px-2 py-1 font-display text-xs tracking-wide text-cyan-300">
+                LV {initial.level}
+              </span>
+              <span className="rounded-sm border border-border bg-input/40 px-2 py-1 font-display text-xs tracking-wide text-muted-foreground">
+                XP {initial.xp}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-sm border border-amber-400/40 bg-amber-400/10 px-2 py-1 font-display text-xs tracking-wide text-amber-300">
+                <Icon name="star" size={12} /> {initial.stars}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-sm border border-fuchsia-400/40 bg-fuchsia-400/10 px-2 py-1 font-display text-xs tracking-wide text-fuchsia-300">
+                <Icon name="gem" size={12} /> {initial.gems}
+              </span>
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
+          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {stats.map((item) => (
               <div
                 key={item.label}
-                className="rounded-lg border border-border bg-muted/60 p-3"
+                className="rounded-sm border border-border bg-[#0c101d] p-3"
               >
-                <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+                <div className="flex items-center justify-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                   <Icon name={item.icon} size={13} />
                   {item.label}
                 </div>
-                <div className="mt-1 text-sm font-semibold text-foreground">
+                <div className="mt-1 text-center font-display text-sm uppercase tracking-wider text-foreground">
                   {item.value}
                 </div>
               </div>
