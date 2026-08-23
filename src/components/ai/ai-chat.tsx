@@ -110,7 +110,7 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
   };
 
   return (
-    <div className="flex h-full flex-col rounded-xl border border-border bg-card/60">
+    <div className="flex h-full flex-col rounded-sm border border-border bg-card/60">
       <div className="flex-1 space-y-3 overflow-y-auto p-4">
         {messages.length === 0 && (
           <p className="text-sm text-muted-foreground">
@@ -120,9 +120,9 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm ${
+            className={`max-w-[85%] whitespace-pre-wrap rounded-sm px-3 py-2 text-sm ${
               message.role === "user"
-                ? "ml-auto bg-accent text-accent-foreground"
+                ? "ml-auto bg-cyan-400/15 text-cyan-100"
                 : message.error
                   ? "border border-rose-500/40 bg-rose-500/10 text-rose-200"
                   : "bg-muted text-foreground"
@@ -133,7 +133,7 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
               <img
                 src={message.image}
                 alt="lampiran"
-                className="mb-1 max-h-40 rounded-lg object-contain"
+                className="mb-1 max-h-40 rounded-sm object-contain"
               />
             )}
             {message.text}
@@ -146,7 +146,7 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
 
       <div className="border-t border-border p-3">
         {image && (
-          <div className="mb-2 flex items-center gap-2 rounded-lg border border-border bg-muted/40 p-2">
+          <div className="mb-2 flex items-center gap-2 rounded-sm border border-border bg-muted/40 p-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={image}
@@ -178,7 +178,7 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
             onClick={() => fileInputRef.current?.click()}
             disabled={streaming}
             title="Lampirkan gambar (contoh: screenshot error)"
-            className="btn btn-secondary btn-md"
+            className="rounded-sm border border-border px-3 py-2 text-muted-foreground transition hover:border-muted-foreground/40 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
           >
             <Icon name="camera" size={16} />
           </button>
@@ -192,13 +192,13 @@ export function AiChat({ mode, context, placeholder }: MentorChatProps) {
               }
             }}
             placeholder="Ketik pesan..."
-            className="min-w-0 flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
+            className="min-w-0 flex-1 rounded-sm border border-border bg-input px-3 py-2 text-sm outline-none focus:border-cyan-400/60"
           />
           <button
             type="button"
             onClick={() => void send()}
             disabled={streaming}
-            className="btn btn-accent btn-md"
+            className="rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20 disabled:pointer-events-none disabled:opacity-40"
           >
             {streaming ? "..." : "Kirim"}
           </button>

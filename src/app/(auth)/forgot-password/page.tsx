@@ -36,9 +36,9 @@ export default function ForgotPasswordPage() {
           <img
             src="/logo.png"
             alt="Robika"
-            className="mx-auto mb-4 h-14 w-14 rounded-2xl border border-accent/30 shadow-[0_0_24px_rgba(59,130,246,0.25)]"
+            className="mx-auto mb-4 h-14 w-14 rounded-sm border border-cyan-400/40"
           />
-          <h1 className="glow-text font-display text-2xl tracking-widest text-accent">
+          <h1 className="glow-text font-display text-2xl tracking-widest text-cyan-300">
             RESET PASSWORD
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
         </div>
 
         {sent ? (
-          <div className="rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-center text-sm text-emerald-200">
+          <div className="rounded-sm border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-center text-sm text-emerald-200">
             Tautan reset terkirim ke <span className="font-semibold">{email}</span>.
             Periksa kotak masuk (dan spam).
           </div>
@@ -66,12 +66,12 @@ export default function ForgotPasswordPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
+                className="w-full rounded-sm border border-border bg-input px-3 py-2 text-sm outline-none focus:border-cyan-400/60"
               />
             </div>
 
             {error && (
-              <div className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs text-rose-200">
+              <div className="rounded-sm border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs text-rose-200">
                 {error}
               </div>
             )}
@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-accent btn-md w-full"
+              className="w-full rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20 disabled:pointer-events-none disabled:opacity-40"
             >
               {loading ? "Mengirim..." : "Kirim Tautan Reset"}
             </button>
@@ -87,7 +87,7 @@ export default function ForgotPasswordPage() {
         )}
 
         <div className="mt-6 flex flex-col items-center gap-3">
-          <Link href="/login" className="text-sm text-accent hover:underline">
+          <Link href="/login" className="text-sm text-cyan-300 hover:underline">
             Kembali ke masuk
           </Link>
           <StatusChip status="info" label="AMAN · FREE TIER" />

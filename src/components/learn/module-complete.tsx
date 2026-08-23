@@ -91,10 +91,10 @@ export function ModuleComplete({
   };
 
   return (
-    <div className="mt-8 rounded-xl border border-accent/30 bg-accent/5 p-5">
+    <div className="mt-8 rounded-sm border border-cyan-400/30 bg-cyan-400/5 p-5">
       {message ? (
         <div
-          className={`mb-3 rounded-lg border px-4 py-2.5 text-sm ${
+          className={`mb-3 rounded-sm border px-4 py-2.5 text-sm ${
             message.tone === "success"
               ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
               : message.tone === "danger"
@@ -127,10 +127,10 @@ export function ModuleComplete({
             type="button"
             disabled={done || busy || !canComplete}
             onClick={() => void complete()}
-            className={`btn btn-md ${
+            className={`rounded-sm px-5 py-2 font-display text-xs uppercase tracking-wider transition ${
               done
                 ? "cursor-default border border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
-                : "bg-accent text-accent-foreground hover:brightness-110"
+                : "border border-cyan-400/50 bg-cyan-400/10 text-cyan-200 hover:bg-cyan-400/20 disabled:pointer-events-none disabled:opacity-40"
             }`}
           >
             {done ? (
@@ -146,24 +146,24 @@ export function ModuleComplete({
         </div>
       </div>
       {done && (nextHref || isLast || backHref) ? (
-        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-accent/20 pt-4">
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-cyan-400/20 pt-4">
           {nextHref ? (
             <Link
               href={nextHref}
-              className="btn btn-accent btn-md"
+              className="inline-flex items-center gap-1.5 rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20"
             >
               {nextLabel ?? "Lanjut ke Materi Berikutnya"}
               <Icon name="arrowRight" size={15} />
             </Link>
           ) : isLast ? (
-            <span className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300">
+            <span className="inline-flex items-center gap-1.5 rounded-sm border border-emerald-400/40 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300">
               <Icon name="check" size={15} /> Semua materi selesai!
             </span>
           ) : null}
           {backHref ? (
             <Link
               href={backHref}
-              className="btn btn-secondary btn-md"
+              className="inline-flex items-center gap-1.5 rounded-sm border border-border px-5 py-2 font-display text-xs uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
             >
               <Icon name="book" size={15} />
               {backLabel ?? "Kembali ke Daftar Modul"}

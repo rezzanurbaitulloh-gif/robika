@@ -32,7 +32,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
   const answeredAll = answers.length === questions.length;
 
   return (
-    <div className="rounded-xl border border-border bg-card/60 p-4">
+    <div className="rounded-sm border border-border bg-card/60 p-4">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-display text-sm tracking-wide text-foreground">
           <span className="inline-flex items-center gap-1.5">
@@ -66,7 +66,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
                   const isCorrect = submitted && oi === question.answer;
                   let tone = "border-border bg-muted/40 text-muted-foreground";
                   if (isPicked && !submitted) {
-                    tone = "border-accent/60 bg-accent/10 text-foreground";
+                    tone = "border-cyan-400/60 bg-cyan-400/10 text-foreground";
                   } else if (submitted && isCorrect) {
                     tone = "border-emerald-400/50 bg-emerald-400/10 text-emerald-200";
                   } else if (submitted && isPicked && wrongPicked) {
@@ -78,7 +78,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
                       type="button"
                       disabled={submitted}
                       onClick={() => pick(qi, oi)}
-                      className={`rounded-lg border px-3 py-2 text-left text-sm transition ${tone} disabled:cursor-default`}
+                      className={`rounded-sm border px-3 py-2 text-left text-sm transition ${tone} disabled:cursor-default`}
                     >
                       {String.fromCharCode(65 + oi)}. {option}
                     </button>
@@ -102,7 +102,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
             type="button"
             disabled={!answeredAll}
             onClick={() => setSubmitted(true)}
-            className="btn btn-accent btn-md disabled:opacity-40"
+            className="rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20 disabled:pointer-events-none disabled:opacity-40"
           >
             {answeredAll ? "Periksa Jawaban" : `Jawab dulu (${answers.length}/${questions.length})`}
           </button>
@@ -111,7 +111,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
             <button
               type="button"
               onClick={retry}
-              className="btn btn-outline btn-md"
+              className="rounded-sm border border-border px-5 py-2 text-xs uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
             >
               Ulangi Kuis
             </button>
@@ -119,7 +119,7 @@ export function QuizPanel({ questions, onComplete }: QuizPanelProps) {
               <button
                 type="button"
                 onClick={onComplete}
-                className="btn btn-accent btn-md"
+                className="rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20"
               >
                 <Icon name="check" size={15} /> Selesaikan
               </button>

@@ -136,7 +136,7 @@ export function LevelClient({
 
       <div
         role="tablist"
-        className="sticky top-[52px] z-10 mb-6 flex gap-1 overflow-x-auto rounded-xl border border-border bg-background/90 p-1 backdrop-blur"
+        className="sticky top-[52px] z-10 mb-6 flex gap-1 overflow-x-auto rounded-sm border border-border bg-background/90 p-1 backdrop-blur"
       >
         {TABS.map((t) => (
           <button
@@ -144,9 +144,9 @@ export function LevelClient({
             role="tab"
             aria-selected={tab === t.id}
             onClick={() => setTab(t.id)}
-            className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold transition sm:px-4 sm:text-sm ${
+            className={`whitespace-nowrap rounded-sm px-3 py-1.5 text-xs font-semibold transition sm:px-4 sm:text-sm ${
               tab === t.id
-                ? "bg-accent text-accent-foreground"
+                ? "bg-cyan-400/15 text-cyan-200"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -159,7 +159,7 @@ export function LevelClient({
       </div>
 
       {tab === "materi" && level.lesson && (
-        <div className="rounded-xl border border-border bg-card/60 p-4 sm:p-6">
+        <div className="rounded-sm border border-border bg-[#0c101d] p-4 sm:p-6">
           <h2 className="font-display text-lg tracking-wide text-foreground">
             {level.lesson.title}
           </h2>
@@ -170,8 +170,8 @@ export function LevelClient({
               </p>
             ))}
           </div>
-          <div className="mt-6 rounded-lg border border-accent/30 bg-accent/5 px-4 py-3 text-sm text-foreground">
-            <span className="text-accent">MISI: </span>
+          <div className="mt-6 rounded-sm border border-cyan-400/30 bg-cyan-400/5 px-4 py-3 text-sm text-foreground">
+            <span className="font-mono text-xs uppercase tracking-wider text-cyan-300">MISI: </span>
             {level.objective.id}
           </div>
         </div>
@@ -218,7 +218,7 @@ export function LevelClient({
               />
             )}
 
-            <div className="overflow-hidden rounded-xl border border-border">
+            <div className="overflow-hidden rounded-sm border border-border">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-muted/60 px-3 py-2">
                 <span className="font-display text-xs tracking-widest text-muted-foreground">
                   KODE BOT-1
@@ -228,7 +228,7 @@ export function LevelClient({
                     type="button"
                     onClick={() => boardRef.current?.reset()}
                     disabled={!canRun}
-                    className="btn btn-secondary btn-sm"
+                    className="rounded-sm border border-border px-3 py-1 text-xs text-muted-foreground transition hover:border-muted-foreground/40 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
                   >
                     <span className="inline-flex items-center gap-1">
                       <Icon name="refresh" size={14} /> Reset
@@ -241,7 +241,7 @@ export function LevelClient({
                       boardRef.current?.run();
                     }}
                     disabled={!canRun}
-                    className="btn btn-accent btn-sm"
+                    className="rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-3 py-1 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20 disabled:pointer-events-none disabled:opacity-40"
                   >
                     <span className="inline-flex items-center gap-1">
                       <Icon name="play" size={14} />
@@ -259,7 +259,7 @@ export function LevelClient({
             </div>
 
             {result?.won && (
-              <div className="animate-pop rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
+              <div className="animate-pop rounded-sm border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
                 Berhasil dalam {result.steps} langkah dengan {result.coins} power
                 cell!
                 {reward && (
@@ -290,7 +290,7 @@ export function LevelClient({
                 {result?.won && (
               <span className="mt-3 flex flex-wrap gap-2">
                 {isDaily ? (
-                  <Link href="/daily" className="btn btn-accent btn-md">
+                  <Link href="/daily" className="rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20">
                     <span className="inline-flex items-center gap-1.5">
                       <Icon name="check" size={15} /> Selesai
                     </span>
@@ -300,14 +300,14 @@ export function LevelClient({
                     {nextLevelId && (
                       <Link
                         href={`/level/${nextLevelId}`}
-                        className="btn btn-accent btn-md"
+                        className="rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20"
                       >
                         Level berikutnya
                       </Link>
                     )}
                     <Link
                       href={`/world/${level.world}`}
-                      className="btn btn-outline btn-md"
+                      className="rounded-sm border border-border px-5 py-2 text-xs uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
                     >
                       {nextLevelId ? "Kembali ke peta" : "Selesai — kembali ke peta"}
                     </Link>
@@ -327,7 +327,7 @@ export function LevelClient({
               onUseHint={() => setHintsUsed((n) => n + 1)}
             />
 
-            <div className="rounded-xl border border-border bg-card/60 p-4">
+            <div className="rounded-sm border border-border bg-card/60 p-4">
               <h3 className="mb-2 flex items-center gap-1.5 font-display text-sm tracking-wide">
                 <Icon name="robot" size={15} />
                 AI TUTOR

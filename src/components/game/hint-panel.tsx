@@ -63,7 +63,7 @@ export function HintPanel({
   const remaining = balance ?? maxHints;
 
   return (
-    <div className="rounded-xl border border-border bg-card/60 p-4">
+    <div className="rounded-sm border border-border bg-card/60 p-4">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="font-display text-sm tracking-wide text-foreground">
           HINT SYSTEM
@@ -79,9 +79,9 @@ export function HintPanel({
           return (
             <div
               key={index}
-              className={`rounded-lg border px-3 py-2 text-sm transition ${
+              className={`rounded-sm border px-3 py-2 text-sm transition ${
                 isRevealed
-                  ? "border-accent/40 bg-accent/10 text-foreground"
+                  ? "border-cyan-400/40 bg-cyan-400/10 text-foreground"
                   : "border-border bg-muted/40 text-muted-foreground"
               }`}
             >
@@ -97,7 +97,7 @@ export function HintPanel({
         type="button"
         onClick={() => void reveal()}
         disabled={revealed >= maxHints || (trackBalance && (balance ?? 0) <= 0)}
-        className="btn btn-outline btn-md mt-3 w-full"
+        className="mt-3 w-full rounded-sm border border-border px-5 py-2 text-xs uppercase tracking-wider text-muted-foreground transition hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
       >
         {trackBalance && (balance ?? 0) <= 0
           ? "Saldo habis"

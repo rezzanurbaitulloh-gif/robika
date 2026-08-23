@@ -40,13 +40,13 @@ export function CertificateClient({
         <button
           type="button"
           onClick={() => window.print()}
-          className="btn btn-accent btn-md print:hidden"
+          className="print:hidden rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-4 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20"
         >
           Simpan PDF
         </button>
       </div>
 
-      <div className="certificate-sheet rounded-xl border border-amber-400/40 bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/30 p-6 sm:p-10 print:border-amber-400 print:from-white print:via-white print:to-white print:text-black">
+      <div className="certificate-sheet rounded-sm border border-amber-400/40 bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/30 p-6 sm:p-10 print:border-amber-400 print:from-white print:via-white print:to-white print:text-black">
         <div className="text-center">
           <p className="text-[10px] tracking-[0.35em] text-amber-400/80 print:text-amber-600 sm:text-xs">
             ROBÍKA LEARNING ACADEMY
@@ -69,20 +69,20 @@ export function CertificateClient({
           </p>
 
           <div className="mt-8 grid grid-cols-3 gap-2 text-center sm:gap-3">
-            <div className="rounded-lg border border-border/60 bg-background/40 p-3 print:border-gray-300 print:bg-gray-50">
-              <p className="text-lg font-bold text-accent print:text-black">{level}</p>
+            <div className="rounded-sm border border-border/60 bg-input/30 p-3 print:border-gray-300 print:bg-gray-50">
+              <p className="font-display text-lg text-amber-300 print:text-black">{level}</p>
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground print:text-gray-500">
                 Level Profil
               </p>
             </div>
-            <div className="rounded-lg border border-border/60 bg-background/40 p-3 print:border-gray-300 print:bg-gray-50">
-              <p className="text-lg font-bold text-accent print:text-black">{xp}</p>
+            <div className="rounded-sm border border-border/60 bg-input/30 p-3 print:border-gray-300 print:bg-gray-50">
+              <p className="font-display text-lg text-emerald-300 print:text-black">{xp}</p>
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground print:text-gray-500">
                 Total XP
               </p>
             </div>
-            <div className="rounded-lg border border-border/60 bg-background/40 p-3 print:border-gray-300 print:bg-gray-50">
-              <p className="text-lg font-bold text-accent print:text-black">
+            <div className="rounded-sm border border-border/60 bg-input/30 p-3 print:border-gray-300 print:bg-gray-50">
+              <p className="font-display text-lg text-emerald-300 print:text-black">
                 {world1Complete ? (
                   <Icon name="check" size={18} />
                 ) : (

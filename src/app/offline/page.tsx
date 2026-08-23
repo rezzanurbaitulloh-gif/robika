@@ -22,7 +22,7 @@ export default function OfflinePage() {
       </p>
       <Link
         href="/dashboard"
-        className="mt-2 rounded-lg border border-accent/50 bg-accent/10 px-5 py-2 text-sm font-semibold text-foreground transition hover:border-accent"
+        className="mt-2 rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20"
       >
         Coba Lagi
       </Link>

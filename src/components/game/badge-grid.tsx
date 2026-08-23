@@ -24,7 +24,7 @@ export function BadgeGrid({ owned }: { owned: string[] }) {
   );
 
   return (
-    <div className="rounded-xl border border-border bg-card/60 p-4">
+    <div className="rounded-sm border border-border bg-card/60 p-4">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-display text-sm tracking-wide">
           <span className="inline-flex items-center gap-1.5">
@@ -43,7 +43,7 @@ export function BadgeGrid({ owned }: { owned: string[] }) {
             <div
               key={badge.id}
               title={`${badge.name} — ${badge.description}`}
-              className={`rounded-lg border p-3 text-center transition ${
+              className={`rounded-sm border p-3 text-center transition ${
                 has ? RARITY_STYLE[badge.rarity] : "border-border bg-muted/30 opacity-50"
               }`}
             >

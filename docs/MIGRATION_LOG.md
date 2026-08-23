@@ -1,3 +1,12 @@
+## 2026-08-24 — PHASE 9 · CLEANUP: sisa §67 di auth, level view, dan komponen pendamping
+- Auth (`auth-form`, `forgot-password`, `reset-password`): input `focus:border-cyan-400/60` bersudut tajam, submit jadi blok cyan `w-full`, link & judul cyan, box error/sent emerald/rose tajam; logo diberi frame `rounded-sm border-cyan-400/40`. Grep `(auth)` bersih dari `btn btn-*` / accent biru.
+- Surface global: `not-found.tsx` (panel MISI TIDAK DITEMUKAN), `offline/page.tsx` (panel SIGNAL TERPUTUS), `error.tsx` (BOT-1 gangguan) — semua chip font-display + CTA blok cyan, logo frame tajam.
+- `level-client.tsx`: tab strip sticky & tab aktif `bg-cyan-400/15 text-cyan-200`, panel materi `#0c101d`, box MISI cyan mono, tombol Run/Reset/nav jadi chip cyan/netral, banner kemenangan emerald tajam.
+- Panel game pendamping dipertajam ke idiom sama: `quiz-panel` (opsi terpilih cyan), `hint-panel` (hint terbuka cyan), `boss-panel`, `badge-grid`, plus AI tutor side panel — container `rounded-sm bg-card/60`.
+- Komponen lintas-surface: `status-chip` info tone → cyan; `segmented-nav` aktif → cyan tajam; `ai-chat` bubble user cyan, input focus cyan, tombol chip; `module-complete` box reward cyan + CTA blok cyan/netral; sertifikat sheet sudut tajam.
+- Deliberate: `adventure-board.tsx` & `game-board.tsx` (arah user), landing `page.tsx` (brand title-screen), primitif shadcn `ui/*`.
+- Gates: tsc ✓ · eslint ✓ · vitest 45 files / 398 tests ✓ · next build ✓
+
 # ROBIKA — MIGRATION LOG
 
 > Satu entri per milestone, format sesuai PRD #75.

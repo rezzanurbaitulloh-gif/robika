@@ -76,10 +76,10 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         <img
           src="/logo.png"
           alt="Robika"
-          className="mx-auto mb-4 h-14 w-14 rounded-2xl border border-accent/30 shadow-[0_0_24px_rgba(59,130,246,0.25)]"
+          className="mx-auto mb-4 h-14 w-14 rounded-sm border border-cyan-400/40"
         />
         <h1 className="font-display text-2xl tracking-widest text-foreground">
-          <span className="glow-text text-accent">
+          <span className="glow-text text-cyan-300">
             {mode === "login" ? "MASUK" : "DAFTAR"}
           </span>
         </h1>
@@ -101,7 +101,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-accent"
+            className="w-full rounded-sm border border-border bg-input px-3 py-2 text-sm outline-none focus:border-cyan-400/60"
           />
         </div>
         <div>
@@ -119,7 +119,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-border bg-input px-3 py-2 pr-10 text-sm outline-none focus:border-accent"
+              className="w-full rounded-sm border border-border bg-input px-3 py-2 pr-10 text-sm outline-none focus:border-cyan-400/60"
             />
             <button
               type="button"
@@ -138,7 +138,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         </div>
 
         {error && (
-          <div className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs text-rose-200">
+          <div className="rounded-sm border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs text-rose-200">
             {error}
           </div>
         )}
@@ -154,7 +154,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           type="button"
           disabled={oauthLoading || loading}
           onClick={() => void googleLogin()}
-          className="btn btn-secondary btn-md w-full"
+          className="flex w-full items-center justify-center gap-2 rounded-sm border border-border bg-transparent px-5 py-2 text-sm text-muted-foreground transition hover:border-muted-foreground/40 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
         >
           <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
             <path
@@ -180,7 +180,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         <button
           type="submit"
           disabled={loading || oauthLoading}
-          className="btn btn-accent btn-md w-full"
+          className="w-full rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-5 py-2 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20 disabled:pointer-events-none disabled:opacity-40"
         >
           {loading ? "Memproses..." : mode === "login" ? "Masuk" : "Buat Akun"}
         </button>
@@ -190,7 +190,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         <div className="mt-2 text-center">
           <Link
             href="/forgot-password"
-            className="text-xs text-muted-foreground transition hover:text-accent"
+            className="text-xs text-muted-foreground transition hover:text-cyan-300"
           >
             Lupa password?
           </Link>
@@ -201,14 +201,14 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         {mode === "login" ? (
           <>
             Belum punya akun?{" "}
-            <Link href="/register" className="text-accent hover:underline">
+            <Link href="/register" className="text-cyan-300 hover:underline">
               Daftar gratis
             </Link>
           </>
         ) : (
           <>
             Sudah punya akun?{" "}
-            <Link href="/login" className="text-accent hover:underline">
+            <Link href="/login" className="text-cyan-300 hover:underline">
               Masuk
             </Link>
           </>

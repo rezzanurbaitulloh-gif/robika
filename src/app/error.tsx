@@ -14,7 +14,7 @@ export default function ErrorPage({
       <img
         src="/logo.png"
         alt="Robika"
-        className="mb-6 h-16 w-16 rounded-2xl border border-rose-400/40 shadow-[0_0_24px_rgba(239,68,68,0.25)]"
+        className="mb-6 h-16 w-16 rounded-sm border border-rose-400/40"
       />
       <StatusChip status="danger" label="SISTEM ERROR" className="mb-4" />
       <h1 className="glow-text font-display text-3xl tracking-widest text-foreground sm:text-4xl">
@@ -25,7 +25,7 @@ export default function ErrorPage({
         aman.
       </p>
       <div className="mt-8">
-        <button type="button" onClick={reset} className="btn btn-accent btn-lg">
+        <button type="button" onClick={reset} className="rounded-sm border border-cyan-400/50 bg-cyan-400/10 px-6 py-2.5 font-display text-xs uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400/20">
           Coba Lagi
         </button>
       </div>
