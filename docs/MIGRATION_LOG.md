@@ -228,3 +228,13 @@ Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓.
 - Pelajaran infrastruktur: generasi besar (>10 gen) tidak bisa di akun utama; tool tileset butuh Tier 1 di kedua akun — asset tile besar harus lewat pixen/pixflux per-potongan.
 
 Verifikasi: tsc ✓ eslint ✓ vitest 357/357 ✓ build ✓.
+
+### Phase 4 — Academy Bridge (2026-08-23)
+
+- `validate.ts`: `concept: string` kini wajib di level; `lesson?: { title, body[] }` opsional tervalidasi (title/body non-kosong).
+- Konten lesson ditulis ke 2 level slice: `world-1-level-1` (Perintah Dasar — moveForward/turnLeft/turnRight) dan `world-2-level-4` (Misi & Kondisi — quest, kondisi if, loop) sesuai isi Academy PRD.
+- `play-slice.tsx` (jembatan Academy↔Game, prdlengkap.md:2461): tombol header "Academy" membuka panel inline dari `level.lesson`; saat feedback tone err/info muncul tombol "Aku belum paham" → panel `academy-bridge` tema amber ("Academy · {concept}" + title + body + CTA "Praktik di Game"); CTA menutup panel, mencatat `level.id` ke ref Set `practicedFromLesson`, lalu fokus textarea kode; kemenangan dengan catatan tersebut memvariasikan popup quest-complete ("Latihan dari Academy berhasil dipraktikkan").
+- Test `play-slice.test.tsx` (+2 kasus): buka lesson via tombol Academy; alur gagal-run → shortcut stuck → bridge terbuka. Pelajaran pengujian: pola klik berulang dalam `waitFor(async)` membuat kontinuasi async komponen tak pernah di-flush (act deadlock); pola benar = tunggu `createSliceScene` terpanggil dulu, satu kali klik, lalu `waitFor` pada spy `runEvents`.
+- Debug sementara `debug.test.tsx` dihapus sebelum commit.
+
+Verifikasi: tsc ✓ eslint ✓ vitest 359/359 ✓ build ✓ (/play dynamic).

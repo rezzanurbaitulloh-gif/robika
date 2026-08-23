@@ -19,9 +19,12 @@ export function PlaySlice() {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SliceHandle | null>(null);
   const pushedLevels = useRef(new Set<string>());
+  const practicedFromLesson = useRef(new Set<string>());
+  const codeRef = useRef<HTMLTextAreaElement>(null);
   const push = usePopups((s) => s.push);
   const [code, setCode] = useState(level?.starterCode ?? "");
   const [running, setRunning] = useState(false);
+  const [lessonOpen, setLessonOpen] = useState(false);
   const [feedback, setFeedback] = useState<{ tone: "ok" | "err" | "info"; text: string } | null>(
     null
   );
@@ -78,7 +81,9 @@ export function PlaySlice() {
         push({
           type: "quest-complete",
           title: level.title.id,
-          body: `${level.title.id} selesai. Misi BOT-1 berhasil.`,
+          body: practicedFromLesson.current.has(level.id)
+            ? `${level.title.id} selesai. Latihan dari Academy berhasil dipraktikkan di game.`
+            : `${level.title.id} selesai. Misi BOT-1 berhasil.`,
           rewards: [
             { label: "XP", amount: `+${level.xpReward}` },
             { label: "Gems", amount: "+5" },
@@ -124,8 +129,58 @@ export function PlaySlice() {
         <h1 className="font-display text-lg uppercase tracking-widest text-cyan-300">
           {level.title.id}
         </h1>
-        <p className="mt-1 text-sm text-foreground/70">{level.objective.id}</p>
+        <div className="mt-1 flex items-start justify-between gap-3">
+          <p className="text-sm text-foreground/70">{level.objective.id}</p>
+          <button
+            type="button"
+            onClick={() => setLessonOpen(true)}
+            className="shrink-0 rounded-sm border border-amber-400/50 bg-amber-400/10 px-2.5 py-1 font-display text-[10px] uppercase tracking-wider text-amber-300 transition hover:bg-amber-400/20"
+          >
+            Academy
+          </button>
+        </div>
+        {feedback && feedback.tone !== "ok" && !lessonOpen && (
+          <button
+            type="button"
+            onClick={() => setLessonOpen(true)}
+            className="mt-2 rounded-sm border border-amber-400/50 px-2.5 py-1 font-display text-[11px] uppercase tracking-wider text-amber-300 transition hover:bg-amber-400/15"
+          >
+            Aku belum paham
+          </button>
+        )}
       </header>
+
+      {lessonOpen && level.lesson && (
+        <section
+          data-testid="academy-bridge"
+          className="rounded-md border border-amber-400/40 bg-[#171426]/90 p-4"
+        >
+          <p className="font-display text-[10px] uppercase tracking-widest text-amber-400/80">
+            Academy · {level.concept}
+          </p>
+          <h2 className="mt-1 font-display text-base uppercase tracking-wide text-amber-200">
+            {level.lesson.title}
+          </h2>
+          <ul className="mt-2 space-y-1.5">
+            {level.lesson.body.map((par) => (
+              <li key={par} className="text-sm leading-relaxed text-foreground/75">
+                {par}
+              </li>
+            ))}
+          </ul>
+          <button
+            type="button"
+            onClick={() => {
+              practicedFromLesson.current.add(level.id);
+              setLessonOpen(false);
+              codeRef.current?.focus();
+            }}
+            className="mt-3 rounded-sm border border-emerald-400/60 bg-emerald-400/15 px-3 py-1.5 font-display text-xs uppercase tracking-wider text-emerald-300 transition hover:bg-emerald-400/25"
+          >
+            Praktik di Game
+          </button>
+        </section>
+      )}
 
       <div className="overflow-x-auto rounded-md border border-cyan-400/30 bg-[#0f1220] p-2">
         <div ref={containerRef} />
@@ -147,6 +202,7 @@ export function PlaySlice() {
           </button>
         </div>
         <textarea
+          ref={codeRef}
           value={code}
           onChange={(e) => setCode(e.target.value)}
           spellCheck={false}
